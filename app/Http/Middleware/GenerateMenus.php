@@ -19,7 +19,7 @@ class GenerateMenus
     {
         \Menu::make('admin_sidebar', function ($menu) {
             // Dashboard
-            $menu->add('<i class="cil-speedometer nav-icon"></i> Dashboard', [
+            $menu->add('<i class="fas fa-tachometer-alt"></i><p> Dashboard</p>', [
                 'route' => 'backend.dashboard',
                 'class' => 'nav-item',
             ])
@@ -32,7 +32,7 @@ class GenerateMenus
             ]);
 
             // Notifications
-            $menu->add('<i class="nav-icon fas fa-bell"></i> Notifications', [
+            $menu->add('<i class="nav-icon fas fa-bell"></i><p> Notifications</p>', [
                 'route' => 'backend.notifications.index',
                 'class' => 'nav-item',
             ])
@@ -55,7 +55,7 @@ class GenerateMenus
             ]);
 
             // Settings
-            $menu->add('<i class="nav-icon fas fa-cogs"></i> Settings', [
+            $menu->add('<i class="nav-icon fas fa-cogs"></i><p> Settings</p>', [
                 'route' => 'backend.settings',
                 'class' => 'nav-item',
             ])
@@ -69,7 +69,7 @@ class GenerateMenus
             ]);
 
             // Backup
-            $menu->add('<i class="nav-icon fas fa-archive"></i> Backups', [
+            $menu->add('<i class="nav-icon fas fa-archive"></i><p> Backups</p>', [
                 'route' => 'backend.backups.index',
                 'class' => 'nav-item',
             ])
@@ -83,7 +83,7 @@ class GenerateMenus
             ]);
 
             // Access Control Dropdown
-            $accessControl = $menu->add('<i class="nav-icon cil-shield-alt"></i> Access Control<p><i class="fas fa-angle-left right"></i></p>', [
+            $accessControl = $menu->add('<i class="nav-icon fas fa-user-shield"></i><p> Access Control<i class="fas fa-angle-left right"></i></p>', [
                 'class' => 'nav-item',
             ])
             ->data([
@@ -100,7 +100,7 @@ class GenerateMenus
             ]);
 
             // Submenu: Users
-            $accessControl->add('<i class="nav-icon cil-people"></i> Users', [
+            $accessControl->add('<i class="nav-icon fas fa-users"></i><p> Users</p>', [
                 'route' => 'backend.users.index',
                 'class' => 'nav-item',
             ])
@@ -114,7 +114,7 @@ class GenerateMenus
             ]);
 
             // Submenu: Roles
-            $accessControl->add('<i class="nav-icon cil-people"></i> Roles', [
+            $accessControl->add('<i class="nav-icon fas fa-user-cog"></i><p> Roles</p>', [
                 'route' => 'backend.roles.index',
                 'class' => 'nav-item',
             ])
@@ -129,7 +129,7 @@ class GenerateMenus
 
             // Log Viewer
             // Log Viewer Dropdown
-            $accessControl = $menu->add('<i class="nav-icon cil-list-rich"></i> Log Viewer<p><i class="fas fa-angle-left right"></i></p>', [
+            $accessControl = $menu->add('<i class="nav-icon fas fas fa-stream"></i><p> Log Viewer<i class="fas fa-angle-left right"></i></p>', [
                 'class' => 'nav-item',
             ])
             ->data([
@@ -145,7 +145,7 @@ class GenerateMenus
             ]);
 
             // Submenu: Log Viewer Dashboard
-            $accessControl->add('<i class="nav-icon cil-list"></i> Dashboard', [
+            $accessControl->add('<i class="nav-icon fas fa-list-alt"></i> Dashboard', [
                 'route' => 'log-viewer::dashboard',
                 'class' => 'nav-item',
             ])
@@ -158,7 +158,7 @@ class GenerateMenus
             ]);
 
             // Submenu: Log Viewer Logs by Days
-            $accessControl->add('<i class="nav-icon cil-list-numbered"></i> Logs by Days', [
+            $accessControl->add('<i class="nav-icon fas fa-list"></i><p> Logs by Days</p>', [
                 'route' => 'log-viewer::logs.list',
                 'class' => 'nav-item',
             ])

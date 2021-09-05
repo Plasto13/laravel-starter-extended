@@ -25,7 +25,7 @@ class GenerateMenus
         \Menu::make('admin_sidebar', function ($menu) {
 
             // comments
-            $menu->add('<i class="fas fa-comments nav-icon"></i> Comments', [
+            $menu->add('<i class="fas fa-comments nav-icon"></i><p> Comments</p>', [
                 'route' => 'backend.comments.index',
                 'class' => 'nav-item',
             ])

@@ -25,7 +25,7 @@ class GenerateMenus
         \Menu::make('admin_sidebar', function ($menu) {
 
             // Tags
-            $menu->add('<i class="fas fa-tags nav-icon"></i> Tags', [
+            $menu->add('<i class="fas fa-tags nav-icon"></i><p> Tags</p>', [
                 'route' => 'backend.tags.index',
                 'class' => 'nav-item',
             ])
