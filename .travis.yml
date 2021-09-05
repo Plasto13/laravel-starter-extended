@@ -1,0 +1,38 @@
+language: php
+
+php:
+  - 7.4
+  - 8
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_script:
+  - cp .env.travis .env
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
+  - php artisan key:generate
+  - php artisan jwt:secret
+  - php artisan migrate
+
+  before_install:
+  - mysql -e 'CREATE DATABASE realworld_test;'
+
+script:
+  - if [ $(phpenv version-name) == "7.4" ]; then vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover; else vendor/bin/phpunit --no-coverage; fi
+
+after_script:
+  - if [ $(phpenv version-name) == "7.4" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [ $(phpenv version-name) == "7.4" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+
+services:
+  - mysql
+  
+notifications:
+  email:
+    - plasto13@gmail.com
+
+matrix:
+  allow_failures:
+    - php: hhvm

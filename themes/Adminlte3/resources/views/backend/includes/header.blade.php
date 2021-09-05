@@ -1,0 +1,92 @@
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <ul class="navbar-nav">
+     <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+            <a class="nav-link" href="{{ route('frontend.index') }}" target="_blank">
+                <i class="c-icon cil-external-link"></i>&nbsp;
+                {{ app_name() }}
+            </a>
+        </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown d-md-down-none mx-2">
+            <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="c-icon cil-language"></i>&nbsp; {{strtoupper(App::getLocale())}}
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg pt-0">
+                <div class="dropdown-header bg-light">
+                    <strong>@lang('Change language')</strong>
+                </div>
+
+                <a class="dropdown-item" href="{{route("language.switch", "bn")}}">
+                    বাংলা (BN)
+                </a>
+                <a class="dropdown-item" href="{{route("language.switch", "en")}}">
+                    English (EN)
+                </a>
+            </div>
+        </li>
+        <li class="nav-item dropdown d-md-down-none mx-2">
+            <?php
+            $notifications = optional(auth()->user())->unreadNotifications;
+            $notifications_count = optional($notifications)->count();
+            $notifications_latest = optional($notifications)->take(5);
+            ?>
+            <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="far fa-bell"></i>&nbsp;
+                @if($notifications_count)<span class="badge badge-warning navbar-badge">{{$notifications_count}}</span>@endif
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <span class="dropdown-item dropdown-header">@lang("You have :count notifications", ['count'=>$notifications_count])</span>
+                <div class="dropdown-divider"></div>
+                @if($notifications_latest)
+                @foreach($notifications_latest as $notification)
+                @php
+                $notification_text = isset($notification->data['title'])? $notification->data['title'] : $notification->data['module'];
+                @endphp
+                <a class="dropdown-item" href="{{route("backend.notifications.show", $notification)}}">
+                    <i class="c-icon {{isset($notification->data['icon'])? $notification->data['icon'] : 'cil-bullhorn'}} "></i>&nbsp;{{$notification_text}}
+                </a>
+                @endforeach
+                @endif
+            </div>
+        </li>
+
+        <li class="nav-item dropdown d-md-down-none">
+            <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <div class="media">
+                    <img class="img-size-32 mr-3 img-circle" src="{{ asset(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}">
+                </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right pt-0">
+                <div class="dropdown-header bg-light py-2"><strong>@lang('Account')</strong>
+                </div>
+
+                <a class="dropdown-item" href="{{route('backend.users.profile', Auth::user()->id)}}">
+                    <i class="c-icon cil-user"></i>&nbsp;
+                    {{ Auth::user()->name }}
+                </a>
+                <a class="dropdown-item" href="{{route('backend.users.profile', Auth::user()->id)}}">
+                    <i class="c-icon cil-at"></i>&nbsp;
+                    {{ Auth::user()->email }}
+                </a>
+                <a class="dropdown-item" href="{{ route("backend.notifications.index") }}">
+                    <i class="c-icon cil-bell"></i>&nbsp;
+                    @lang('Notifications') <span class="badge badge-danger ml-auto">{{$notifications_count}}</span>
+                </a>
+
+                <div class="dropdown-header bg-light py-2"><strong>@lang('Settings')</strong>
+                </div>
+
+                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="c-icon cil-account-logout"></i>&nbsp;
+                    @lang('Logout')
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;"> @csrf </form>
+            </div>
+        </li>
+    </ul>
+</nav>

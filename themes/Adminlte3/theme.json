@@ -1,0 +1,8 @@
+{
+    "name": "Adminlte3",
+    "slug": "adminlte3",
+    "type":"backend",
+    "description": "Admin template for laravel starter",
+    "author": "Pavol Duroska",
+    "version": "0.0.1"
+}

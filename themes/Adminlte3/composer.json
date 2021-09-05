@@ -1,0 +1,13 @@
+{
+    "name": "plasto13/adminlte3",
+    "description": "Admin template for laravel starter",
+    "type": "caffeinated-theme",
+    "autoload": {
+        "psr-4": {
+            "Themes\\Adminlte3\\": "src/"
+        }
+    },
+    "require": {
+        "caffeinated/composer": "*"
+    }
+}
