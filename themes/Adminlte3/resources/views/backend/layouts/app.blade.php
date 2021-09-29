@@ -8,20 +8,22 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('img/favicon.png')}}">
     <meta name="keyword" content="{{ setting('meta_keyword') }}">
     <meta name="description" content="{{ setting('meta_description') }}">
-
-    <!-- Shortcut Icon -->
-    <link rel="shortcut icon" href="{{asset('img/favicon.png')}}">
-    <link rel="icon" type="image/ico" href="{{asset('img/favicon.png')}}" />
-
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title') | {{ config('app.name') }}</title>
 
+    <!-- Shortcut Icon -->
+    <link rel="shortcut icon" href="{{asset('img/favicon.png')}}">
+    <link rel="icon" type="image/ico" href="{{asset('img/favicon.png')}}" />
+
+    
+
     {{-- @stack('before-styles') --}}
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ url('themes/adminlte3/vendor/fontawesome-free/css/all.min.css')}}">
+    <link rel="stylesheet" href="{{ url('themes/adminlte3/vendor/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{url('themes/adminlte3/css/adminlte.min.css')}}">
     <!-- Google Font: Source Sans Pro -->
@@ -29,18 +31,15 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
-    <!-- Styles -->
-    {{-- <link rel="stylesheet" href="{{ mix('css/app.css') }}"> --}}
-    <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}" defer></script>
 
-    {{-- @stack('after-styles') --}}
+    @stack('after-styles')
 
 
     
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
+
         <!-- Header Block -->
         @include('backend.includes.header')
         <!-- / Header Block -->
@@ -102,16 +101,17 @@
     <!-- Bootstrap 4 -->
     <script src="{{url('themes/adminlte3/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
 
+    <script src="{{url('themes/adminlte3/vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{ url('themes/adminlte3/js/adminlte.min.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="{{ url('themes/adminlte3/js/demo.js')}}"></script>
+    {{-- <script src="{{ url('themes/adminlte3/js/demo.js')}}"></script> --}}
 
     <!-- Scripts -->
     {{-- @stack('before-scripts') --}}
 
     <!-- REQUIRED SCRIPTS --> 
-
+{{-- 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.18.2/URI.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.messagestore.min.js" type="text/javascript"></script>
@@ -119,7 +119,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.language.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.emitter.min.js" integrity="sha256-VNKWSG0j8kQ/+I4J9r0skSppRy11yw7kRmoZK7xmcIM=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.emitter.bidi.min.js" integrity="sha256-gtc2Tvs5/k9I3Q28OZ/CP7TzCHANC8wUbJZQVE989Do=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script> --}}
 
    {{--  <script>
       let locale = '{{locale()}}'
@@ -130,5 +130,5 @@
     {{-- @stack('after-scripts') --}}
     <!-- / Scripts -->
 
-    </body>
+</body>
 </html>

@@ -4,5 +4,11 @@
     "type":"backend",
     "description": "Admin template for laravel starter",
     "author": "Pavol Duroska",
-    "version": "0.0.1"
+    "version": "0.0.1",
+    "admin_sidebar_templates":{
+        "link_start" :"<i class='far fa-circle nav-icon'></i><p> ",
+        "link_end" :"</p>",
+        "dropdown_start":"<i class='nav-icon fas fa-user-shield'></i><p>",
+        "dropdown_end":"<i class='fas fa-angle-left right'></i></p>"
+    }
 }

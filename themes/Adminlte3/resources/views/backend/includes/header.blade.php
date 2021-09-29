@@ -12,15 +12,13 @@
     </ul>
 
     <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown d-md-down-none mx-2">
-            <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <i class="c-icon cil-language"></i>&nbsp; {{strtoupper(App::getLocale())}}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                {{strtoupper(App::getLocale())}}
             </a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg pt-0">
-                <div class="dropdown-header bg-light">
-                    <strong>@lang('Change language')</strong>
-                </div>
-
+            <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                <span class="dropdown-item dropdown-header">@lang('Change language')</span>               
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{route("language.switch", "bn")}}">
                     বাংলা (BN)
                 </a>
@@ -29,36 +27,40 @@
                 </a>
             </div>
         </li>
-        <li class="nav-item dropdown d-md-down-none mx-2">
+
+        <li class="nav-item dropdown">
             <?php
             $notifications = optional(auth()->user())->unreadNotifications;
             $notifications_count = optional($notifications)->count();
             $notifications_latest = optional($notifications)->take(5);
+            $notifiClass = ($notifications_count) ? "badge-warning" : "badge-info" ;
             ?>
-            <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-bell"></i>&nbsp;
-                @if($notifications_count)<span class="badge badge-warning navbar-badge">{{$notifications_count}}</span>@endif
+                <span class="badge {{$notifiClass}} navbar-badge">{{$notifications_count}}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <span class="dropdown-item dropdown-header">@lang("You have :count notifications", ['count'=>$notifications_count])</span>
-                <div class="dropdown-divider"></div>
                 @if($notifications_latest)
-                @foreach($notifications_latest as $notification)
-                @php
-                $notification_text = isset($notification->data['title'])? $notification->data['title'] : $notification->data['module'];
-                @endphp
-                <a class="dropdown-item" href="{{route("backend.notifications.show", $notification)}}">
-                    <i class="c-icon {{isset($notification->data['icon'])? $notification->data['icon'] : 'cil-bullhorn'}} "></i>&nbsp;{{$notification_text}}
-                </a>
-                @endforeach
+                
+                    
+                    @foreach($notifications_latest as $notification)
+                    @php
+                    $notification_text = isset($notification->data['title'])? $notification->data['title'] : $notification->data['module'];
+                    @endphp
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{route("backend.notifications.show", $notification)}}">
+                        <i class="c-icon {{isset($notification->data['icon'])? $notification->data['icon'] : 'cil-bullhorn'}} "></i>&nbsp;{{$notification_text}}
+                    </a>
+                    @endforeach
                 @endif
             </div>
         </li>
 
-        <li class="nav-item dropdown d-md-down-none">
-            <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <div class="media">
-                    <img class="img-size-32 mr-3 img-circle" src="{{ asset(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}">
+        <li class="nav-item dropdown">
+            <a class="nav-link " data-toggle="dropdown" href="#" role="button">
+                <div class="image">
+                    <img class="img-size-32 mr-3 img-circle elevation-2" src="{{ asset(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}">
                 </div>
             </a>
             <div class="dropdown-menu dropdown-menu-right pt-0">

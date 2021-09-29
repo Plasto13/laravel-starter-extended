@@ -1,0 +1,306 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="http://localhost/img/favicon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="http://localhost/img/favicon.png">
+    <meta name="keyword" content="Web Application, Laravel,Laravel starter,Bootstrap,Admin,Template,Open,Source, nasir khan, nasirkhan">
+    <meta name="description" content="A CMS like modular starter application project built with Laravel.">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="xy4cZou0DzGsl2otJwKIyreGMzrmqWy6vBBAuskM">
+
+    <title> Dashboard  | Laravel Starter</title>
+
+    <!-- Shortcut Icon -->
+    <link rel="shortcut icon" href="http://localhost/img/favicon.png">
+    <link rel="icon" type="image/ico" href="http://localhost/img/favicon.png" />
+
+
+    
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="http://localhost/themes/adminlte3/vendor/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="http://localhost/themes/adminlte3/vendor/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="http://localhost/themes/adminlte3/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+
+    <!-- Styles -->
+    
+    <!-- Scripts -->
+    <!-- <script src="/js/app.js?id=2dd5ea2a397d139de099" defer></script> -->
+
+    
+
+
+    
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Header Block -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <ul class="navbar-nav">
+     <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+            <a class="nav-link" href="http://localhost" target="_blank">
+                <i class="c-icon cil-external-link"></i>&nbsp;
+                Laravel Starter
+            </a>
+        </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <i class="fas fa-language"></i> EN
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <span class="dropdown-item dropdown-header">Change language</span>               
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="http://localhost/language/bn">
+                    বাংলা (BN)
+                </a>
+                <a class="dropdown-item" href="http://localhost/language/en">
+                    English (EN)
+                </a>
+            </div>
+        </li>
+
+       
+    </ul>
+</nav>        <!-- / Header Block -->
+
+        <!-- Sidebar -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="http://localhost/admin/dashboard" class="brand-link">
+        <img class="brand-image img-circle elevation-3" style="opacity: .8" src="http://localhost/img/backend-logo-square.jpg" height="40" alt="Laravel Starter"> <span class="brand-text font-weight-light">Laravel Starter</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false"><li class="nav-item active menu-open"><a class="nav-link active menu-open" href="http://localhost/admin/dashboard"><i class="fas fa-tachometer-alt"></i><p> Dashboard</p></a></li><li class="nav-item"><a class="nav-link" href="#"><i class="nav-icon fas fa-file-alt"></i><p> Article<i class="fas fa-angle-left right"></i></p></a><ul class="nav nav-treeview"><li class="nav-item"><a class="nav-link" href="http://localhost/admin/posts"><i class="nav-icon fas fa-file-alt"></i><p> Posts</p></a></li><li class="nav-item"><a class="nav-link" href="http://localhost/admin/categories"><i class="nav-icon fas fa-sitemap"></i><p> Categories</p></a></li></ul></li><li class="nav-item"><a class="nav-link" href="http://localhost/admin/tags"><i class="fas fa-tags nav-icon"></i><p> Tags</p></a></li><li class="nav-item"><a class="nav-link" href="http://localhost/admin/comments"><i class="fas fa-comments nav-icon"></i><p> Comments</p></a></li><li class="nav-item"><a class="nav-link" href="http://localhost/admin/notifications"><i class="nav-icon fas fa-bell"></i><p> Notifications</p></a></li><li class="nav-header"><a>Management</a></li><li class="nav-item"><a class="nav-link" href="http://localhost/admin/settings"><i class="nav-icon fas fa-cogs"></i><p> Settings</p></a></li><li class="nav-item"><a class="nav-link" href="http://localhost/admin/backups"><i class="nav-icon fas fa-archive"></i><p> Backups</p></a></li><li class="nav-item"><a class="nav-link" href="#"><i class="nav-icon fas fa-user-shield"></i><p> Access Control<i class="fas fa-angle-left right"></i></p></a><ul class="nav nav-treeview"><li class="nav-item"><a class="nav-link" href="http://localhost/admin/users"><i class="nav-icon fas fa-users"></i><p> Users</p></a></li><li class="nav-item"><a class="nav-link" href="http://localhost/admin/roles"><i class="nav-icon fas fa-user-cog"></i><p> Roles</p></a></li></ul></li><li class="nav-item"><a class="nav-link" href="#"><i class="nav-icon fas fas fa-stream"></i><p> Log Viewer<i class="fas fa-angle-left right"></i></p></a><ul class="nav nav-treeview"><li class="nav-item"><a class="nav-link" href="http://localhost/admin/log-viewer"><i class="nav-icon fas fa-list-alt"></i> Dashboard</a></li><li class="nav-item"><a class="nav-link" href="http://localhost/admin/log-viewer/logs"><i class="nav-icon fas fa-list"></i><p> Logs by Days</p></a></li></ul></li></ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+
+    
+
+</aside>
+        <!-- /Sidebar -->
+
+        <div class="content-wrapper">
+            <section class="content-header">
+              <div class="container-fluid">
+                <div class="row mb-2">
+                  <div class="col-sm-6">
+                    
+                  </div>
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                      <li class="breadcrumb-item"><a href="http://localhost/admin/dashboard"><i class="c-icon cil-speedometer"></i> Dashboard</a></li>
+
+
+                    </ol>
+                  </div>
+                </div>
+              </div><!-- /.container-fluid -->
+            </section>
+             <!-- Main content -->
+            <section class="content">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-12">
+                                        <!-- Errors block -->
+                                        <!-- / Errors block -->
+
+                    <!-- Main content block -->
+                    <div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-8">
+                <h4 class="card-title mb-0">Welcome to Laravel Starter Admin Dashboard.</h4>
+                <div class="small text-muted">Sunday, September 26, 2021</div>
+            </div>
+
+            <div class="col-sm-4 hidden-sm-down">
+                <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
+                    <button type="button" class="btn btn-info float-right">
+                        <i class="c-icon cil-bullhorn"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <!-- Dashboard Content Area -->
+
+        <!-- / Dashboard Content Area -->
+
+    </div>
+</div>
+<!-- / card -->
+<div class="row">
+    <div class="col-sm-6 col-lg-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-value-lg">89.9%</div>
+                <div>Widget title</div>
+                <div class="progress progress-xs my-2">
+                    <div class="progress-bar bg-gradient-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div><small class="text-muted">Widget helper text</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-value-lg">12.124</div>
+                <div>Widget title</div>
+                <div class="progress progress-xs my-2">
+                    <div class="progress-bar bg-gradient-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div><small class="text-muted">Widget helper text</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-value-lg">$98.111,00</div>
+                <div>Widget title</div>
+                <div class="progress progress-xs my-2">
+                    <div class="progress-bar bg-gradient-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div><small class="text-muted">Widget helper text</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-value-lg">2 TB</div>
+                <div>Widget title</div>
+                <div class="progress progress-xs my-2">
+                    <div class="progress-bar bg-gradient-danger" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div><small class="text-muted">Widget helper text</small>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-gradient-primary">
+            <div class="card-body">
+                <div class="text-value-lg">89.9%</div>
+                <div>Widget title</div>
+                <div class="progress progress-white progress-xs my-2">
+                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div><small class="text-muted">Widget helper text</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-gradient-warning">
+            <div class="card-body">
+                <div class="text-value-lg">12.124</div>
+                <div>Widget title</div>
+                <div class="progress progress-white progress-xs my-2">
+                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div><small class="text-muted">Widget helper text</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-gradient-danger">
+            <div class="card-body">
+                <div class="text-value-lg">$98.111,00</div>
+                <div>Widget title</div>
+                <div class="progress progress-white progress-xs my-2">
+                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div><small class="text-muted">Widget helper text</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-gradient-info">
+            <div class="card-body">
+                <div class="text-value-lg">2 TB</div>
+                <div>Widget title</div>
+                <div class="progress progress-white progress-xs my-2">
+                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div><small class="text-muted">Widget helper text</small>
+            </div>
+        </div>
+    </div>
+
+</div>
+                    <!-- / Main content block -->
+
+                  </div>
+                </div>
+              </div>
+            </section>
+        </div>
+
+        <!-- Footer block -->
+        <footer class="c-footer text-muted">
+    <div>
+        <a href="/">Laravel Starter</a>
+                Copyright &copy; 2021
+            </div>
+    <div class="ml-auto text-muted">kjkjkjk</div>
+</footer>
+        <!-- / Footer block -->
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+    <script src="http://localhost/themes/adminlte3/vendor/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap 4 -->
+    <script src="http://localhost/themes/adminlte3/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="http://localhost/themes/adminlte3/vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="http://localhost/themes/adminlte3/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    
+
+    <!-- Scripts -->
+    
+
+    <!-- REQUIRED SCRIPTS --> 
+
+
+   
+    
+    
+    <!-- / Scripts -->
+
+</body>
+</html>
