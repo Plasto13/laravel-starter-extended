@@ -16,7 +16,6 @@
 <div class="card">
     <div class="card-header">
         <h3 class="card-title"><i class="{{$module_icon}}"></i>  @lang(":module_name Management Dashboard", ['module_name'=>Str::title($module_name)])</h3>
-
         <div class="card-tools">
            <x-buttons.return-back />
         </div>
