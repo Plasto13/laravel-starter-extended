@@ -23,15 +23,18 @@
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ url('themes/adminlte3/vendor/fontawesome-free/css/all.min.css')}}">
+
     <link rel="stylesheet" href="{{ url('themes/adminlte3/vendor/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     <!-- Theme style -->
+    <link rel="stylesheet" href="{{ url('themes/adminlte3/css/app.css')}}">
     <link rel="stylesheet" href="{{url('themes/adminlte3/css/adminlte.min.css')}}">
+    <!-- Theme style -->
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
-
+    <script src="{{ url('themes/adminlte3/js/app.js') }}"></script>
     @stack('after-styles')
 
 
@@ -53,7 +56,9 @@
               <div class="container-fluid">
                 <div class="row mb-2">
                   <div class="col-sm-6">
-                    
+                    <h1>
+                      @yield('content_header')
+                    </h1>
                   </div>
                   <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -68,7 +73,7 @@
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-12">
-                    @include('flash::message')
+                    {{-- @include('flash::message') --}}
                     <!-- Errors block -->
                     @include('backend.includes.errors')
                     <!-- / Errors block -->
@@ -82,7 +87,6 @@
               </div>
             </section>
         </div>
-
         <!-- Footer block -->
         @include('backend.includes.footer')
         <!-- / Footer block -->
@@ -102,16 +106,16 @@
     <script src="{{url('themes/adminlte3/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
 
     <script src="{{url('themes/adminlte3/vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
+
+    <script src="{{url('themes/adminlte3/vendor/sweetalert2/sweetalert2.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{ url('themes/adminlte3/js/adminlte.min.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
-    {{-- <script src="{{ url('themes/adminlte3/js/demo.js')}}"></script> --}}
 
     <!-- Scripts -->
-    {{-- @stack('before-scripts') --}}
+    @stack('before-scripts')
 
     <!-- REQUIRED SCRIPTS --> 
-{{-- 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.18.2/URI.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.messagestore.min.js" type="text/javascript"></script>
@@ -119,15 +123,63 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.language.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.emitter.min.js" integrity="sha256-VNKWSG0j8kQ/+I4J9r0skSppRy11yw7kRmoZK7xmcIM=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.emitter.bidi.min.js" integrity="sha256-gtc2Tvs5/k9I3Q28OZ/CP7TzCHANC8wUbJZQVE989Do=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
 
-   {{--  <script>
+    <script>
       let locale = '{{locale()}}'
       $.ajaxSetup({headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}});
       moment.locale(locale);
-    </script> --}}
+    </script>
+
+    {{-- Bootstrap Notifications using Prologue Alerts & PNotify JS --}}
+<script type="text/javascript">
+    // This is intentionaly run after dom loads so this way we can avoid showing duplicate alerts
+    // when the user is beeing redirected by persistent table, that happens before this event triggers.
+document.onreadystatechange = function () {
+    if (document.readyState == "interactive") {
+        Noty.overrideDefaults({
+            layout: 'topRight',
+            theme: 'bootstrap-v4',
+            timeout: 2500,
+            closeWith: ['click', 'button'],
+        });
+
+        // get alerts from the alert bag
+        var $alerts_from_php = JSON.parse('@json(\Alert::getMessages())');
+
+        // get the alerts from the localstorage
+        var $alerts_from_localstorage = JSON.parse(localStorage.getItem('sesions_alerts'))
+                ? JSON.parse(localStorage.getItem('sesions_alerts')) : {};
+
+        // merge both php alerts and localstorage alerts
+        Object.entries($alerts_from_php).forEach(function(type) {
+            
+            if(typeof $alerts_from_localstorage[type[0]] !== 'undefined') {
+                type[1].map(function(msg) { 
+                    $alerts_from_localstorage[type[0]].push(msg);
+                });          
+            } else {
+                $alerts_from_localstorage[type[0]] = type[1];
+            }
+        });
+
+        for (var type in $alerts_from_localstorage) {
+            let messages = new Set($alerts_from_localstorage[type]);
+            messages.forEach(function(text) {
+                    let alert = {};
+                    alert['type'] = type;
+                    alert['text'] = text;
+                    new Noty(alert).show()
+            });
+        }
+
+        // in the end, remove sesions alerts from localStorage
+        localStorage.removeItem('alert_messages');
+    }
+}
+</script>
     
-    {{-- @stack('after-scripts') --}}
+    @stack('after-scripts')
     <!-- / Scripts -->
 
 </body>

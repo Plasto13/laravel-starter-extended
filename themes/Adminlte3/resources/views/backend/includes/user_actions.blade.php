@@ -4,15 +4,15 @@
     <a href="{{route('backend.users.changePassword', $data)}}" class="btn btn-info btn-sm mt-1" data-toggle="tooltip" title="{{__('labels.backend.changePassword')}}"><i class="fas fa-key"></i></a>
 
     @if ($data->status != 2 && $data->id != 1)
-    <a href="{{route('backend.users.block', $data)}}" class="btn btn-danger btn-sm mt-1" data-method="PATCH" data-token="{{csrf_token()}}" data-toggle="tooltip" title="{{__('labels.backend.block')}}" data-confirm="@lang('Are you sure?')"><i class="fas fa-ban"></i></a>
+    <button href="{{route('backend.users.block', $data)}}" class="btn btn-danger btn-sm mt-1 msg" data-method="PATCH" data-token="{{csrf_token()}}" data-toggle="tooltip" title="{{__('labels.backend.block')}}" data-confirm="@lang('Are you sure?')" data-type="warning"><i class="fas fa-ban"></i></button>
     @endif
 
     @if ($data->status == 2)
-    <a href="{{route('backend.users.unblock', $data)}}" class="btn btn-info btn-sm mt-1" data-method="PATCH" data-token="{{csrf_token()}}" data-toggle="tooltip" title="{{__('labels.backend.unblock')}}" data-confirm="@lang('Are you sure?')"><i class="fas fa-check"></i></a>
+    <button href="{{route('backend.users.unblock', $data)}}" class="btn btn-info btn-sm mt-1 msg" data-method="PATCH" data-token="{{csrf_token()}}" data-toggle="tooltip" title="{{__('labels.backend.unblock')}}" data-confirm="@lang('Are you sure?')" data-type="info"><i class="fas fa-check"></i></button>
     @endif
 
     @if ($data->id != 1)
-    <a href="{{route('backend.users.destroy', $data)}}" class="btn btn-danger btn-sm mt-1" data-method="DELETE" data-token="{{csrf_token()}}" data-toggle="tooltip" title="{{__('labels.backend.delete')}}" data-confirm="@lang('Are you sure?')"><i class="fas fa-trash-alt"></i></a>
+    <button href="{{route('backend.users.destroy', $data)}}" class="btn btn-danger btn-sm mt-1 msg" data-method="DELETE" data-token="{{csrf_token()}}" data-toggle="tooltip" title="{{__('labels.backend.delete')}}" data-confirm="@lang('Are you sure?')" data-type="warning"><i class="fas fa-trash-alt"></i></button>
     @endif
 
     @if ($data->email_verified_at == null)

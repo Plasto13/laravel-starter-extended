@@ -6,7 +6,7 @@ use App\Authorizable;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
-use Flash;
+use Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Log;
@@ -243,19 +243,19 @@ class RolesController extends Controller
         $role_users = $$module_name_singular->users;
 
         if ($id == 1) {
-            Flash::warning("<i class='fas fa-exclamation-triangle'></i> You can not delete 'Administrator'!")->important();
+            Alert::add("<i class='fas fa-exclamation-triangle'></i> You can not delete 'Administrator'!")flash();
 
             Log::notice(label_case($module_title.' '.$module_action).' Failed | User:'.auth()->user()->name.'(ID:'.auth()->user()->id.')');
 
             return redirect()->route("backend.$module_name.index");
         } elseif (in_array($id, $user_roles->toArray())) {
-            Flash::warning("<i class='fas fa-exclamation-triangle'></i> You can not delete your Role!")->important();
+            Alert::add("<i class='fas fa-exclamation-triangle'></i> You can not delete your Role!")flash();
 
             Log::notice(label_case($module_title.' '.$module_action).' Failed | User:'.auth()->user()->name.'(ID:'.auth()->user()->id.')');
 
             return redirect()->route("backend.$module_name.index");
         } elseif ($role_users->count()) {
-            Flash::warning("<i class='fas fa-exclamation-triangle'></i> Can not be deleted! ".$role_users->count().' user found!')->important();
+            Alert::add("<i class='fas fa-exclamation-triangle'></i> Can not be deleted! ".$role_users->count().' user found!')flash();
 
             Log::notice(label_case($module_title.' '.$module_action).' Failed | User:'.auth()->user()->name.'(ID:'.auth()->user()->id.')');
 
@@ -264,7 +264,7 @@ class RolesController extends Controller
 
         try {
             if ($$module_name_singular->delete()) {
-                Flash::success('Role successfully deleted!')->important();
+                Alert::add('Role successfully deleted!')->flash();
 
                 Log::info(label_case($module_title.' '.$module_action).' | User:'.auth()->user()->name.'(ID:'.auth()->user()->id.')');
 

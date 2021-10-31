@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use Auth;
 use Carbon\Carbon;
-use Flash;
+use Alert;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Log;
@@ -118,7 +118,7 @@ class NotificationsController extends Controller
 
         $user->notifications()->delete();
 
-        Flash::success("<i class='fas fa-check'></i> All Notifications Deleted")->important();
+        Alert::add('success',"<i class='fas fa-check'></i> All Notifications Deleted")->flash();
 
         Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
@@ -145,7 +145,7 @@ class NotificationsController extends Controller
 
         $user->unreadNotifications()->update(['read_at' => now()]);
 
-        Flash::success("<i class='fas fa-check'></i> All Notifications Marked As Read")->important();
+        Alert::add('success',"<i class='fas fa-check'></i> All Notifications Marked As Read")->flash();
 
         Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 

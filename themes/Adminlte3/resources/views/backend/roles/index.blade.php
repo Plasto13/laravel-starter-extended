@@ -2,6 +2,10 @@
 
 @section('title') {{ __($module_action) }} {{ $module_title }} @endsection
 
+@section('content_header')
+    {{ __('labels.backend.roles.index.sub-title') }}
+@endsection
+
 @section('breadcrumbs')
 <x-backend-breadcrumbs>
     <x-backend-breadcrumb-item type="active" icon='{{ $module_icon }}'>{{ $module_title }}</x-backend-breadcrumb-item>
@@ -10,26 +14,15 @@
 
 @section('content')
 <div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <h4 class="card-title mb-0">
-                    <i class="{{ $module_icon }}"></i> {{ $module_title }} <small class="text-muted">Data Table {{ __($module_action) }}</small>
-                </h4>
-                <div class="small text-muted">
-                    {{ __('labels.backend.roles.index.sub-title') }}
-                </div>
-            </div>
+    <div class="card-header">
+        <h3 class="card-title"><i class="{{$module_icon}}"></i> {{ $module_title }}</h3>
 
-            <div class="col-4">
-                <div class="float-right">
-                    <x-buttons.create route='{{ route("backend.$module_name.create") }}' title="{{__('Create')}} {{ ucwords(Str::singular($module_name)) }}"/>
-                </div>
-            </div>
-            <!--/.col-->
+        <div class="card-tools">
+           <x-buttons.return-back />
+           <x-buttons.create small="true" route='{{ route("backend.$module_name.create") }}' title="{{__('Create')}} {{ ucwords(Str::singular($module_name)) }}"/>
         </div>
-        <!--/.row-->
-
+    </div>
+    <div class="card-body">
         <div class="row mt-4">
             <div class="col">
                 <table class="table table-hover table-responsive-sm">
@@ -37,7 +30,7 @@
                         <tr>
                             <th>{{ __("labels.backend.$module_name.fields.name") }}</th>
                             <th>{{ __("labels.backend.$module_name.fields.permissions") }}</th>
-                            <th class="text-right">{{ __("labels.backend.action") }}</th>
+                            <th class="text-right" style="width: 250px;">{{ __("labels.backend.action") }}</th>
                         </tr>
                     </thead>
                     <tbody>

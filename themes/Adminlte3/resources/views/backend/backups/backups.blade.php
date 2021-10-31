@@ -2,6 +2,10 @@
 
 @section('title') {{ $module_action }} {{ $module_title }} @endsection
 
+@section('content_header')
+    {{ ucwords(Str::singular($module_name)) }}
+@endsection
+
 @section('breadcrumbs')
 <x-backend-breadcrumbs>
     <x-backend-breadcrumb-item route='{{route("backend.$module_name.index")}}' icon='{{ $module_icon }}' >
@@ -13,26 +17,15 @@
 
 @section('content')
 <div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-8">
-                <h4 class="card-title mb-0">
-                    <i class="{{ $module_icon }}"></i> {{ $module_title }} <small class="text-muted">{{ __($module_action) }}</small>
-                </h4>
-                <div class="small text-muted">
-                    @lang(":module_name Management Dashboard", ['module_name'=>Str::title($module_name)])
-                </div>
-            </div>
-            <!--/.col-->
-            <div class="col-4">
-                <div class="float-right">
-                    <a href="{{ route("backend.$module_name.create") }}" class="btn btn-success m-1 btn-sm" data-toggle="tooltip" title="Create New"><i class="fas fa-plus-circle"></i> @lang("Create new :module_name", ['module_name'=>Str::title($module_name)])</a>
-                </div>
-            </div>
-            <!--/.col-->
-        </div>
-        <!--/.row-->
+    <div class="card-header">
+        <h3 class="card-title"><i class="{{$module_icon}}"></i> @lang(":module_name Management Dashboard", ['module_name'=>Str::title($module_name)])</h3>
 
+        <div class="card-tools">
+           <x-buttons.return-back />
+           <a href="{{ route("backend.$module_name.create") }}" class="btn btn-success m-1 btn-sm" data-toggle="tooltip" title="Create New"><i class="fas fa-plus-circle"></i> @lang("Create new :module_name", ['module_name'=>Str::title($module_name)])</a>
+        </div>
+    </div>
+    <div class="card-body">
         <div class="row mt-4">
             <div class="col">
 

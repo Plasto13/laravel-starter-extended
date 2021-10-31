@@ -2,6 +2,10 @@
 
 @section('title') {{ __($module_action) }} {{ $module_title }} @endsection
 
+@section('content_header')
+    {{ __('labels.backend.users.index.sub-title') }}
+@endsection
+
 @section('breadcrumbs')
 <x-backend-breadcrumbs>
     <x-backend-breadcrumb-item route='{{route("backend.$module_name.index")}}' icon='{{ $module_icon }}' >
@@ -14,29 +18,14 @@
 
 @section('content')
 <div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <h4 class="card-title mb-0">
-                    <i class="{{$module_icon}}"></i> {{ __('labels.backend.users.index.title') }}
-                    <small class="text-muted">{{ __('labels.backend.users.create.action') }} </small>
-                </h4>
-                <div class="small text-muted">
-                    {{ __('labels.backend.users.index.sub-title') }}
-                </div>
-            </div>
-            <!--/.col-->
-            <div class="col-4">
-                <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
-                    <x-buttons.return-back />
-                </div>
-            </div>
-            <!--/.col-->
+    <div class="card-header">
+        <h3 class="card-title"><i class="{{$module_icon}}"></i>{{ __($module_action) }} {{ Str::singular($module_title) }} </h3>
+
+        <div class="card-tools">
+           <x-buttons.return-back />
         </div>
-        <!--/.row-->
-
-        <hr>
-
+    </div>
+    <div class="card-body">
         <div class="row mt-4">
             <div class="col">
 
@@ -137,7 +126,7 @@
                                                             @if ($role->id != 1)
                                                                 @if ($role->permissions->count())
                                                                     @foreach ($role->permissions as $permission)
-                                                                        <i class="far fa-check-circle mr-1"></i>{{ $permission->name }}&nbsp;
+                                                                        <i class="far fa-check-circle mr-1"></i>{{ (!$permission->display_name) ? __($permission->name) : __($permission->display_name) }}&nbsp;
                                                                     @endforeach
                                                                 @else
                                                                     None

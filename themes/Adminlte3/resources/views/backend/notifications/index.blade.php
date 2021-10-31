@@ -2,6 +2,10 @@
 
 @section('title') {{ __($module_action) }} {{ $module_title }} @endsection
 
+@section('content_header')
+    {{ ucwords(Str::singular($module_name)) }}
+@endsection
+
 @section('breadcrumbs')
 <x-backend-breadcrumbs>
     <x-backend-breadcrumb-item type="active" icon='{{ $module_icon }}'>{{ $module_title }}</x-backend-breadcrumb-item>
@@ -10,28 +14,16 @@
 
 @section('content')
 <div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <h4 class="card-title mb-0">
-                    <i class="{{ $module_icon }}"></i> {{ $module_title }}
-                    (@lang(":count unread", ['count'=>$unread_notifications_count]))
-                    <small class="text-muted">{{ __($module_action) }}</small>
-                </h4>
-                <div class="small text-muted">
-                    @lang(":module_name Management Dashboard", ['module_name'=>Str::title($module_name)])
-                </div>
-            </div>
-            <!--/.col-->
-            <div class="col-4">
-                <div class="float-right">
-                    <a href="{{ route("backend.$module_name.markAllAsRead") }}" class="btn btn-success mt-1" data-toggle="tooltip" title="@lang('Mark All As Read')"><i class="fas fa-check-square"></i> @lang('Mark All As Read')</a>
-                    <a href="{{route("backend.$module_name.deleteAll")}}" class="btn btn-danger mt-1" data-method="DELETE" data-token="{{csrf_token()}}" data-toggle="tooltip" title="@lang('Delete All Notifications')"><i class="fas fa-trash-alt"></i></a>
-                </div>
-            </div>
-        </div>
-        <!--/.row-->
+    <div class="card-header">
+        <h3 class="card-title"><i class="{{$module_icon}}"></i> {{ $module_action }}</h3> <small> (@lang(":count unread", ['count'=>$unread_notifications_count]))</small>
 
+        <div class="card-tools">
+           <x-buttons.return-back />
+           <a href="{{ route("backend.$module_name.markAllAsRead") }}" class="btn btn-success btn-sm" data-toggle="tooltip" title="@lang('Mark All As Read')"><i class="fas fa-check-square"></i> @lang('Mark All As Read')</a>
+                    <a href="{{route("backend.$module_name.deleteAll")}}" class="btn btn-danger btn-sm" data-method="DELETE" data-token="{{csrf_token()}}" data-toggle="tooltip" title="@lang('Delete All Notifications')"><i class="fas fa-trash-alt"></i></a>
+        </div>
+    </div>
+    <div class="card-body">
         <div class="row mt-4">
             <div class="col">
                 <table id="datatable" class="table table-bordered table-hover table-responsive-sm">

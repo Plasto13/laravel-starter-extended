@@ -2,6 +2,10 @@
 
 @section('title') {{ $module_action }} {{ $module_title }} @endsection
 
+@section('content_header')
+    {{ __('labels.backend.users.index.sub-title') }}
+@endsection
+
 @section('breadcrumbs')
 <x-backend-breadcrumbs>
     <x-backend-breadcrumb-item type="active" icon='{{ $module_icon }}'>{{ $module_title }}</x-backend-breadcrumb-item>
@@ -10,6 +14,13 @@
 
 @section('content')
 <div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="{{$module_icon}}"></i>{{ __($module_action) }} {{ Str::singular($module_title) }} </h3>
+
+        <div class="card-tools">
+           <x-buttons.return-back />
+        </div>
+    </div>
     <div class="card-body">
         <div class="row">
             <div class="col-8">
