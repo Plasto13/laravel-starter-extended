@@ -16,12 +16,13 @@ mix.copyDirectory('node_modules/jquery', 'assets/vendor/jquery');
 mix.copyDirectory('node_modules/bootstrap', 'assets/vendor/bootstrap');
 mix.copyDirectory('node_modules/admin-lte/plugins/fontawesome-free', 'assets/vendor/fontawesome-free');
 mix.copyDirectory('node_modules/admin-lte/plugins/overlayScrollbars', 'assets/vendor/overlayScrollbars');
+mix.copyDirectory('node_modules/admin-lte/plugins/sweetalert2', 'assets/vendor/sweetalert2');
+mix.copyDirectory('node_modules/admin-lte/plugins/sweetalert2-theme-bootstrap-4', 'assets/vendor/sweetalert2-theme-bootstrap-4');
 mix.copyDirectory('node_modules/admin-lte/dist/', 'assets');
 mix.setPublicPath('assets')
-// mix
-//     .setPublicPath('./public')
-//     .js('resources/js/theme.js', 'js')
-//     .sass('resources/sass/theme.scss', 'css')
-//     .version()
+mix.setPublicPath('../../public/themes/'+themeInfo.slug)
+    .js('resources/js/app.js', 'js')
+    .sass('resources/sass/app.scss', 'css')
+    .version()
     
 mix.copyDirectory('assets', '../../public/themes/'+themeInfo.slug);

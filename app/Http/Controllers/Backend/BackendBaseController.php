@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use Alert;
 use App\Authorizable;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -180,7 +181,7 @@ class BackendBaseController extends Controller
 
         $$module_name_singular = $module_model::create($request->all());
 
-        flash("<i class='fas fa-check'></i> New '".Str::singular($module_title)."' Added")->success()->important();
+        Alert::add('success',"<i class='fas fa-check'></i> New '".Str::singular($module_title)."' Added")->flash();
 
         logUserAccess($module_title.' '.$module_action.' | Id: '.$$module_name_singular->id);
 
@@ -266,7 +267,7 @@ class BackendBaseController extends Controller
 
         $$module_name_singular->update($request->all());
 
-        flash("<i class='fas fa-check'></i> '".Str::singular($module_title)."' Updated Successfully")->success()->important();
+        Alert::add('success',"<i class='fas fa-check'></i> '".Str::singular($module_title)."' Updated Successfully")->flash();
 
         logUserAccess($module_title.' '.$module_action.' | Id: '.$$module_name_singular->id);
 
@@ -295,7 +296,7 @@ class BackendBaseController extends Controller
 
         $$module_name_singular->delete();
 
-        flash('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->success()->important();
+        Alert::add('success','<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->flash();
 
         logUserAccess($module_title.' '.$module_action.' | Id: '.$$module_name_singular->id);
 
@@ -351,7 +352,7 @@ class BackendBaseController extends Controller
         $$module_name_singular = $module_model::withTrashed()->find($id);
         $$module_name_singular->restore();
 
-        flash('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restoreded Successfully!')->success()->important();
+    Alert::add('success','<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restoreded Successfully!')->flash();
 
         logUserAccess($module_title.' '.$module_action.' | Id: '.$$module_name_singular->id);
 

@@ -2,6 +2,10 @@
 
 @section('title') {{ __($module_action) }} {{ $module_title }} @endsection
 
+@section('content_header')
+    {{ __('labels.backend.roles.index.sub-title') }}
+@endsection
+
 @section('breadcrumbs')
 <x-backend-breadcrumbs>
     <x-backend-breadcrumb-item route='{{route("backend.$module_name.index")}}' icon='{{ $module_icon }}' >
@@ -13,25 +17,15 @@
 
 @section('content')
 <div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-8">
-                <h4 class="card-title mb-0">
-                    <i class="{{$module_icon}}"></i> {{ __("labels.backend.$module_name.index.title") }}
-                    <small class="text-muted">{{ __("labels.backend.$module_name.show.action") }} </small>
-                </h4>
-                <div class="small text-muted">
-                    {{ __("labels.backend.$module_name.index.sub-title") }}
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
-                    <x-buttons.return-back />
-                    <x-buttons.edit route='{!!route("backend.$module_name.edit", $$module_name_singular)!!}' title="{{__('Edit')}} {{ ucwords(Str::singular($module_name)) }}" class="ml-1" />
-                </div>
-            </div>
-        </div>
+    <div class="card-header">
+        <h3 class="card-title"><i class="{{$module_icon}}"></i> {{ $module_title }}</h3>
 
+        <div class="card-tools">
+           <x-buttons.return-back />
+           <x-buttons.edit small="true" route='{!!route("backend.$module_name.edit", $$module_name_singular)!!}' title="{{__('Edit')}} {{ ucwords(Str::singular($module_name)) }}" class="ml-1" />
+        </div>
+    </div>
+    <div class="card-body">
         <div class="row mt-4">
             <div class="col">
                 <div class="table-responsive">

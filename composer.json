@@ -23,6 +23,7 @@
         "mews/purifier": "^3.3",
         "nwidart/laravel-modules": "^8.0",
         "predis/predis": "^1.1",
+        "prologue/alerts": "^0.4.8",
         "spatie/laravel-activitylog": "^3.17",
         "spatie/laravel-backup": "^6.11",
         "spatie/laravel-feed": "^3.2",

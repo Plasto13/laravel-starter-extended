@@ -2,6 +2,11 @@
 
 @section('title') {{ __($module_action) }} {{ $module_title }} @endsection
 
+
+@section('content_header')
+    {{ __('labels.backend.roles.index.sub-title') }}
+@endsection
+
 @section('breadcrumbs')
 <x-backend-breadcrumbs>
     <x-backend-breadcrumb-item route='{{route("backend.$module_name.index")}}' icon='{{ $module_icon }}' >
@@ -14,26 +19,15 @@
 
 @section("content")
 <div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-8">
-                <h4 class="card-title mb-0">
-                    <i class="{{$module_icon}}"></i> {{ __("labels.backend.$module_name.edit.title") }}
-                    <small class="text-muted">{{ __("labels.backend.$module_name.edit.action") }} </small>
-                </h4>
-                <div class="small text-muted">
-                    {{ __("labels.backend.$module_name.edit.sub-title") }}
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
-                    <x-buttons.return-back />
-                    <x-buttons.show route='{!!route("backend.$module_name.show", $$module_name_singular)!!}' title="{{__('Show')}} {{ ucwords(Str::singular($module_name)) }}" class="ml-1"/>
-                </div>
-            </div>
-        </div>
+    <div class="card-header">
+        <h3 class="card-title"><i class="{{$module_icon}}"></i>{{ __($module_action) }} {{ Str::singular($module_title) }} </h3>
 
-        <hr>
+        <div class="card-tools">
+           <x-buttons.return-back />
+           <x-buttons.show smal="true" route='{!!route("backend.$module_name.show", $$module_name_singular)!!}' title="{{__('Show')}} {{ ucwords(Str::singular($module_name)) }}" class="ml-1"/>
+        </div>
+    </div>
+    <div class="card-body">
         <div class="row mt-4">
             <div class="col">
                 {{ html()->modelForm($$module_name_singular, 'PATCH', route("backend.$module_name.update", $$module_name_singular->id))->class('form-horizontal')->open() }}
@@ -57,18 +51,18 @@
                         <div class="col-md-10">
                             @if ($permissions->count())
                                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                                    @foreach($permissions->groupBy('module_name') as $module_name => $perms)
+                                    @foreach($permissions->groupBy('module_name') as $m_n => $perms)
                                         <li class="nav-item">
-                                            <a class="nav-link {{$loop->first ? 'active': ''}}" id="pills-{{$module_name}}-tab" data-toggle="pill" href="#pills-{{$module_name}}" role="tab" aria-controls="pills-{{$module_name}}" aria-selected="{{$loop->first ? 'true': 'false'}}">{{ $module_name }}</a>
+                                            <a class="nav-link {{$loop->first ? 'active': ''}}" id="pills-{{$m_n}}-tab" data-toggle="pill" href="#pills-{{$m_n}}" role="tab" aria-controls="pills-{{$m_n}}" aria-selected="{{$loop->first ? 'true': 'false'}}">{{ $m_n }}</a>
                                         </li>   
                                     @endforeach
                                 </ul>
 
                                 <div class="tab-content" id="pills-tabContent">
-                                    @foreach($permissions->groupBy('module_name') as $module_name => $perms)
-                                        <div class="tab-pane fade{{$loop->first ? ' show active':''}} " id="pills-{{$module_name}}" role="tabpanel" aria-labelledby="pills-{{$module_name}}-tab">
+                                    @foreach($permissions->groupBy('module_name') as $m_n => $perms)
+                                        <div class="tab-pane fade{{$loop->first ? ' show active':''}} " id="pills-{{$m_n}}" role="tabpanel" aria-labelledby="pills-{{$m_n}}-tab">
                                             @foreach($perms as $permission)
-                                                <div class="form-check row">
+                                                <div class="row">
                                                     <div class="col-3">
                                                         @php
                                                         $label = (!$permission->display_name) ? __($permission->name) : __($permission->display_name);

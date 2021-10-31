@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Alert;
 use Carbon\Carbon;
 
 class LanguageController extends Controller
@@ -16,7 +17,7 @@ class LanguageController extends Controller
 
         Carbon::setLocale($language);
 
-        flash()->success(__('Language changed to').' '.strtoupper($language))->important();
+        Alert::add('success', __('Language changed to').' '.strtoupper($language))->flash();
 
         return redirect()->back();
     }

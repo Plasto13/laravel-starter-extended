@@ -1,2 +1,3 @@
 @props(["small"=>""])
-<button onclick="window.history.back();" class="btn btn-warning ml-1 {{($small=='true')? 'btn-sm' : ''}}" data-toggle="tooltip" title="{{__('Return Back')}}"><i class="fas fa-reply"></i>{{ $slot }}</button>
+<button type="button" onclick="window.history.back();" class="btn btn-tool {{($small=='true')? 'btn-sm' : ''}}" title="{{__('Return Back')}}" data-widget="chat-pane-toggle">
+<i class="fas fa-arrow-left"></i></button>

@@ -1,0 +1,77 @@
+
+---Downloaded files---
+The import files for: Home V1 were successfully downloaded!
+Initial max execution time = 120
+Files info:
+Site URL = http://localhost/wp
+Data file = C:\xampp\htdocs\starter\public\wp/wp-content/uploads/2021/10/demo-content-import-file_2021-10-06__15-11-08.xml
+Widget file = C:\xampp\htdocs\starter\public\wp/wp-content/uploads/2021/10/demo-widgets-import-file_2021-10-06__15-11-08.json
+Customizer file = C:\xampp\htdocs\starter\public\wp/wp-content/uploads/2021/10/demo-customizer-import-file_2021-10-06__15-11-08.dat
+Redux files:
+not defined!
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+[ERROR] Failed to import "brand-10" (Médiá)
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+[ERROR] Failed to import "home_v4" (Médiá)
+
+
+---Importing widgets---
+Blog Sidebar : 
+
+About - About Me - Imported
+Hľadať - No Title - Imported
+Recent Post With Thumbnail - Popular Feeds - Imported
+Kategórie - No Title - Imported
+Social Profiles - Never Miss News - Imported
+Oblak značiek - Popular Tags - Imported
+
+Footer Sidebar 1 : 
+
+Blok - No Title - Imported
+Blok - No Title - Imported
+
+Footer Sidebar 2 : 
+
+Navigačné menu - Pages - Imported
+
+Footer Sidebar 3 : 
+
+Blok - No Title - Imported
+
+Footer Sidebar 4 : 
+
+MailChimp Subscriber - Get Daily Update - Imported
+Social Profiles - Follow Us On - Imported
+
+
+
+---Importing customizer settings---
+Customizer settings import finished!
+
+---ocdi/after_import---
+Thank You! for installing demo ( Home V1 ).

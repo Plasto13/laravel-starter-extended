@@ -2,6 +2,10 @@
 
 @section('title') {{ $module_action }} {{ $module_title }} @endsection
 
+@section('content_header')
+    {{ ucwords(Str::singular($module_name)) }}
+@endsection
+
 @section('breadcrumbs')
 <x-backend-breadcrumbs>
     <x-backend-breadcrumb-item type="active" icon='{{ $module_icon }}'>{{ $module_title }}</x-backend-breadcrumb-item>
@@ -10,26 +14,17 @@
 
 @section('content')
 <div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-8">
-                <h4 class="card-title mb-0">
-                    <i class="{{ $module_icon }}"></i> {{ $module_title }} <small class="text-muted">Trashed {{ $module_action }}</small>
-                </h4>
-                <div class="small text-muted">
-                    {{ ucwords($module_name) }} Management Dashboard
-                </div>
-            </div>
-            <!--/.col-->
-            <div class="col-4">
-                <div class="float-right">
-                    <a href="{{ route("backend.$module_name.index") }}" class="btn btn-secondary mt-1 btn-sm" data-toggle="tooltip" title="{{ ucwords($module_name) }} List"><i class="fas fa-list"></i> List</a>
-                </div>
-            </div>
-            <!--/.col-->
-        </div>
-        <!--/.row-->
+     <div class="card-header">
+        <h3 class="card-title"><i class="{{$module_icon}}"></i> {{__("Trashed")}} {{ $module_action }}</h3>
 
+        <div class="card-tools">
+           <x-buttons.return-back />
+            <a href="{{ route("backend.$module_name.index") }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" title="{{ ucwords($module_name) }} List">
+                <i class="fas fa-list"></i> List
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
         <div class="row mt-4">
             <div class="col">
                 <table id="datatable" class="table table-hover table-responsive-sm">
