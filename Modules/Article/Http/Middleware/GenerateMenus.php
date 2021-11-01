@@ -25,8 +25,8 @@ class GenerateMenus
             ->data([
                 'order'         => 81,
                 'activematches' => [
-                    'admin/posts*',
-                    'admin/categories*',
+                    config('modules.core.core.admin-prefix').'/posts*',
+                    config('modules.core.core.admin-prefix').'/categories*',
                 ],
                 'permission' => ['view_posts', 'view_categories'],
             ]);
@@ -42,7 +42,7 @@ class GenerateMenus
             ])
             ->data([
                 'order'         => 82,
-                'activematches' => 'admin/posts*',
+                'activematches' => config('modules.core.core.admin-prefix').'/posts*',
                 'permission'    => ['edit_posts'],
             ])
             ->link->attr([
@@ -55,7 +55,7 @@ class GenerateMenus
             ])
             ->data([
                 'order'         => 83,
-                'activematches' => 'admin/categories*',
+                'activematches' => config('modules.core.core.admin-prefix').'/categories*',
                 'permission'    => ['edit_categories'],
             ])
             ->link->attr([

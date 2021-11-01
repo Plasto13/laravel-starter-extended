@@ -1,0 +1,8 @@
+{
+    "name": "Starter",
+    "slug": "starter",
+    "type":"frontend",
+    "description": "Starter theme.",
+    "author": "Pavol Duroska",
+    "version": "1.0.0"
+}

@@ -31,7 +31,7 @@ class GenerateMenus
             ])
             ->data([
                 'order'         => 84,
-                'activematches' => ['admin/tags*'],
+                'activematches' => config('modules.core.core.admin-prefix').'/tags*',
                 'permission'    => ['view_tags'],
             ])
             ->link->attr([

@@ -31,7 +31,7 @@ class GenerateMenus
             ])
             ->data([
                 'order'         => 85,
-                'activematches' => ['admin/comments*'],
+                'activematches' => [config('modules.core.core.admin-prefix').'/comments*'],
                 'permission'    => ['view_comments'],
             ])
             ->link->attr([

@@ -1,0 +1,13 @@
+{
+    "name": "plasto13/starter",
+    "description": "Starter theme.",
+    "type": "caffeinated-theme",
+    "autoload": {
+        "psr-4": {
+            "Themes\\Starter\\": "src/"
+        }
+    },
+    "require": {
+        "caffeinated/composer": "*"
+    }
+}
