@@ -26,7 +26,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $themeManager = app(ThemeManager::class);
         parent::boot();
-        $themeManager->setTheme();
+        $themeManager->setTheme(); 
     }
 
     /**
