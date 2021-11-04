@@ -26,3 +26,30 @@ if (! function_exists('is_module_enabled')) {
         return array_key_exists($module, app('modules')->enabled());
     }
 }
+
+
+if (! function_exists('get_list_of_frontend_themes')) {
+    function get_list_of_frontend_themes()
+    {
+        $themeManager = app(Modules\Core\Foundation\Theme\ThemeManager::class);
+        $forntend = $themeManager->allPublicThemes();
+        $list = [];
+        foreach ($forntend as $key => $value) {
+            $list[$key] = ucfirst($key);
+        }
+        return $list;
+    }
+}
+
+if (! function_exists('get_list_of_backend_themes')) {
+    function get_list_of_backend_themes()
+    {
+        $themeManager = app(Modules\Core\Foundation\Theme\ThemeManager::class);
+        $forntend = $themeManager->allBackendThemes();
+        $list = [];
+        foreach ($forntend as $key => $value) {
+            $list[$key] = ucfirst($key);
+        }
+        return $list;
+    }
+}

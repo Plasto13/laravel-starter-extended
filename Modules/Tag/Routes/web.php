@@ -26,7 +26,7 @@ Route::group(['namespace' => '\Modules\Tag\Http\Controllers\Frontend', 'as' => '
 *
 * --------------------------------------------------------------------
 */
-Route::group(['namespace' => '\Modules\Tag\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'admin'], function () {
+Route::group(['namespace' => '\Modules\Tag\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => config('modules.core.core.admin-prefix')], function () {
     /*
     * These routes need view-backend permission
     * (good if you want to allow more than one group in the backend,

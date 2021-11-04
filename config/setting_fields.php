@@ -17,13 +17,14 @@ return [
                 'value' => 'Laravel Starter', // default value if you want
             ],
             [
-                'type'  => 'text', // input fields type
+                'type'  => 'select', // input fields type
                 'data'  => 'string', // data type, string, int, boolean
-                'name'  => 'footer_text', // unique name for field
-                'label' => 'Footer Text', // you know what label it is
-                'rules' => 'required|min:2', // validation rule of laravel
-                'class' => '', // any class for input
-                'value' => '<a href="https://github.com/nasirkhan/laravel-starter/">Built with ♥ from Bangladesh</a>', // default value if you want
+                'name'  => 'backend_theme', // unique name for field
+                'label' => 'Backend theme', // you know what label it is
+                'rules' => 'required', // validation rule of laravel
+                'class' => 'select2', // any class for input
+                'value' => '', // default value if you want
+                'options' => ['adminlte3' => 'adminlte3'],
             ],
             [
                 'type'  => 'checkbox', // input fields type

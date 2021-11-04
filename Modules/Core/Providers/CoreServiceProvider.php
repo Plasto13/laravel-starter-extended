@@ -3,6 +3,7 @@
 namespace Modules\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Core\Foundation\Theme\ThemeManager;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -37,6 +38,10 @@ class CoreServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->singleton('portal.onBackend', function () {
+            return $this->onBackend();
+        });
+        $this->registerServices();
     }
 
     /**
@@ -47,13 +52,14 @@ class CoreServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
+            module_path($this->moduleName, 'Config/config.php') => config_path('modules/core/'.$this->moduleNameLower . '.php'),
         ], 'config');
         $this->mergeConfigFrom(
             module_path($this->moduleName, 'Config/config.php'),
             $this->moduleNameLower
         );
     }
+
 
     /**
      * Register views.
@@ -108,5 +114,22 @@ class CoreServiceProvider extends ServiceProvider
             }
         }
         return $paths;
+    }
+
+    private function registerServices()
+    {
+        $this->app->singleton(ThemeManager::class, function ($app) {
+            return new ThemeManager($app);
+        });
+    }
+
+    private function onBackend()
+    {
+        $url = app(Request::class)->url();
+        if (str_contains($url, config('core.core.admin-prefix'))) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -17,6 +17,7 @@ class GenerateMenus
      */
     public function handle($request, Closure $next)
     {
+        
         \Menu::make('admin_sidebar', function ($menu) {
             // Dashboard
             $menu->add('<i class="fas fa-tachometer-alt"></i><p> Dashboard</p>', [
@@ -25,7 +26,7 @@ class GenerateMenus
             ])
             ->data([
                 'order'         => 1,
-                'activematches' => 'admin/dashboard*',
+                'activematches' => config('modules.core.core.admin-prefix').'/dashboard*',
             ])
             ->link->attr([
                 'class' => 'nav-link',
@@ -38,7 +39,7 @@ class GenerateMenus
             ])
             ->data([
                 'order'         => 99,
-                'activematches' => 'admin/notifications*',
+                'activematches' => config('modules.core.core.admin-prefix').'/notifications*',
                 'permission'    => [],
             ])
             ->link->attr([
@@ -61,7 +62,7 @@ class GenerateMenus
             ])
             ->data([
                 'order'         => 102,
-                'activematches' => 'admin/settings*',
+                'activematches' => config('modules.core.core.admin-prefix').'/settings*',
                 'permission'    => ['edit_settings'],
             ])
             ->link->attr([
@@ -75,7 +76,7 @@ class GenerateMenus
             ])
             ->data([
                 'order'         => 103,
-                'activematches' => 'admin/backups*',
+                'activematches' => config('modules.core.core.admin-prefix').'/backups*',
                 'permission'    => ['view_backups'],
             ])
             ->link->attr([
@@ -89,8 +90,8 @@ class GenerateMenus
             ->data([
                 'order'         => 104,
                 'activematches' => [
-                    'admin/users*',
-                    'admin/roles*',
+                    config('modules.core.core.admin-prefix').'/users*',
+                    config('modules.core.core.admin-prefix').'/roles*',
                 ],
                 'permission'    => ['view_users', 'view_roles'],
             ]);
@@ -106,7 +107,7 @@ class GenerateMenus
             ])
             ->data([
                 'order'         => 105,
-                'activematches' => 'admin/users*',
+                'activematches' => config('modules.core.core.admin-prefix').'/users*',
                 'permission'    => ['view_users'],
             ])
             ->link->attr([
@@ -120,7 +121,7 @@ class GenerateMenus
             ])
             ->data([
                 'order'         => 106,
-                'activematches' => 'admin/roles*',
+                'activematches' => config('modules.core.core.admin-prefix').'/roles*',
                 'permission'    => ['view_roles'],
             ])
             ->link->attr([
@@ -151,7 +152,7 @@ class GenerateMenus
             ])
             ->data([
                 'order'         => 108,
-                'activematches' => 'admin/log-viewer',
+                'activematches' => config('modules.core.core.admin-prefix').'/log-viewer',
             ])
             ->link->attr([
                 'class' => 'nav-link',
@@ -164,7 +165,7 @@ class GenerateMenus
             ])
             ->data([
                 'order'         => 109,
-                'activematches' => 'admin/log-viewer/logs*',
+                'activematches' => config('modules.core.core.admin-prefix').'/log-viewer/logs*',
             ])
             ->link->attr([
                 'class' => 'nav-link',
