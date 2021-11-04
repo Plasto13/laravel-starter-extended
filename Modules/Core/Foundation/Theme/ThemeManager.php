@@ -101,7 +101,7 @@ class ThemeManager implements \Countable
     }
 
         /**
-     * Get only the public themes
+     * Get only the backend themes
      * @return array
      */
     public function allBackendThemes()
