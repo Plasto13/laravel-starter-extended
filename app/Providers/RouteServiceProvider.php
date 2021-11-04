@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
-use Caffeinated\Themes\Facades\Theme;
+use Modules\Core\Foundation\Theme\ThemeManager;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -32,14 +32,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-
         parent::boot();
-        if (str_contains($this->app->request->getRequestUri(), config('modules.core.core.admin-prefix'))) {
-            Theme::set( config('modules.core.core.theme.backend') );
-            // dd(Theme::getCurrent());
-        }else {
-            Theme::set( config('modules.core.core.theme.frontend') );;
-        }
     }
 
     /**

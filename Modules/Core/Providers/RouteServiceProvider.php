@@ -4,6 +4,7 @@ namespace Modules\Core\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Modules\Core\Foundation\Theme\ThemeManager;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -23,7 +24,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $themeManager = app(ThemeManager::class);
         parent::boot();
+        $themeManager->setTheme();
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Modules\Core\Foundation\Theme;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Str;
+use Caffeinated\Themes\Facades\Theme;
 
 class ThemeManager implements \Countable
 {
@@ -23,7 +24,16 @@ class ThemeManager implements \Countable
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->path = '/themes';
+        $this->path = 'themes';
+    }
+
+    public function setTheme()
+    {   
+        if (str_contains($this->app->request->getRequestUri(), config('modules.core.core.admin-prefix'))) {
+            setting('backend_theme') ? Theme::set( setting('backend_theme') ) : Theme::set( config('modules.core.core.theme.backend') );
+        }else {
+            setting('frontend_theme') ? Theme::set( setting('frontend_theme') ) : Theme::set( config('modules.core.core.theme.frontend') );
+        }
     }
 
     /**
@@ -81,8 +91,34 @@ class ThemeManager implements \Countable
             if (Str::startsWith($name = basename($theme), '.')) {
                 continue;
             }
-            $themeJson = $this->getThemeJsonFile($theme);
+            $themeJson = $this->getThemeJsonFile($name);
             if ($this->isFrontendTheme($themeJson)) {
+                $themes[$name] = new Theme($name, $theme);
+            }
+        }
+
+        return $themes;
+    }
+
+        /**
+     * Get only the public themes
+     * @return array
+     */
+    public function allBackendThemes()
+    {
+        $themes = [];
+        if (!$this->getFinder()->isDirectory($this->path)) {
+            return $themes;
+        }
+
+        $directories = $this->getDirectories();
+
+        foreach ($directories as $theme) {
+            if (Str::startsWith($name = basename($theme), '.')) {
+                continue;
+            }
+            $themeJson = $this->getThemeJsonFile($name);
+            if (!$this->isFrontendTheme($themeJson)) {
                 $themes[$name] = new Theme($name, $theme);
             }
         }
@@ -100,16 +136,6 @@ class ThemeManager implements \Countable
     }
 
     /**
-     * Return the theme assets path
-     * @param  string $theme
-     * @return string
-     */
-    public function getAssetPath($theme)
-    {
-        return public_path($this->getConfig()->get('themify.themes_assets_path') . '/' . $theme);
-    }
-
-    /**
      * @return \Illuminate\Filesystem\Filesystem
      */
     protected function getFinder()
@@ -117,13 +143,6 @@ class ThemeManager implements \Countable
         return $this->app['files'];
     }
 
-    /**
-     * @return \Illuminate\Config\Repository
-     */
-    protected function getConfig()
-    {
-        return $this->app['config'];
-    }
 
     /**
      * Counts all themes
@@ -139,9 +158,10 @@ class ThemeManager implements \Countable
      * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    private function getThemeJsonFile($theme)
+    private function getThemeJsonFile($name)
     {
-        return json_decode($this->getFinder()->get("$theme/theme.json"));
+        $path = Theme::path('theme.json', $name);
+        return json_decode($this->getFinder()->get($path));
     }
 
     /**

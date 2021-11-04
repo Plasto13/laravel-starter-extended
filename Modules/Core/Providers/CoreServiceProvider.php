@@ -60,6 +60,7 @@ class CoreServiceProvider extends ServiceProvider
         );
     }
 
+
     /**
      * Register views.
      *
@@ -118,9 +119,7 @@ class CoreServiceProvider extends ServiceProvider
     private function registerServices()
     {
         $this->app->singleton(ThemeManager::class, function ($app) {
-            $path = $app['config']->get('asgard.core.core.themes_path');
-
-            return new ThemeManager($app, $path);
+            return new ThemeManager($app);
         });
     }
 

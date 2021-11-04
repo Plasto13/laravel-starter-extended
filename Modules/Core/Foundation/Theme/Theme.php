@@ -2,7 +2,7 @@
 
 namespace Modules\Core\Foundation\Theme;
 
-class Theme
+class Theme extends Theme
 {
     /**
      * @var string the theme name
@@ -15,6 +15,7 @@ class Theme
 
     public function __construct($name, $path)
     {
+        parent::__construct($name, $path);
         $this->name = $name;
         $this->path = realpath($path);
     }
