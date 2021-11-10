@@ -75,7 +75,7 @@
                                     @foreach($permissions->groupBy('module_name') as $module_name => $perms)
                                         <li class="nav-item">
                                             <a class="nav-link {{$loop->first ? 'active': ''}}" id="pills-{{$module_name}}-tab" data-toggle="pill" href="#pills-{{$module_name}}" role="tab" aria-controls="pills-{{$module_name}}" aria-selected="{{$loop->first ? 'true': 'false'}}">{{ $module_name }}</a>
-                                        </li>   
+                                        </li>
                                     @endforeach
                                 </ul>
 
@@ -95,20 +95,20 @@
                                                                     ->id('permission-'.$permission->id)
                                                                      . ' ' . $label)
                                                                 ->for('permission-'.$permission->id) }}
-                                                        
+
                                                     </div>
                                                     <div class="col">
                                                         @if($permission->description)
                                                             {{ __($permission->description) }}
                                                         @endif
-                                                        
+
                                                     </div>
                                                 </div>
                                             @endforeach
                                         </div>
                                     @endforeach
                                 </div>
-                                
+
                             @endif
                                                @endif
                                            </td>
