@@ -1,5 +1,4 @@
 <?php
-
 namespace Modules\Comment\Http\Middleware;
 
 use Closure;
@@ -23,16 +22,15 @@ class GenerateMenus
          * *********************************************************************
          */
         \Menu::make('admin_sidebar', function ($menu) {
-
             // comments
             $menu->add('<i class="fas fa-comments nav-icon"></i><p> Comments</p>', [
                 'route' => 'backend.comments.index',
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 85,
-                'activematches' => [config('modules.core.core.admin-prefix').'/comments*'],
-                'permission'    => ['view_comments'],
+                'order' => 85,
+                'activematches' => config('portal.core.core.admin-prefix', 'admin') . '/comments*',
+                'permission' => ['view_comments'],
             ])
             ->link->attr([
                 'class' => 'nav-link',

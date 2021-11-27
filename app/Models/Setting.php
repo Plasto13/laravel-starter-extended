@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -61,7 +60,7 @@ class Setting extends BaseModel
         if ($setting = self::getAllSettings()->where('name', $key)->first()) {
             return $setting->update([
                 'name' => $key,
-                'val'  => $val,
+                'val' => $val,
                 'type' => $type, ]) ? $val : false;
         }
 

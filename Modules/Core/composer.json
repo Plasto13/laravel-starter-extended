@@ -7,6 +7,11 @@
             "email": "nasir8891@gmail.com"
         }
     ],
+    "require": {
+        "caffeinated/themes": "^7.2",
+        "prologue/alerts": "^0.4.8",
+        "astrotomic/laravel-translatable": "^11.9"
+    },
     "extra": {
         "laravel": {
             "providers": [],

@@ -1,5 +1,4 @@
 <?php
-
 namespace Modules\Article\Http\Middleware;
 
 use Closure;
@@ -17,22 +16,21 @@ class GenerateMenus
     public function handle($request, Closure $next)
     {
         \Menu::make('admin_sidebar', function ($menu) {
-
             // Articles Dropdown
             $articles_menu = $menu->add('<i class="nav-icon fas fa-file-alt"></i><p> Article<i class="fas fa-angle-left right"></i></p>', [
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 81,
+                'order' => 81,
                 'activematches' => [
-                    config('modules.core.core.admin-prefix').'/posts*',
-                    config('modules.core.core.admin-prefix').'/categories*',
+                    config('portal.core.core.admin-prefix', 'admin') . '/posts*',
+                    config('portal.core.core.admin-prefix', 'admin') . '/categories*',
                 ],
                 'permission' => ['view_posts', 'view_categories'],
             ]);
             $articles_menu->link->attr([
                 'class' => 'nav-link',
-                'href'  => '#',
+                'href' => '#',
             ]);
 
             // Submenu: Posts
@@ -41,9 +39,9 @@ class GenerateMenus
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 82,
-                'activematches' => config('modules.core.core.admin-prefix').'/posts*',
-                'permission'    => ['edit_posts'],
+                'order' => 82,
+                'activematches' => [config('portal.core.core.admin-prefix', 'admin') . '/posts*'],
+                'permission' => ['edit_posts'],
             ])
             ->link->attr([
                 'class' => 'nav-link',
@@ -54,9 +52,9 @@ class GenerateMenus
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 83,
-                'activematches' => config('modules.core.core.admin-prefix').'/categories*',
-                'permission'    => ['edit_categories'],
+                'order' => 83,
+                'activematches' => [config('portal.core.core.admin-prefix', 'admin') . '/categories*'],
+                'permission' => ['edit_categories'],
             ])
             ->link->attr([
                 'class' => 'nav-link',

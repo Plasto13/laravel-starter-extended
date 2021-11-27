@@ -1,5 +1,4 @@
 <?php
-
 namespace Modules\Core\Composers;
 
 use Illuminate\Contracts\View\View;
@@ -19,6 +18,6 @@ class ThemeComposer
 
     public function compose(View $view)
     {
-        $view->with('themes', $this->themeManager->allPublicThemes());
+        $view->with('themes', ['frontend' => $this->themeManager->allPublicThemes(), 'backend' => $this->themeManager->allBackendThemes()]);
     }
 }

@@ -12,7 +12,7 @@
 */
 
 // Autho Routes
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 // Atom/ RSS Feed Routes
 Route::feeds();
@@ -58,8 +58,7 @@ Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
 * --------------------------------------------------------------------
 */
 
-Route::group(['namespace' => 'Backend', 'prefix' => config('modules.core.core.admin-prefix') , 'as' => 'backend.', 'middleware' => ['auth', 'can:view_backend']], function () {
-
+Route::group(['namespace' => 'Backend', 'prefix' => config('portal.core.core.admin-prefix', 'admin'), 'as' => 'backend.', 'middleware' => ['auth', 'can:view_backend']], function () {
     /**
      * Backend Dashboard
      * Namespaces indicate folder structure.

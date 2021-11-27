@@ -1,9 +1,13 @@
 <?php
-
 namespace Modules\Setting\Providers;
 
+use Modules\Setting\Entities\Setting;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+use Modules\Setting\Repositories\SettingRepository;
+use Modules\Setting\Facades\Settings as SettingsFacade;
+use Modules\Setting\Repositories\Cache\CacheSettingDecorator;
+use Modules\Setting\Repositories\Eloquent\EloquentSettingRepository;
 
 class SettingServiceProvider extends ServiceProvider
 {
@@ -28,6 +32,9 @@ class SettingServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        // adding global middleware
+        $kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
+        $kernel->pushMiddleware('Modules\Setting\Http\Middleware\GenerateMenus');
     }
 
     /**
@@ -37,7 +44,17 @@ class SettingServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerBindings();
         $this->app->register(RouteServiceProvider::class);
+
+        $this->app->singleton('setting.settings', function ($app) {
+            return new Settings($app[SettingRepository::class]);
+        });
+
+        $this->app->booting(function () {
+            $loader = AliasLoader::getInstance();
+            $loader->alias('Settings', SettingsFacade::class);
+        });
     }
 
     /**
@@ -51,7 +68,8 @@ class SettingServiceProvider extends ServiceProvider
             module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
+            module_path($this->moduleName, 'Config/config.php'),
+            $this->moduleNameLower
         );
     }
 
@@ -87,6 +105,23 @@ class SettingServiceProvider extends ServiceProvider
         } else {
             $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
         }
+    }
+
+    private function registerBindings()
+    {
+        $this->app->bind(SettingRepository::class, function () {
+            $repository = new EloquentSettingRepository(new Setting());
+
+            if (!config('app.cache')) {
+                return $repository;
+            }
+
+            return new CacheSettingDecorator($repository);
+        });
+        $this->app->bind(
+            \Modules\Setting\Contracts\Setting::class,
+            Settings::class
+        );
     }
 
     /**

@@ -1,1 +1,0 @@
-window.Noty = require('noty');

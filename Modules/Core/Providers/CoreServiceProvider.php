@@ -1,12 +1,16 @@
 <?php
-
 namespace Modules\Core\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Modules\Core\Composers\ThemeComposer;
 use Modules\Core\Foundation\Theme\ThemeManager;
+use Modules\Core\Traits\CanPublishConfiguration;
+use Modules\Core\Composers\SettingLocalesComposer;
 
 class CoreServiceProvider extends ServiceProvider
 {
+    use CanPublishConfiguration;
     /**
      * @var string $moduleName
      */
@@ -25,7 +29,10 @@ class CoreServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerTranslations();
-        $this->registerConfig();
+        $this->registerComposers();
+        $this->publishConfig('core', 'settings');
+        $this->publishConfig('core', 'config');
+        $this->publishConfig('core', 'available-locales');
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
     }
@@ -43,23 +50,6 @@ class CoreServiceProvider extends ServiceProvider
         });
         $this->registerServices();
     }
-
-    /**
-     * Register config.
-     *
-     * @return void
-     */
-    protected function registerConfig()
-    {
-        $this->publishes([
-            module_path($this->moduleName, 'Config/config.php') => config_path('modules/core/'.$this->moduleNameLower . '.php'),
-        ], 'config');
-        $this->mergeConfigFrom(
-            module_path($this->moduleName, 'Config/config.php'),
-            $this->moduleNameLower
-        );
-    }
-
 
     /**
      * Register views.
@@ -121,6 +111,12 @@ class CoreServiceProvider extends ServiceProvider
         $this->app->singleton(ThemeManager::class, function ($app) {
             return new ThemeManager($app);
         });
+    }
+
+    private function registerComposers()
+    {
+        View::composer(['setting::admin.fields.plain.select-backend-theme', 'setting::admin.fields.plain.select-frontend-theme'], ThemeComposer::class);
+        View::composer('setting::admin.fields.plain.select-locales', SettingLocalesComposer::class);
     }
 
     private function onBackend()

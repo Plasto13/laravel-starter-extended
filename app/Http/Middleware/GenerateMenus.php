@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Middleware;
 
 use Closure;
@@ -17,7 +16,6 @@ class GenerateMenus
      */
     public function handle($request, Closure $next)
     {
-        
         \Menu::make('admin_sidebar', function ($menu) {
             // Dashboard
             $menu->add('<i class="fas fa-tachometer-alt"></i><p> Dashboard</p>', [
@@ -25,8 +23,8 @@ class GenerateMenus
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 1,
-                'activematches' => config('modules.core.core.admin-prefix').'/dashboard*',
+                'order' => 1,
+                'activematches' => config('portal.core.core.admin-prefix', 'admin') . '/dashboard*',
             ])
             ->link->attr([
                 'class' => 'nav-link',
@@ -38,9 +36,9 @@ class GenerateMenus
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 99,
-                'activematches' => config('modules.core.core.admin-prefix').'/notifications*',
-                'permission'    => [],
+                'order' => 99,
+                'activematches' => config('portal.core.core.admin-prefix', 'admin') . '/notifications*',
+                'permission' => [],
             ])
             ->link->attr([
                 'class' => 'nav-link',
@@ -51,8 +49,8 @@ class GenerateMenus
                 'class' => 'nav-header',
             ])
             ->data([
-                'order'         => 101,
-                'permission'    => ['edit_settings', 'view_backups', 'view_users', 'view_roles', 'view_logs'],
+                'order' => 101,
+                'permission' => ['edit_settings', 'view_backups', 'view_users', 'view_roles', 'view_logs'],
             ]);
 
             // Settings
@@ -61,9 +59,9 @@ class GenerateMenus
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 102,
-                'activematches' => config('modules.core.core.admin-prefix').'/settings*',
-                'permission'    => ['edit_settings'],
+                'order' => 102,
+                'activematches' => config('portal.core.core.admin-prefix', 'admin') . '/settings*',
+                'permission' => ['edit_settings'],
             ])
             ->link->attr([
                 'class' => 'nav-link',
@@ -75,9 +73,9 @@ class GenerateMenus
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 103,
-                'activematches' => config('modules.core.core.admin-prefix').'/backups*',
-                'permission'    => ['view_backups'],
+                'order' => 103,
+                'activematches' => config('portal.core.core.admin-prefix', 'admin') . '/backups*',
+                'permission' => ['view_backups'],
             ])
             ->link->attr([
                 'class' => 'nav-link',
@@ -88,16 +86,16 @@ class GenerateMenus
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 104,
+                'order' => 104,
                 'activematches' => [
-                    config('modules.core.core.admin-prefix').'/users*',
-                    config('modules.core.core.admin-prefix').'/roles*',
+                    config('portal.core.core.admin-prefix', 'admin') . '/users*',
+                    config('portal.core.core.admin-prefix', 'admin') . '/roles*',
                 ],
-                'permission'    => ['view_users', 'view_roles'],
+                'permission' => ['view_users', 'view_roles'],
             ]);
             $accessControl->link->attr([
                 'class' => 'nav-link',
-                'href'  => '#',
+                'href' => '#',
             ]);
 
             // Submenu: Users
@@ -106,9 +104,9 @@ class GenerateMenus
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 105,
-                'activematches' => config('modules.core.core.admin-prefix').'/users*',
-                'permission'    => ['view_users'],
+                'order' => 105,
+                'activematches' => config('portal.core.core.admin-prefix', 'admin') . '/users*',
+                'permission' => ['view_users'],
             ])
             ->link->attr([
                 'class' => 'nav-link',
@@ -120,9 +118,9 @@ class GenerateMenus
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 106,
-                'activematches' => config('modules.core.core.admin-prefix').'/roles*',
-                'permission'    => ['view_roles'],
+                'order' => 106,
+                'activematches' => config('portal.core.core.admin-prefix', 'admin') . '/roles*',
+                'permission' => ['view_roles'],
             ])
             ->link->attr([
                 'class' => 'nav-link',
@@ -134,15 +132,15 @@ class GenerateMenus
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 107,
+                'order' => 107,
                 'activematches' => [
                     'log-viewer*',
                 ],
-                'permission'    => ['view_logs'],
+                'permission' => ['view_logs'],
             ]);
             $accessControl->link->attr([
                 'class' => 'nav-link',
-                'href'  => '#',
+                'href' => '#',
             ]);
 
             // Submenu: Log Viewer Dashboard
@@ -151,8 +149,8 @@ class GenerateMenus
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 108,
-                'activematches' => config('modules.core.core.admin-prefix').'/log-viewer',
+                'order' => 108,
+                'activematches' => config('portal.core.core.admin-prefix', 'admin') . '/log-viewer',
             ])
             ->link->attr([
                 'class' => 'nav-link',
@@ -164,8 +162,8 @@ class GenerateMenus
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 109,
-                'activematches' => config('modules.core.core.admin-prefix').'/log-viewer/logs*',
+                'order' => 109,
+                'activematches' => config('portal.core.core.admin-prefix', 'admin') . '/log-viewer/logs*',
             ])
             ->link->attr([
                 'class' => 'nav-link',

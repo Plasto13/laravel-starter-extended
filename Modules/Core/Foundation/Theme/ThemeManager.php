@@ -1,5 +1,4 @@
 <?php
-
 namespace Modules\Core\Foundation\Theme;
 
 use Illuminate\Contracts\Foundation\Application;
@@ -28,11 +27,11 @@ class ThemeManager implements \Countable
     }
 
     public function setTheme()
-    {   
-        if (str_contains($this->app->request->getRequestUri(), config('modules.core.core.admin-prefix'))) {
-            setting('backend_theme') ? Theme::set( setting('backend_theme') ) : Theme::set( config('modules.core.core.theme.backend') );
-        }else {
-            setting('frontend_theme') ? Theme::set( setting('frontend_theme') ) : Theme::set( config('modules.core.core.theme.frontend') );
+    {
+        if (str_contains($this->app->request->getRequestUri(), config('portal.core.core.admin-prefix', 'admin'))) {
+            setting('backend_theme') ? Theme::set(setting('backend_theme')) : Theme::set(config('portal.core.settings.backend_theme.default', 'adminlte3'));
+        } else {
+            setting('frontend_theme') ? Theme::set(setting('frontend_theme')) : Theme::set(config('portal.core.settings.frontend_theme.default', 'starter'));
         }
     }
 
@@ -100,7 +99,7 @@ class ThemeManager implements \Countable
         return $themes;
     }
 
-        /**
+    /**
      * Get only the backend themes
      * @return array
      */
@@ -142,7 +141,6 @@ class ThemeManager implements \Countable
     {
         return $this->app['files'];
     }
-
 
     /**
      * Counts all themes

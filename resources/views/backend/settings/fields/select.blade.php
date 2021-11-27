@@ -1,14 +1,11 @@
-@php
-$required = (Str::contains($field['rules'], 'required')) ? "required" : "";
-$required_mark = ($required != "") ? '<span class="text-danger"> <strong>*</strong> </span>' : '';
-@endphp
-
-<div class="form-group {{ $errors->has($field['name']) ? ' has-error' : '' }}">
-    <label for="{{ $field['name'] }}"> <strong>{{ $field['label'] }}</strong> ({{ $field['name'] }})</label> {!! $required_mark !!}
-    <select name="{{ $field['name'] }}" class="form-control {{ Arr::get( $field, 'class') }} {{ $errors->has($field['name']) ? ' is-invalid' : '' }}" id="{{ $field['name'] }}" {{ $required }}>
-        @foreach(Arr::get($field, 'options', []) as $val => $label)
-            <option @if( old($field['name'], setting($field['name'])) == $val ) selected  @endif value="{{ $val }}">{{ $label }}</option>
+<div class="form-group">
+    <label for="{{ $settingName }}">{{ trans($moduleInfo['description']) }}</label>
+    <select multiple class="select2" name="{{ $settingName }}[]" id="{{ $settingName }}">
+        @foreach ($values as $id => $value)
+        <option value="{{ $id }}" {{ isset($dbSettings[$settingName]) && isset(array_flip(json_decode($dbSettings[$settingName]->plainValue))[$id]) ? 'selected' : '' }}>
+            {{ array_get($value, 'name') }}
+        </option>
         @endforeach
     </select>
-    @if ($errors->has($field['name'])) <small class="invalid-feedback">{{ $errors->first($field['name']) }}</small> @endif
 </div>
+

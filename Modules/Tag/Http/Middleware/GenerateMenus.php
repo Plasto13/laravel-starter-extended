@@ -1,5 +1,4 @@
 <?php
-
 namespace Modules\Tag\Http\Middleware;
 
 use Closure;
@@ -23,16 +22,15 @@ class GenerateMenus
          * *********************************************************************
          */
         \Menu::make('admin_sidebar', function ($menu) {
-
             // Tags
             $menu->add('<i class="fas fa-tags nav-icon"></i><p> Tags</p>', [
                 'route' => 'backend.tags.index',
                 'class' => 'nav-item',
             ])
             ->data([
-                'order'         => 84,
-                'activematches' => config('modules.core.core.admin-prefix').'/tags*',
-                'permission'    => ['view_tags'],
+                'order' => 84,
+                'activematches' => config('portal.core.core.admin-prefix', 'admin') . '/tags*',
+                'permission' => ['view_tags'],
             ])
             ->link->attr([
                 'class' => 'nav-link',
