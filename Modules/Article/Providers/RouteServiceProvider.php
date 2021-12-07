@@ -1,9 +1,9 @@
 <?php
-
 namespace Modules\Article\Providers;
 
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -47,7 +47,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')
+        Route::middleware(['web', 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath'])
+            ->prefix(LaravelLocalization::setLocale())
             ->namespace($this->moduleNamespace)
             ->group(module_path('Article', '/Routes/web.php'));
     }

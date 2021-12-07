@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="{{asset('img/favicon.png')}}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('img/favicon.png')}}">
-    <meta name="keyword" content="{{ setting('meta_keyword') }}">
-    <meta name="description" content="{{ setting('meta_description') }}">
+    <meta name="keyword" content="{{ setting('core::meta_keyword') }}">
+    <meta name="description" content="{{ setting('core::meta_description') }}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}">
     <link rel="icon" type="image/ico" href="{{asset('img/favicon.png')}}" />
 
-    
+
 
     {{-- @stack('before-styles') --}}
 
@@ -37,7 +37,7 @@
     @stack('after-styles')
 
 
-    
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -117,7 +117,7 @@
     <!-- Scripts -->
     @stack('before-scripts')
 
-    <!-- REQUIRED SCRIPTS --> 
+    <!-- REQUIRED SCRIPTS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.18.2/URI.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.messagestore.min.js" type="text/javascript"></script>
@@ -155,11 +155,11 @@ document.onreadystatechange = function () {
 
         // merge both php alerts and localstorage alerts
         Object.entries($alerts_from_php).forEach(function(type) {
-            
+
             if(typeof $alerts_from_localstorage[type[0]] !== 'undefined') {
-                type[1].map(function(msg) { 
+                type[1].map(function(msg) {
                     $alerts_from_localstorage[type[0]].push(msg);
-                });          
+                });
             } else {
                 $alerts_from_localstorage[type[0]] = type[1];
             }
@@ -180,7 +180,7 @@ document.onreadystatechange = function () {
     }
 }
 </script>
-    
+
 @stack('after-scripts')
 <!-- / Scripts -->
 

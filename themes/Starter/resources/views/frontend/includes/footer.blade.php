@@ -9,7 +9,7 @@
                     <img src="{{asset('img/backend-logo.jpg')}}" height="35" class="mr-3" alt="Footer logo">
                 </a>
                 <p class="my-4">
-                    {!! setting('meta_description') !!}
+                    {!! setting('core::meta_description') !!}
                 </p>
             </div>
             <div class="col-6 col-sm-3 col-lg-2 mb-4 mb-lg-0 text-center">
@@ -81,7 +81,7 @@
             <div class="col pb-4 mb-md-0">
                 <div class="d-flex text-center justify-content-center align-items-center">
                     <p class="font-weight-normal mb-0">
-                        &copy; {{ app_name() }}, {!! setting('footer_text') !!}
+                        &copy; {{ app_name() }}, {!! setting('core::footer_text') !!}
                     </p>
                 </div>
             </div>

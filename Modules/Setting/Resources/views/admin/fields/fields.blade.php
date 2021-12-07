@@ -3,10 +3,10 @@
     @php
     $type = Arr::get($moduleInfo, 'translatable', false) ? 'translatable' : 'plain';
     $fieldView = str_contains($moduleInfo['view'], '::') ? $moduleInfo['view'] : "setting::admin.fields.$type.{$moduleInfo['view']}";
-    $locale = isset($locale) ? $locale : '';
+    $locales = isset($locales) ? $locales : '';
     @endphp
     @include($fieldView, [
-        'lang' => $locale,
+        'langs' => $locales,
         'settings' => $settings,
         'setting' => $settingName,
         'moduleInfo' => $moduleInfo,

@@ -37,7 +37,7 @@
             <div class="col-7 col-sm-9">
                 <div class="tab-content" id="vert-tabs-tabContent">
                     @foreach ($modulesWithSettings as $module => $settings)
-                        @include('setting::admin.fields.fields',compact('settings', 'module'))
+                        @include('setting::admin.fields.fields',compact('settings', 'module', 'locales'))
                     @endforeach
                 </div>
             </div>

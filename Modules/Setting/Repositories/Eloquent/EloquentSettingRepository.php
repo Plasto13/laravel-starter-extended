@@ -46,7 +46,7 @@ class EloquentSettingRepository extends EloquentBaseRepository implements Settin
     public function createOrUpdate($settings)
     {
         $this->removeTokenKey($settings);
-
+        $settings = array_filter($settings);
         foreach ($settings as $settingName => $settingValues) {
             // Check if media exists
             if ($settingName == 'medias_single') {
@@ -228,7 +228,7 @@ class EloquentSettingRepository extends EloquentBaseRepository implements Settin
     }
 
     /**
-     * Return a setting name using dot notation: asgard.{module}.settings.{settingName}
+     * Return a setting name using dot notation: portal.{module}.settings.{settingName}
      * @param string $settingName
      * @return string
      */
@@ -236,7 +236,7 @@ class EloquentSettingRepository extends EloquentBaseRepository implements Settin
     {
         list($module, $setting) = explode('::', $settingName);
 
-        return "asgard.{$module}.settings.{$setting}";
+        return "portal.{$module}.settings.{$setting}";
     }
 
     /**

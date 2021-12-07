@@ -127,6 +127,24 @@
                             </div>
                         </div>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link" data-toggle="dropdown" aria-controls="pages_submenu" aria-expanded="false" aria-label="Toggle pages menu item">
+                            <span class="nav-link-inner-text">
+                                <span class="fa fa-language mr-1"></span>
+                                {{ ucfirst(LaravelLocalization::getCurrentLocaleNative()) }}
+                            </span>
+                            <span class="fas fa-angle-down nav-link-arrow ml-2"></span>
+                        </a>
+                        <ul class="dropdown-menu" id="language">
+                        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                <li lass="nav-item dropdown">
+                                    <a class="dropdown-item" rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                        {{ ucfirst($properties['native']) }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
                 </ul>
             </div>
             <div class="d-none d-lg-block">

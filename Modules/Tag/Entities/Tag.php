@@ -1,5 +1,4 @@
 <?php
-
 namespace Modules\Tag\Entities;
 
 use App\Models\BaseModel;
@@ -47,7 +46,7 @@ class Tag extends BaseModel
         $this->attributes['meta_description'] = $value;
 
         if (empty($value)) {
-            $this->attributes['meta_description'] = setting('meta_description');
+            $this->attributes['meta_description'] = setting('core::meta_description');
         }
     }
 
@@ -62,7 +61,7 @@ class Tag extends BaseModel
         $this->attributes['meta_keyword'] = $value;
 
         if (empty($value)) {
-            $this->attributes['meta_keyword'] = setting('meta_keyword');
+            $this->attributes['meta_keyword'] = setting('core::meta_keyword');
         }
     }
 

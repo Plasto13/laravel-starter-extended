@@ -1,5 +1,4 @@
 <?php
-
 namespace Modules\Article\Entities;
 
 use App\Models\BaseModel;
@@ -99,7 +98,7 @@ class Post extends BaseModel implements Feedable
         $this->attributes['meta_description'] = $value;
 
         if (empty($value)) {
-            $this->attributes['meta_description'] = setting('meta_description');
+            $this->attributes['meta_description'] = setting('core::meta_description');
         }
     }
 
@@ -117,7 +116,7 @@ class Post extends BaseModel implements Feedable
             if (isset($this->attributes['featured_image'])) {
                 $this->attributes['meta_og_image'] = $this->attributes['featured_image'];
             } else {
-                $this->attributes['meta_og_image'] = setting('meta_image');
+                $this->attributes['meta_og_image'] = setting('core::meta_image');
             }
         }
     }

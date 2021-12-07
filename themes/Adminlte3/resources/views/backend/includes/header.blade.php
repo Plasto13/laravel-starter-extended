@@ -10,21 +10,20 @@
             </a>
         </li>
     </ul>
-
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 {{strtoupper(App::getLocale())}}
             </a>
             <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
-                <span class="dropdown-item dropdown-header">@lang('Change language')</span>               
+                <span class="dropdown-item dropdown-header">@lang('Change language')</span>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{route("language.switch", "bn")}}">
-                    বাংলা (BN)
+
+                 @foreach($locales as $key => $locale)
+                <a class="dropdown-item" rel="alternate" hreflang="{{ $key }}" href="{{ LaravelLocalization::getLocalizedURL($key, null, [], true) }}">
+                {{ strtoupper($key) }}
                 </a>
-                <a class="dropdown-item" href="{{route("language.switch", "en")}}">
-                    English (EN)
-                </a>
+                @endforeach
             </div>
         </li>
 
@@ -42,8 +41,8 @@
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <span class="dropdown-item dropdown-header">@lang("You have :count notifications", ['count'=>$notifications_count])</span>
                 @if($notifications_latest)
-                
-                    
+
+
                     @foreach($notifications_latest as $notification)
                     @php
                     $notification_text = isset($notification->data['title'])? $notification->data['title'] : $notification->data['module'];

@@ -29,9 +29,9 @@ class ThemeManager implements \Countable
     public function setTheme()
     {
         if (str_contains($this->app->request->getRequestUri(), config('portal.core.core.admin-prefix', 'admin'))) {
-            setting('backend_theme') ? Theme::set(setting('backend_theme')) : Theme::set(config('portal.core.settings.backend_theme.default', 'adminlte3'));
+            Theme::set(setting('core::backend_theme'));
         } else {
-            setting('frontend_theme') ? Theme::set(setting('frontend_theme')) : Theme::set(config('portal.core.settings.frontend_theme.default', 'starter'));
+            Theme::set(setting('core::frontend_theme'));
         }
     }
 

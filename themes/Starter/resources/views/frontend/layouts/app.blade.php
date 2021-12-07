@@ -8,8 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>@yield('title') | {{ config('app.name') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="{{ setting('meta_description') }}">
-    <meta name="keyword" content="{{ setting('meta_keyword') }}">
+    <meta name="description" content="{!! setting('core::meta_description') !!}">
+    <meta name="keyword" content="{!! setting('core::meta_keyword') !!}">
 
     @include('frontend.includes.meta')
 

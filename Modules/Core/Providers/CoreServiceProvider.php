@@ -1,12 +1,16 @@
 <?php
 namespace Modules\Core\Providers;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Composers\ThemeComposer;
+use Modules\Core\Composers\LocaleComposer;
+use Modules\Core\Composers\LocalesComposer;
 use Modules\Core\Foundation\Theme\ThemeManager;
 use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Core\Composers\SettingLocalesComposer;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -35,6 +39,7 @@ class CoreServiceProvider extends ServiceProvider
         $this->publishConfig('core', 'available-locales');
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->registerLocales();
     }
 
     /**
@@ -117,6 +122,8 @@ class CoreServiceProvider extends ServiceProvider
     {
         View::composer(['setting::admin.fields.plain.select-backend-theme', 'setting::admin.fields.plain.select-frontend-theme'], ThemeComposer::class);
         View::composer('setting::admin.fields.plain.select-locales', SettingLocalesComposer::class);
+        View::composer('*', LocaleComposer::class);
+        View::composer('*', LocalesComposer::class);
     }
 
     private function onBackend()
@@ -127,5 +134,18 @@ class CoreServiceProvider extends ServiceProvider
         }
 
         return false;
+    }
+
+    private function registerLocales()
+    {
+        $allLocales = config('portal.core.available-locales');
+        $locales = Arr::only($allLocales, json_decode(setting('core::locales')));
+        LaravelLocalization::setSupportedLocales($locales);
+        // config([
+        //     'laravellocalization.supportedLocales' => $locales,
+        //     'laravellocalization.useAcceptLanguageHeader' => true,
+        //     'hideDefaultLocaleInURL' => true
+        // ]);
+        // dd(config('laravellocalization.supportedLocales'));
     }
 }

@@ -46,7 +46,6 @@ if (!function_exists('user_registration')) {
  * ------------------------------------------------------------------------
  */
 if (!function_exists('label_case')) {
-
     /**
      * Prepare the Column Name for Lables.
      */
@@ -104,10 +103,10 @@ if (!function_exists('show_column_value')) {
             $img_path = asset($value);
 
             $return_text = '<figure class="figure">
-                                <a href="'.$img_path.'" data-lightbox="image-set" data-title="Path: '.$value.'">
-                                    <img src="'.$img_path.'" style="max-width:200px;" class="figure-img img-fluid rounded img-thumbnail" alt="">
+                                <a href="' . $img_path . '" data-lightbox="image-set" data-title="Path: ' . $value . '">
+                                    <img src="' . $img_path . '" style="max-width:200px;" class="figure-img img-fluid rounded img-thumbnail" alt="">
                                 </a>
-                                <figcaption class="figure-caption">Path: '.$value.'</figcaption>
+                                <figcaption class="figure-caption">Path: ' . $value . '</figcaption>
                             </figure>';
         } else {
             $return_text = $value;
@@ -125,7 +124,6 @@ if (!function_exists('show_column_value')) {
  * ------------------------------------------------------------------------
  */
 if (!function_exists('fielf_required')) {
-
     /**
      * Prepare the Column Name for Lables.
      */
@@ -141,27 +139,27 @@ if (!function_exists('fielf_required')) {
     }
 }
 
-/*
- * Get or Set the Settings Values
- *
- * @var [type]
- */
-if (!function_exists('setting')) {
-    function setting($key, $default = null)
-    {
-        if (is_null($key)) {
-            return new App\Models\Setting();
-        }
+// /*
+//  * Get or Set the Settings Values
+//  *
+//  * @var [type]
+//  */
+// if (!function_exists('setting')) {
+//     function setting($key, $default = null)
+//     {
+//         if (is_null($key)) {
+//             return new App\Models\Setting();
+//         }
 
-        if (is_array($key)) {
-            return App\Models\Setting::set($key[0], $key[1]);
-        }
+//         if (is_array($key)) {
+//             return App\Models\Setting::set($key[0], $key[1]);
+//         }
 
-        $value = App\Models\Setting::get($key);
+//         $value = App\Models\Setting::get($key);
 
-        return is_null($value) ? value($default) : $value;
-    }
-}
+//         return is_null($value) ? value($default) : $value;
+//     }
+// }
 
 /*
  * Show Human readable file size
@@ -180,7 +178,7 @@ if (!function_exists('humanFilesize')) {
             $i++;
         }
 
-        return round($size, $precision).$units[$i];
+        return round($size, $precision) . $units[$i];
     }
 }
 
@@ -191,7 +189,6 @@ if (!function_exists('humanFilesize')) {
  * ------------------------------------------------------------------------
  */
 if (!function_exists('encode_id')) {
-
     /**
      * Prepare the Column Name for Lables.
      */
@@ -211,7 +208,6 @@ if (!function_exists('encode_id')) {
  * ------------------------------------------------------------------------
  */
 if (!function_exists('decode_id')) {
-
     /**
      * Prepare the Column Name for Lables.
      */
@@ -236,7 +232,6 @@ if (!function_exists('decode_id')) {
  * ------------------------------------------------------------------------
  */
 if (!function_exists('slug_format')) {
-
     /**
      * Format a string to Slug.
      */
@@ -264,13 +259,12 @@ if (!function_exists('slug_format')) {
  * ------------------------------------------------------------------------
  */
 if (!function_exists('icon')) {
-
     /**
      * Format a string to Slug.
      */
     function icon($string = 'fas fa-check')
     {
-        $return_string = "<i class='".$string."'></i>";
+        $return_string = "<i class='" . $string . "'></i>";
 
         return $return_string;
     }
@@ -285,7 +279,6 @@ if (!function_exists('icon')) {
  * ------------------------------------------------------------------------
  */
 if (!function_exists('logUserAccess')) {
-
     /**
      * Format a string to Slug.
      */
@@ -294,10 +287,10 @@ if (!function_exists('logUserAccess')) {
         $auth_text = '';
 
         if (\Auth::check()) {
-            $auth_text = 'User:'.\Auth::user()->name.' (ID:'.\Auth::user()->id.')';
+            $auth_text = 'User:' . \Auth::user()->name . ' (ID:' . \Auth::user()->id . ')';
         }
 
-        \Log::debug(label_case($text)." | $auth_text");
+        \Log::debug(label_case($text) . " | $auth_text");
     }
 }
 
@@ -309,7 +302,6 @@ if (!function_exists('logUserAccess')) {
  * ------------------------------------------------------------------------
  */
 if (!function_exists('bn2enNumber')) {
-
     /**
      * Prepare the Column Name for Lables.
      */
@@ -332,7 +324,6 @@ if (!function_exists('bn2enNumber')) {
  * ------------------------------------------------------------------------
  */
 if (!function_exists('en2bnNumber')) {
-
     /**
      * Prepare the Column Name for Lables.
      */
@@ -355,7 +346,6 @@ if (!function_exists('en2bnNumber')) {
  * ------------------------------------------------------------------------
  */
 if (!function_exists('en2bnDate')) {
-
     /**
      * Convert a English number to Bengali.
      */
@@ -435,7 +425,7 @@ if (!function_exists('banglaDate')) {
             $bn_year -= 1;
         }
 
-        $return_bn_date = $bn_day.' '.$bn_month.' '.$bn_year;
+        $return_bn_date = $bn_day . ' ' . $bn_month . ' ' . $bn_year;
         $return_bn_date = en2bnNumber($return_bn_date);
 
         return $return_bn_date;
@@ -449,7 +439,6 @@ if (!function_exists('banglaDate')) {
  * ------------------------------------------------------------------------
  */
 if (!function_exists('generate_rgb_code')) {
-
     /**
      * Prepare the Column Name for Lables.
      */
@@ -474,7 +463,6 @@ if (!function_exists('generate_rgb_code')) {
  * ------------------------------------------------------------------------
  */
 if (!function_exists('date_today')) {
-
     /**
      * Return Date with weekday.
      *

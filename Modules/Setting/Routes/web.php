@@ -34,6 +34,7 @@ Route::group(['namespace' => '\Modules\Setting\Http\Controllers\Backend', 'as' =
      */
     $module_name = 'setting';
     $controller_name = 'SettingController';
-    Route::get("$module_name/show", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
+    Route::get("$module_name/", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
+    Route::get("$module_name/{module}", ['as' => "$module_name.module", 'uses' => "$controller_name@getModuleSettings"]);
     Route::post("$module_name/store", ['as' => "$module_name.store", 'uses' => "$controller_name@store"]);
 });

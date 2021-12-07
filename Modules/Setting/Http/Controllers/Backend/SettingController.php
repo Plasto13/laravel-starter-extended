@@ -3,19 +3,22 @@ namespace Modules\Setting\Http\Controllers\Backend;
 
 use Log;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use Illuminate\Session\Store;
 use Illuminate\Routing\Controller;
+use Nwidart\Modules\Facades\Module;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Support\Renderable;
+use Modules\Setting\Http\Requests\SettingRequest;
 use Modules\Setting\Repositories\SettingRepository;
 
 class SettingController extends Controller
 {
+    protected $setting;
+
     public function __construct(SettingRepository $setting, Store $session)
     {
-        $this->setting = $setting;
         $this->module = app('modules');
+        $this->setting = $setting;
         $this->session = $session;
 
         // Page Title
@@ -40,6 +43,21 @@ class SettingController extends Controller
      */
     public function index()
     {
+        return redirect()->route('backend.setting.module', ['Core']);
+    }
+
+    public function store(SettingRequest $request)
+    {
+        $this->setting->createOrUpdate(array_filter($request->all()));
+
+        return redirect()->route('backend.setting.index')
+            ->withSuccess(trans('setting::messages.settings saved'));
+    }
+
+    public function getModuleSettings($currentModule)
+    {
+        $allEnabled = $this->module->allEnabled();
+        $currentModule = Module::find($currentModule);
         $module_title = $this->module_title;
         $module_name = $this->module_name;
         $module_path = $this->module_path;
@@ -48,72 +66,20 @@ class SettingController extends Controller
         $module_name_singular = Str::singular($module_name);
 
         $module_action = 'Edit';
-        $modulesWithSettings = $this->setting->moduleSettings($this->module->allEnabled());
+        $modulesWithSettings = $this->setting->moduleSettings($allEnabled);
 
         Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
+        $this->session->put('module', $currentModule->getLowerName());
+
+        $modulesWithSettings = $this->setting->moduleSettings($allEnabled);
+
+        $translatableSettings = $this->setting->translatableModuleSettings($currentModule->getLowerName());
+        $plainSettings = $this->setting->plainModuleSettings($currentModule->getLowerName());
+
+        $dbSettings = $this->setting->savedModuleSettings($currentModule->getLowerName());
         return view(
             'setting::admin.index',
-            compact('module_title', 'module_name', 'module_path', 'module_icon', 'module_action', 'module_name_singular', 'modulesWithSettings')
+            compact('module_title', 'module_name', 'module_path', 'module_icon', 'module_action', 'module_name_singular', 'modulesWithSettings', 'dbSettings', 'plainSettings', 'translatableSettings', 'currentModule')
         );
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
-    {
-        return view('setting::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
-    {
-        dd($request->all());
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('setting::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('setting::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

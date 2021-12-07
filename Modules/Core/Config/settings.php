@@ -9,7 +9,7 @@ return [
         'default' => 'Laravel Starter',
         'groupClass' => 'col-md-6 col-sm-12', // any class for form group
         'class' => '', // any class for input
-        'rules' => '',
+        'rules' => 'required',
     ],
     'meta_site_name' => [
         'label' => 'core::settings.meta_site_name',
@@ -19,16 +19,16 @@ return [
         'default' => '',
         'groupClass' => 'col-md-6 col-sm-12',
         'class' => '', // any class for input
-        'rules' => '',
+        'rules' => 'required',
     ],
-    'aviable_locale' => [
+    'locales' => [
         'label' => 'core::settings.aviable_locale',
         'description' => 'core::settings.aviable_locale_description',
         'view' => 'select-locales',
         'translatable' => false,
-        'default' => '',
+        'default' => ['en', 'sk'],
         'groupClass' => 'col-md-12 col-sm-12',
-        'class' => '', // any class for input
+        'class' => 'select2', // any class for input
         'rules' => '',
     ],
     'meta_description' => [
@@ -39,7 +39,7 @@ return [
         'default' => '',
         'groupClass' => 'col-md-12 col-sm-12',
         'class' => '', // any class for input
-        'rules' => '',
+        'rules' => 'required',
     ],
     'meta_keyword' => [
         'label' => 'core::settings.meta_keyword',
@@ -49,7 +49,7 @@ return [
         'default' => '',
         'groupClass' => 'col-md-6 col-sm-12',
         'class' => '', // any class for input
-        'rules' => '',
+        'rules' => 'required',
     ],
     'meta_image' => [
         'label' => 'core::settings.meta_image',
@@ -59,7 +59,7 @@ return [
         'default' => 'img/default_banner.jpg',
         'groupClass' => 'col-md-6 col-sm-12',
         'class' => '', // any class for input
-        'rules' => '',
+        'rules' => 'required',
     ],
     'meta_fb_app_id' => [
         'label' => 'core::settings.meta_fb_app_id',
@@ -69,7 +69,7 @@ return [
         'default' => '',
         'groupClass' => 'col-md-6 col-sm-12',
         'class' => '', // any class for input
-        'rules' => '',
+        'rules' => 'required',
     ],
     'meta_twitter_site' => [
         'label' => 'core::settings.meta_twitter_site',
@@ -79,7 +79,7 @@ return [
         'default' => '',
         'groupClass' => 'col-md-6 col-sm-12',
         'class' => '', // any class for input
-        'rules' => '',
+        'rules' => 'required',
     ],
     'meta_twitter_creator' => [
         'label' => 'core::settings.meta_twitter_creator',
@@ -89,7 +89,7 @@ return [
         'default' => '',
         'groupClass' => 'col-md-6 col-sm-12',
         'class' => '', // any class for input
-        'rules' => '',
+        'rules' => 'required',
     ],
     'google_analytics' => [
         'label' => 'core::settings.google_analytics',
@@ -109,7 +109,7 @@ return [
         'value' => 'adminlte3',
         'groupClass' => 'col-md-4 col-sm-12',
         'class' => 'select2', // any class for input
-        'rules' => '',
+        'rules' => 'required',
     ],
     'frontend_theme' => [
         'label' => 'core::settings.frontend_theme',
@@ -128,7 +128,7 @@ return [
         'default' => 'info@example.com',
         'groupClass' => 'col-md-6 col-sm-12',
         'class' => '', // any class for input
-        'rules' => '|email',
+        'rules' => 'required|email',
     ],
     'facebook_url' => [
         'label' => 'core::settings.facebook_url',
@@ -138,7 +138,7 @@ return [
         'default' => '',
         'groupClass' => 'col-md-6 col-sm-12',
         'class' => '', // any class for input
-        'rules' => '|nullable|max:191'
+        'rules' => 'required|nullable|max:191'
     ],
     'twitter_url' => [
         'label' => 'core::settings.twitter_url',
@@ -148,7 +148,7 @@ return [
         'default' => '',
         'groupClass' => 'col-md-6 col-sm-12',
         'class' => '', // any class for input
-        'rules' => '|nullable|max:191'
+        'rules' => 'required|nullable|max:191'
     ],
     'instagram_url' => [
         'label' => 'core::settings.instagram_url',
@@ -158,7 +158,7 @@ return [
         'default' => '',
         'groupClass' => 'col-md-6 col-sm-12',
         'class' => '', // any class for input
-        'rules' => '|nullable|max:191'
+        'rules' => 'required|nullable|max:191'
     ],
     'linkedin_url' => [
         'label' => 'core::settings.linkedin_url',
@@ -168,7 +168,7 @@ return [
         'default' => '',
         'groupClass' => 'col-md-6 col-sm-12',
         'class' => '', // any class for input
-        'rules' => '|nullable|max:191'
+        'rules' => 'required|nullable|max:191'
     ],
     'youtube_url' => [
         'label' => 'core::settings.youtube_url',
@@ -178,7 +178,7 @@ return [
         'default' => '',
         'groupClass' => 'col-md-6 col-sm-12',
         'class' => '', // any class for input
-        'rules' => '|nullable|max:191'
+        'rules' => 'required|nullable|max:191'
     ],
     'show_copyright' => [
         'label' => 'core::settings.show_copyright',

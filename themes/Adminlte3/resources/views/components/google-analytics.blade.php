@@ -1,1 +1,1 @@
-{!!setting('google_analytics')!!}
+{!!setting('core::google_analytics')!!}

@@ -13,14 +13,13 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('setting_settings', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('setting__settings', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->increments('id');
 
             $table->string('name')->nullable();
-            $table->text('val')->nullable();
-            $table->tinyInteger('istranslatable')->default(0);
-
-            $table->char('type', 20)->default('string');
+            $table->text('plainValue')->nullable();
+            $table->tinyInteger('isTranslatable')->default(0);
 
             $table->integer('created_by')->unsigned()->nullable();
             $table->integer('updated_by')->unsigned()->nullable();
@@ -38,6 +37,6 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('setting__settings');
     }
 }

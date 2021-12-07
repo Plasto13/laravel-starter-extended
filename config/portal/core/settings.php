@@ -21,14 +21,14 @@ return [
         'class' => '', // any class for input
         'rules' => 'required',
     ],
-    'aviable_locale' => [
+    'locales' => [
         'label' => 'core::settings.aviable_locale',
         'description' => 'core::settings.aviable_locale_description',
         'view' => 'select-locales',
         'translatable' => false,
-        'default' => '',
+        'default' => ['en', 'sk'],
         'groupClass' => 'col-md-12 col-sm-12',
-        'class' => '', // any class for input
+        'class' => 'select2', // any class for input
         'rules' => '',
     ],
     'meta_description' => [
