@@ -53,20 +53,6 @@ class GenerateMenus
                 'permission' => ['edit_settings', 'view_backups', 'view_users', 'view_roles', 'view_logs'],
             ]);
 
-            // Settings
-            $menu->add('<i class="nav-icon fas fa-cogs"></i><p> Settings</p>', [
-                'route' => 'backend.settings',
-                'class' => 'nav-item',
-            ])
-            ->data([
-                'order' => 102,
-                'activematches' => config('portal.core.core.admin-prefix', 'admin') . '/settings*',
-                'permission' => ['edit_settings'],
-            ])
-            ->link->attr([
-                'class' => 'nav-link',
-            ]);
-
             // Backup
             $menu->add('<i class="nav-icon fas fa-archive"></i><p> Backups</p>', [
                 'route' => 'backend.backups.index',
