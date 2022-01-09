@@ -1,0 +1,7 @@
+
+    $router->post('$PLURAL_LOWERCASE_CLASS_NAME$/datatables', [
+        'as' => 'api.admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.datatables',
+        'uses' => '$CLASS_NAME$Controller@datatables',
+        'middleware' => 'token-can:$LOWERCASE_MODULE_NAME$.$PLURAL_LOWERCASE_CLASS_NAME$.index'
+    ]);
+// append

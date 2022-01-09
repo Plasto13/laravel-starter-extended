@@ -1,0 +1,13 @@
+<?php
+
+use Illuminate\Routing\Router;
+/** @var Router $router */
+
+$router->group(['prefix' =>'v1/admin/$LOWERCASE_MODULE$'], function (Router $router) {
+// append
+});
+
+
+$router->group(['prefix' =>'v1/guest/$LOWERCASE_MODULE$'], function (Router $router) {
+
+});

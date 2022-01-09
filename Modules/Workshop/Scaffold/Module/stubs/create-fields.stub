@@ -1,0 +1,12 @@
+<div class="box-body">
+	<div class="row">
+		<div class="col-md-4">
+            {!! Form::i18nInput('title', trans('base::base.common.title'), $errors, $lang) !!}
+    	</div>
+	</div>
+ 	<div class="row">
+ 		<div class="col-md-12">
+        	{!! Form::i18nTextarea('descriptons', trans('base::base.common.description'), $errors, $lang) !!}
+    	</div>
+ 	</div>  
+</div>

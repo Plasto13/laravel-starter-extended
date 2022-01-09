@@ -1,0 +1,159 @@
+@extends('layouts.master')
+
+@if (isset($base['filters']))
+@section('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="{!! Module::asset('base:css/select2.css') !!}" />
+<link rel="stylesheet" href="{!! Module::asset('base:css/select2-bootstrap-dick.css') !!}"/>
+@endsection
+
+@push('css-stack')
+    
+    <style type="text/css">
+
+    table input {
+             max-width: 100px;
+    }
+
+    .m-b-0 {
+    margin-bottom: 0px;
+    }
+
+    .base-filter label {
+      color: #868686 ;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .navbar-filters {
+      min-height: 25px !important;
+      border-radius: 0 !important;
+      margin-bottom: 10px !important;
+      margin-left: -10px !important;
+      margin-right: -10px!important ;
+      margin-top: -11px !important;
+      background: #f9f9f9;
+      border-color: #f4f4f4;
+    }
+
+    .navbar-filters .navbar-collapse {
+        padding: 0 !important;
+    }
+
+    .navbar-filters .navbar-toggle {
+      padding: 10px 15px !important;
+      border-radius: 0 !important;
+    }
+
+    .navbar-filters .navbar-brand {
+      height: 25px !important;
+      padding: 5px 15px !important;
+      font-size: 14px !important;
+      text-transform: uppercase !important;
+    }
+    @media (min-width: 768px) {
+      .navbar-filters .navbar-nav>li>a {
+          padding-top: 5px !important;
+          padding-bottom: 5px !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar-filters .navbar-nav {
+        margin: 0 !important;
+      }
+    }
+
+    .select2-container {
+        display: inline-block !important;
+      }
+      .select2-drop-active {
+        border:none !important;
+      }
+      .select2-container .select2-choices .select2-search-field input, .select2-container .select2-choice, .select2-container .select2-choices {
+        border: none !important;
+      }
+      .select2-container-active .select2-choice {
+        border: none !important;
+        box-shadow: none !important;
+      }
+    </style>
+@endpush
+@endif
+
+@section('content-header')
+    <h1>
+        {{ trans('$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.title.$PLURAL_LOWERCASE_CLASS_NAME$') }}
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ route('dashboard.index') }}"><i class="fas fa-tachometer-alt"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
+        <li class="active">{{ trans('$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.title.$PLURAL_LOWERCASE_CLASS_NAME$') }}</li>
+    </ol>
+@stop
+
+@section('content')
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
+                    <a href="{{ route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
+                        <i class="fas fa-pencil-alt"></i> {{ trans('$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.button.create $LOWERCASE_CLASS_NAME$') }}
+                    </a>
+                </div>
+            </div>
+            <div class="box box-primary">
+                <div class="box-header">
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @if (isset($base['filters']))
+                        @include('base::inc.filter')
+                    @endif
+                    <div class="table-responsive">
+                        {!! $html->table(['class'=>'table table-bordered table-hover dataTable']) !!}
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </div>
+    @include('core::partials.delete-modal')
+@stop
+
+@section('footer')
+    <a data-toggle="modal" data-target="#keyboardShortcutsModal"><i class="fa fa-keyboard-o"></i></a> &nbsp;
+@stop
+@section('shortcuts')
+    <dl class="dl-horizontal">
+        <dt><code>c</code></dt>
+        <dd>{{ trans('$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.title.create $LOWERCASE_CLASS_NAME$') }}</dd>
+    </dl>
+@stop
+
+@push('js-stack')
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.bootstrap.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/colreorder/1.5.1/js/dataTables.colReorder.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js" type="text/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js" type="text/javascript"></script>
+<script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js" type="text/javascript"></script>
+<script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js" type="text/javascript"></script>
+<script src="//cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js" type="text/javascript"></script>
+<script src="//cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $(document).keypressAction({
+                actions: [
+                    { key: 'c', route: "<?= route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.create') ?>" }
+                ]
+            });
+        });
+    </script>
+    {!! $html->scripts() !!}
+    <script src="{!! Module::asset('base:js/select2/select2.js') !!}"></script>
+@endpush
