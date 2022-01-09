@@ -1,26 +1,18 @@
 <?php
 namespace Modules\Core\Providers;
 
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Route;
 use Modules\Core\Foundation\Theme\ThemeManager;
+use Modules\Core\Providers\RoutingServiceProvider as CoreRoutingServiceProvider;
 
-class RouteServiceProvider extends ServiceProvider
+class RouteServiceProvider extends CoreRoutingServiceProvider
 {
     /**
      * The module namespace to assume when generating URLs to actions.
      *
      * @var string
      */
-    protected $moduleNamespace = 'Modules\Core\Http\Controllers';
+    protected $namespace = 'Modules\Core\Http\Controllers';
 
-    /**
-     * Called before routes are registered.
-     *
-     * Register any model bindings or pattern based filters.
-     *
-     * @return void
-     */
     public function boot()
     {
         $themeManager = app(ThemeManager::class);
@@ -29,43 +21,26 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the routes for the application.
-     *
-     * @return void
+     * @return string
      */
-    public function map()
+    protected function getFrontendRoute()
     {
-        $this->mapApiRoutes();
-
-        $this->mapWebRoutes();
+        return __DIR__ . '/../Http/frontendRoutes.php';
     }
 
     /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
+     * @return string
      */
-    protected function mapWebRoutes()
+    protected function getBackendRoute()
     {
-        Route::middleware('web')
-            ->namespace($this->moduleNamespace)
-            ->group(module_path('Core', '/Routes/web.php'));
+        return __DIR__ . '/../Http/backendRoutes.php';
     }
 
     /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
+     * @return string
      */
-    protected function mapApiRoutes()
+    protected function getApiRoute()
     {
-        Route::prefix('api')
-            ->middleware('api')
-            ->namespace($this->moduleNamespace)
-            ->group(module_path('Core', '/Routes/api.php'));
+        return false;
     }
 }

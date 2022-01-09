@@ -12,13 +12,13 @@
 */
 
 // Autho Routes
-require __DIR__ . '/auth.php';
+// require __DIR__ . '/auth.php';
 
 // Atom/ RSS Feed Routes
 Route::feeds();
 
 // Language Switch
-Route::get('language/{language}', 'LanguageController@switch')->name('language.switch');
+// Route::get('language/{language}', 'LanguageController@switch')->name('language.switch');
 
 /*
 *
@@ -27,28 +27,28 @@ Route::get('language/{language}', 'LanguageController@switch')->name('language.s
 * --------------------------------------------------------------------
 */
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
-    Route::get('/', 'FrontendController@index')->name('index');
-    Route::get('home', 'FrontendController@index')->name('home');
-    Route::get('privacy', 'FrontendController@privacy')->name('privacy');
-    Route::get('terms', 'FrontendController@terms')->name('terms');
+    // Route::get('/', 'FrontendController@index')->name('index');
+    // Route::get('home', 'FrontendController@index')->name('home');
+    // Route::get('privacy', 'FrontendController@privacy')->name('privacy');
+    // Route::get('terms', 'FrontendController@terms')->name('terms');
 
-    Route::group(['middleware' => ['auth']], function () {
-        /*
-        *
-        *  Users Routes
-        *
-        * ---------------------------------------------------------------------
-        */
-        $module_name = 'users';
-        $controller_name = 'UserController';
-        Route::get('profile/{id}', ['as' => "$module_name.profile", 'uses' => "$controller_name@profile"]);
-        Route::get('profile/{id}/edit', ['as' => "$module_name.profileEdit", 'uses' => "$controller_name@profileEdit"]);
-        Route::patch('profile/{id}/edit', ['as' => "$module_name.profileUpdate", 'uses' => "$controller_name@profileUpdate"]);
-        Route::get("$module_name/emailConfirmationResend/{id}", ['as' => "$module_name.emailConfirmationResend", 'uses' => "$controller_name@emailConfirmationResend"]);
-        Route::get('profile/changePassword/{username}', ['as' => "$module_name.changePassword", 'uses' => "$controller_name@changePassword"]);
-        Route::patch('profile/changePassword/{username}', ['as' => "$module_name.changePasswordUpdate", 'uses' => "$controller_name@changePasswordUpdate"]);
-        Route::delete('users/userProviderDestroy', ['as' => 'users.userProviderDestroy', 'uses' => 'UserController@userProviderDestroy']);
-    });
+    // Route::group(['middleware' => ['auth']], function () {
+    //     /*
+    //     *
+    //     *  Users Routes
+    //     *
+    //     * ---------------------------------------------------------------------
+    //     */
+    //     $module_name = 'users';
+    //     $controller_name = 'UserController';
+    //     Route::get('profile/{id}', ['as' => "$module_name.profile", 'uses' => "$controller_name@profile"]);
+    //     Route::get('profile/{id}/edit', ['as' => "$module_name.profileEdit", 'uses' => "$controller_name@profileEdit"]);
+    //     Route::patch('profile/{id}/edit', ['as' => "$module_name.profileUpdate", 'uses' => "$controller_name@profileUpdate"]);
+    //     Route::get("$module_name/emailConfirmationResend/{id}", ['as' => "$module_name.emailConfirmationResend", 'uses' => "$controller_name@emailConfirmationResend"]);
+    //     Route::get('profile/changePassword/{username}', ['as' => "$module_name.changePassword", 'uses' => "$controller_name@changePassword"]);
+    //     Route::patch('profile/changePassword/{username}', ['as' => "$module_name.changePasswordUpdate", 'uses' => "$controller_name@changePasswordUpdate"]);
+    //     Route::delete('users/userProviderDestroy', ['as' => 'users.userProviderDestroy', 'uses' => 'UserController@userProviderDestroy']);
+    // });
 });
 
 /*
@@ -63,12 +63,12 @@ Route::group(['namespace' => 'Backend', 'prefix' => config('portal.core.core.adm
      * Backend Dashboard
      * Namespaces indicate folder structure.
      */
-    Route::get('/', 'BackendController@index')->name('home');
-    Route::get('dashboard', 'BackendController@index')->name('dashboard');
+    // Route::get('/', 'BackendController@index')->name('home');
+    // Route::get('dashboard', 'BackendController@index')->name('dashboard');
 
     /*
      *
-     *  Settings Routes
+     *  Settings Routes Old delete after finis multilanguage
      *
      * ---------------------------------------------------------------------
      */
@@ -78,42 +78,15 @@ Route::group(['namespace' => 'Backend', 'prefix' => config('portal.core.core.adm
         Route::get("$module_name", "$controller_name@index")->name("$module_name");
         Route::post("$module_name", "$controller_name@store")->name("$module_name.store");
     });
-
-    /*
-    *
-    *  Notification Routes
-    *
-    * ---------------------------------------------------------------------
-    */
-    $module_name = 'notifications';
-    $controller_name = 'NotificationsController';
-    Route::get("$module_name", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
-    Route::get("$module_name/markAllAsRead", ['as' => "$module_name.markAllAsRead", 'uses' => "$controller_name@markAllAsRead"]);
-    Route::delete("$module_name/deleteAll", ['as' => "$module_name.deleteAll", 'uses' => "$controller_name@deleteAll"]);
-    Route::get("$module_name/{id}", ['as' => "$module_name.show", 'uses' => "$controller_name@show"]);
-
-    /*
-    *
-    *  Backup Routes
-    *
-    * ---------------------------------------------------------------------
-    */
-    $module_name = 'backups';
-    $controller_name = 'BackupController';
-    Route::get("$module_name", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
-    Route::get("$module_name/create", ['as' => "$module_name.create", 'uses' => "$controller_name@create"]);
-    Route::get("$module_name/download/{file_name}", ['as' => "$module_name.download", 'uses' => "$controller_name@download"]);
-    Route::get("$module_name/delete/{file_name}", ['as' => "$module_name.delete", 'uses' => "$controller_name@delete"]);
-
     /*
     *
     *  Roles Routes
     *
     * ---------------------------------------------------------------------
     */
-    $module_name = 'roles';
-    $controller_name = 'RolesController';
-    Route::resource("$module_name", "$controller_name");
+    // $module_name = 'roles';
+    // $controller_name = 'RolesController';
+    // Route::resource("$module_name", "$controller_name");
 
     /*
     *

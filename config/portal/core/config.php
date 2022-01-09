@@ -8,7 +8,7 @@ return [
         'backend' => [
             'web', 'auth', 'can:view_backend'
         ],
-        'frontend' => [
+        'frontend' => ['localizationRedirect'
         ],
         'api' => [
             'api',
