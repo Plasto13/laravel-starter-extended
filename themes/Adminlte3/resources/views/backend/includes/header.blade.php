@@ -6,7 +6,7 @@
       <li class="nav-item d-none d-sm-inline-block">
             <a class="nav-link" href="{{ route('frontend.index') }}" target="_blank">
                 <i class="c-icon cil-external-link"></i>&nbsp;
-                {{ app_name() }}
+                {{ setting('core::app_name') }}
             </a>
         </li>
     </ul>

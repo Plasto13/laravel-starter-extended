@@ -1,13 +1,11 @@
-<?php
-
-namespace Modules\Workshop\Console;
+<?php namespace Modules\Workshop\Console;
 
 use Illuminate\Console\Command;
 use Modules\Workshop\Scaffold\Module\ModuleScaffold;
 
 class ModuleScaffoldCommand extends Command
 {
-    protected $name = 'asgard:module:scaffold';
+    protected $name = 'pamsoft:module:scaffold';
     protected $description = 'Scaffold a new module';
     /**
      * @var array

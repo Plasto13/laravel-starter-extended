@@ -189,4 +189,14 @@ return [
         'groupClass' => 'col-12',
         'class' => '', // any class for input
     ],
+    'footer_text' => [
+        'label' => 'core::settings.footer_text',
+        'description' => 'core::settings.footer_text_description',
+        'view' => 'text',
+        'translatable' => true,
+        'default' => 'Laravel Starter',
+        'groupClass' => 'col-md-6 col-sm-12', // any class for form group
+        'class' => '', // any class for input
+        'rules' => 'required',
+    ],
 ];

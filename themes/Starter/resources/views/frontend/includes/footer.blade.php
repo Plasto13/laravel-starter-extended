@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-lg-4 mb-4 mb-lg-0">
                 <a class="footer-brand mr-lg-5 d-flex" href="/">
-                    <img src="{{asset('img/backend-logo.jpg')}}" height="35" class="mr-3" alt="Footer logo">
+                    <img src="{{asset('img/backend-logo.png')}}" height="35" class="mr-3" alt="Footer logo">
                 </a>
                 <p class="my-4">
                     {!! setting('core::meta_description') !!}
@@ -81,7 +81,7 @@
             <div class="col pb-4 mb-md-0">
                 <div class="d-flex text-center justify-content-center align-items-center">
                     <p class="font-weight-normal mb-0">
-                        &copy; {{ app_name() }}, {!! setting('core::footer_text') !!}
+                        &copy; {{ setting('core::app_name') }}, {!! setting('core::footer_text') !!}
                     </p>
                 </div>
             </div>

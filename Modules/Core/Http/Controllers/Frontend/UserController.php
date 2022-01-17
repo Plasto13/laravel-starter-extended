@@ -19,6 +19,16 @@ class UserController extends Controller
 {
     use Authorizable;
 
+    private $module_title;
+
+    private $module_name;
+
+    private $module_path;
+
+    private $module_icon;
+
+    private $module_model;
+
     public function __construct()
     {
         // Page Title
@@ -42,7 +52,7 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return Response
+     * @return Illuminate\View\View
      */
     public function show($username)
     {
@@ -72,7 +82,7 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\View\View
      */
     public function profile($id)
     {
@@ -105,7 +115,7 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\View\View
      */
     public function profileEdit($id)
     {
@@ -209,7 +219,7 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\View\View
      */
     public function changePassword($id)
     {
@@ -272,7 +282,7 @@ class UserController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\View\View
      */
     public function edit($id)
     {

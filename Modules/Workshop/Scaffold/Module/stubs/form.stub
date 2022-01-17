@@ -1,0 +1,3 @@
+{!! Form::i18nInput('title', 'Title', $errors, locale(), isset($$LOWERCASE_CLASS_NAME$)? $$LOWERCASE_CLASS_NAME$ : null ) !!}
+{!! Form::i18nInput('description', 'Description', $errors, locale(), isset($$LOWERCASE_CLASS_NAME$)? $$LOWERCASE_CLASS_NAME$ : null ) !!}
+

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title') Privacy Policy - {{ config('app.name') }} @endsection
+@section('title') Privacy Policy - {{ setting('core::app_name') }} @endsection
 
 @section('content')
 <div class="page-header page-header-small clear-filter" filter-color="orange">
@@ -8,7 +8,7 @@
     </div>
     <div class="container">
         <h3 class="title">
-            Privacy Policy - {{ config('app.name') }}
+            Privacy Policy - {{ setting('core::app_name') }}
         </h3>
     </div>
 </div>
@@ -18,7 +18,7 @@
         <strong>Privacy Policy</strong>
 
         <p>
-            Nasir Khan Saikat built the {{ config('app.name') }} app as
+            Nasir Khan Saikat built the {{ setting('core::app_name') }} app as
             an Open Source app. This SERVICE is provided by
             Nasir Khan Saikat at no cost and is intended for use as
             is.

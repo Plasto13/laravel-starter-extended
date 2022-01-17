@@ -3,10 +3,34 @@
 namespace Modules\$MODULE_NAME$\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class $CLASS_NAME$Translation extends Model
 {
-    public $timestamps = false;
-    protected $fillable = ['title', 'description'];
+
+    use Sluggable;
+
+    protected $fillable = ['title', 'description', 'slug'];
     protected $table = '$LOWERCASE_MODULE_NAME$__$LOWERCASE_CLASS_NAME$_translations';
+    protected $touches = ['$LOWERCASE_CLASS_NAME$'];
+
+        /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
+
+
+    public function $LOWERCASE_CLASS_NAME$()
+    {
+    	return $this->belongsTo($CLASS_NAME$::class);
+    }
 }

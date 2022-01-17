@@ -6,7 +6,6 @@ use Auth;
 use Carbon\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
-use Astrotomic\Translatable\Translatable;
 use App\Models\Traits\HasHashedMediaTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +15,6 @@ class BaseModel extends Model implements HasMedia
 {
     use SoftDeletes;
     use HasHashedMediaTrait;
-    use Translatable;
 
     use HasFactory;
 

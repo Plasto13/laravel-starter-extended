@@ -4,57 +4,48 @@ namespace Modules\$MODULE_NAME$\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Yajra\DataTables\Datatables;
 use Illuminate\Routing\Controller;
 use Modules\$MODULE_NAME$\Entities\$CLASS_NAME$;
+use Modules\$MODULE_NAME$\Repositories\$CLASS_NAME$Repository;
 
 
 class $CLASS_NAME$Controller extends Controller
 {
 
+	private $model;
+	/**
+	 *
+	 * @param JednotkaRepository $model
+	 */
+	public function __construct($CLASS_NAME$Repository $model)
+	{
+		$this->model = $model;
+	}
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function datatables(Request $request)
-    {
-        return DataTables::of($CLASS_NAME$::query()) 
-                    ->editColumn('hall_id', function(Point $point){
-                        return $$LOWERCASE_MODULE_NAME$->equipment->line->hall->equipment_name;
-                    })
-                    ->editColumn('line_id', function(Point $point){
-                        return $$LOWERCASE_MODULE_NAME$->equipment->line->equipment_name;
-                    })
-                    ->editColumn('equipment_id', function(Point $point){
-                        return $$LOWERCASE_MODULE_NAME$->equipment->equipment_name;
-                    })
-                    ->filter(function ($query) use ($request) {
-                        if ($name = $request->get('hall')) {
-                                    $query->whereHas('equipment.line.hall', function ($q) use ($name) {
-                                        $q->where('equipment_name', 'like', "%$name%");
-                                    });        
-                        }
-                        if ($name = $request->get('line')) {
-                            $query->whereHas('equipment.line', function ($q) use ($name) {
-                                        $q->where('equipment_name', 'like', "%$name%");
-                                    });
-                        }
-                        if ($name = $request->get('equipment')) {
-                            $query->whereHas('equipment', function ($q) use ($name) {
-                                        $q->where('equipment_name', 'like', "%$name%");
-                                    });
-                        }
-                        if ($name = $request->get('$LOWERCASE_CLASS_NAME$')) {
-                            $query->whereHas('translations', function ($q) use ($name) {
-                                        $q->where('title', 'like', "%$name%");
-                                    });
-                        }
-                    })
-                    ->editColumn('action', '$LOWERCASE_MODULE_NAME$::admin.$PLURAL_LOWERCASE_CLASS_NAME$.columns.action')
-                    ->rawColumns(['action'])
-                    ->toJson();
-    }
+	public function bulkChanges(Request $request)
+	{
+		if ($request->action === 'change') {
+            foreach ($request->ids as $id) {
+            	$item = $this->model->find($id);
+            	if ($item->isTranslationAttribute($request->key)) {
+          	 	 	$this->model->update($this->model->find($id), [$request->locale => [$request->key => $request->value]]);
+            	}else {
+                	$this->model->update($this->model->find($id), [$request->key => $request->value]);
+            	}
+            }
+            return response()->json(['success' => true ]);
+        }
+
+    	if ($request->action === 'delete') {
+            if ($request->value === 'trash') {
+                $CLASS_NAME$::whereIn('id', $request->ids)->delete();
+                 return response()->json(['success' => true ]);
+            }
+            if ($request->value === 'delete') {
+                $CLASS_NAME$::whereIn('id', $request->ids)->forceDelete();
+                return response()->json(['success' => true ]);
+            }
+        }
+	}
 
 }

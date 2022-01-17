@@ -16,7 +16,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') | {{ config('app.name') }}</title>
+    <title>@yield('title') | {{ setting('core::app_name') }}</title>
 
     @stack('before-styles')
 
@@ -29,7 +29,7 @@
     @stack('after-styles')
 
     <x-google-analytics />
-    
+
 </head>
 <body class="c-app">
 

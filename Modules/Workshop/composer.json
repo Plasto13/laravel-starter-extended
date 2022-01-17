@@ -1,38 +1,23 @@
 {
-  "name": "plasto13/workshop-module",
-  "type": "portal-module",
-  "description": "Workshop module for Laravel Starter. Handles the activation of modules.",
-  "keywords": [
-    "laravel starter",
-    "workshop",
-    "modules"
-  ],
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Pavol duroska",
-      "email": "pamsoft@gmail.com",
-      "role": "Developer"
+    "name": "pamsoft/workshop",
+    "description": "",
+    "authors": [
+        {
+            "name": "Pavol Duroska",
+            "email": "plasto13@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Workshop\\": ""
+        }
     }
-  ],
-  "require": {
-    "php": ">=7.0.0",
-    "composer/installers": "~1.0",
-    "symfony/yaml": "^3.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "~6.0",
-    "orchestra/testbench": "3.5.*",
-    "spatie/phpunit-snapshot-assertions": "^1.0"
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Modules\\Workshop\\": ".",
-      "Modules\\": "Modules/"
-    }
-  },
-  "extra": {
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
 }

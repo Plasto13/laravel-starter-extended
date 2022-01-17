@@ -5,6 +5,7 @@ namespace Modules\Workshop\Scaffold\Module;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use Modules\Workshop\Scaffold\Module\Exception\ModuleExistsException;
 use Modules\Workshop\Scaffold\Module\Generators\EntityGenerator;
 use Modules\Workshop\Scaffold\Module\Generators\FilesGenerator;
@@ -36,8 +37,9 @@ class ModuleScaffold
      * @var array of files to generate
      */
     protected $files = [
-        'permissions.stub' => 'Config/permissions',
+        'routes-api.stub' => 'Http/apiRoutes',
         'routes.stub' => 'Http/backendRoutes',
+        'routes-api.stub' => 'Http/frontendRoutes',
         'route-provider.stub' => 'Providers/RouteServiceProvider',
     ];
     /**
@@ -107,6 +109,14 @@ class ModuleScaffold
             ->generateApiRouter()
             ->generate($this->files);
 
+        $this->filesGenerator->forModule($this->name)
+            ->generateMenu()
+            ->generate($this->files);
+            
+        $this->filesGenerator->forModule($this->name)
+            ->generateModuleLang()
+            ->generate($this->files);
+
         $this->cleanUpModuleJson();
 
         $this->entityGenerator->forModule($this->getName())->type($this->entityType)->generate($this->entities);
@@ -142,7 +152,7 @@ class ModuleScaffold
      */
     public function getName()
     {
-        return studly_case($this->name);
+        return Str::studly($this->name);
     }
 
     /**
@@ -196,7 +206,7 @@ class ModuleScaffold
     private function renameVendorName()
     {
         $composerJsonContent = $this->finder->get($this->getModulesPath('composer.json'));
-        $composerJsonContent = str_replace('nwidart', $this->vendor, $composerJsonContent);
+        $composerJsonContent = str_replace('pamsoft', $this->vendor, $composerJsonContent);
         $this->finder->put($this->getModulesPath('composer.json'), $composerJsonContent);
     }
 
@@ -219,6 +229,8 @@ class ModuleScaffold
         $this->removeViewResources();
 
         $this->finder->delete($this->getModulesPath('Http/routes.php'));
+        $this->finder->delete($this->getModulesPath('Routers/web.php'));
+        $this->finder->delete($this->getModulesPath('Routers/api.php'));
         $this->finder->delete($this->getModulesPath("Http/Controllers/{$this->name}Controller.php"));
     }
 
@@ -244,8 +256,7 @@ class ModuleScaffold
     private function loadProviders($content)
     {
         $newProviders = <<<JSON
-"Modules\\\\{$this->name}\\\Providers\\\\{$this->name}ServiceProvider",
-        "Modules\\\\{$this->name}\\\Providers\\\RouteServiceProvider"
+"Modules\\\\{$this->name}\\\Providers\\\\{$this->name}ServiceProvider"
 JSON;
 
         $oldProvider = '"Modules\\\\' . $this->name . '\\\\Providers\\\\' . $this->name . 'ServiceProvider"';
@@ -281,8 +292,12 @@ JSON;
      */
     private function addFolders()
     {
-        $this->finder->makeDirectory($this->getModulesPath('Sidebar'));
         $this->finder->makeDirectory($this->getModulesPath('Menu'));
+        $this->finder->makeDirectory($this->getModulesPath('DataTables'));
+        $this->finder->makeDirectory($this->getModulesPath('Events'));
+        $this->finder->makeDirectory($this->getModulesPath('Events/Handlers'));
+        $this->finder->makeDirectory($this->getModulesPath('Resources/lang/en'));
+        $this->finder->makeDirectory($this->getModulesPath('Repositories'));
         $this->finder->makeDirectory($this->getModulesPath('Repositories/Cache'));
     }
 
@@ -305,16 +320,20 @@ JSON;
 JSON;
         $replace = <<<JSON
 "description": "",
-    "type": "asgard-module",
+    "type": "pamsoft-module",
     "license": "MIT", 
     "require": {
         "php": ">=7.0.0",
         "composer/installers": "~1.0",
-        "idavoll/core-module": "~3.0"
+        "illuminate/support": "^6.0|^7.0|^8.0",
+        "sebastienheyd/boilerplate": "^7.0|*@dev"
     },
     "require-dev": {
-        "phpunit/phpunit": "~6.0",
-        "orchestra/testbench": "3.5.*"
+        "phpunit/phpunit": "^8.0|^9.0",
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "^5.0|^6.0",
+        "sempro/phpunit-pretty-print": "^1.0",
+        "squizlabs/php_codesniffer": "^3.5"
     },
     "autoload-dev": {
         "psr-4": {

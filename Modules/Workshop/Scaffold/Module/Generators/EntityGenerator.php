@@ -5,6 +5,7 @@ namespace Modules\Workshop\Scaffold\Module\Generators;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 
 class EntityGenerator extends Generator
 {
@@ -23,8 +24,8 @@ class EntityGenerator extends Generator
         'index-view.stub' => 'Resources/views/admin/$ENTITY_NAME$/index.blade',
         'create-view.stub' => 'Resources/views/admin/$ENTITY_NAME$/create.blade',
         'edit-view.stub' => 'Resources/views/admin/$ENTITY_NAME$/edit.blade',
-        'create-fields.stub' => 'Resources/views/admin/$ENTITY_NAME$/partials/create-fields.blade',
-        'edit-fields.stub' => 'Resources/views/admin/$ENTITY_NAME$/partials/edit-fields.blade',
+        'form-buttons.stub' => 'Resources/views/admin/$ENTITY_NAME$/formButtons.blade',
+        'form.stub' => 'Resources/views/admin/$ENTITY_NAME$/form.blade',
     ];
 
     /**
@@ -38,9 +39,9 @@ class EntityGenerator extends Generator
         $entityType = strtolower($this->entityType);
         $entityTypeStub = "entity-{$entityType}.stub";
 
-        if ($regenerateSidebar === true) {
-            $this->generateSidebarListener($entities);
-        }
+        // if ($regenerateSidebar === true) {
+        //     $this->generateSidebarListener($entities);
+        // }
 
         foreach ($entities as $entity) {
             $this->writeFile(
@@ -55,15 +56,17 @@ class EntityGenerator extends Generator
                 $this->generateMigrationsFor($entity);
             }
             $this->generateRepositoriesFor($entity);
+            $this->generateDatatableFor($entity);
             $this->generateControllerFor($entity);
             $this->generateRequestsFor($entity);
             $this->generateViewsFor($entity);
             $this->generateLanguageFilesFor($entity);
             $this->appendBindingsToServiceProviderFor($entity);
+            $this->appendBindingsToMenuFor($entity);
             $this->appendResourceRoutesToRoutesFileFor($entity);
-            $this->appendPermissionsFor($entity);
-            $this->appendSidebarLinksFor($entity);
-            $this->appendBackendTranslations($entity);
+            // $this->appendPermissionsFor($entity);
+            // $this->appendSidebarLinksFor($entity);
+            // $this->appendBackendTranslations($entity);
         }
     }
 
@@ -91,6 +94,20 @@ class EntityGenerator extends Generator
             $this->getModulesPath("Repositories/{$this->entityType}/{$this->entityType}{$entity}Repository"),
             $this->getContentForStub("{$entityType}-repository.stub", $entity)
         );
+    }
+
+    public function generateDatatableFor($entity)
+    {
+        $path = $this->getModulesPath('DataTables/');
+        if (! $this->finder->isDirectory($path)) {
+            $this->finder->makeDirectory($path);
+        }
+        $this->writeFile(
+            $this->getModulesPath("DataTables/{$entity}DataTable"),
+            $this->getContentForStub('create-datatable.stub', $entity)
+        );
+
+        return $this;
     }
 
     /**
@@ -147,7 +164,7 @@ class EntityGenerator extends Generator
      */
     private function generateViewsFor($entity)
     {
-        $lowerCasePluralEntity = strtolower(str_plural($entity));
+        $lowerCasePluralEntity = strtolower(Str::plural($entity));
         $this->finder->makeDirectory($this->getModulesPath("Resources/views/admin/{$lowerCasePluralEntity}/partials"), 0755, true);
 
         foreach ($this->views as $stub => $view) {
@@ -165,7 +182,7 @@ class EntityGenerator extends Generator
      */
     private function generateLanguageFilesFor($entity)
     {
-        $lowerCaseEntity = str_plural(strtolower($entity));
+        $lowerCaseEntity = Str::plural(strtolower($entity));
         $path = $this->getModulesPath('Resources/lang/en');
         if (!$this->finder->isDirectory($path)) {
             $this->finder->makeDirectory($path);
@@ -184,7 +201,7 @@ class EntityGenerator extends Generator
     private function generateMigrationsFor($entity)
     {
         usleep(250000);
-        $lowercasePluralEntityName = strtolower(str_plural($entity));
+        $lowercasePluralEntityName = strtolower(Str::plural($entity));
         $lowercaseModuleName = strtolower($this->name);
         $migrationName = $this->getDateTimePrefix() . "create_{$lowercaseModuleName}_{$lowercasePluralEntityName}_table";
         $this->writeFile(
@@ -197,6 +214,20 @@ class EntityGenerator extends Generator
         $this->writeFile(
             $this->getModulesPath("Database/Migrations/{$migrationName}"),
             $this->getContentForStub('create-translation-table-migration.stub', $entity)
+        );
+        usleep(250000);
+        $lowercaseEntityName = strtolower($entity);
+        $migrationName = $this->getDateTimePrefix() . "{$lowercaseModuleName}_{$lowercaseEntityName}_category_permissions";
+        $this->writeFile(
+            $this->getModulesPath("Database/Migrations/{$migrationName}"),
+            $this->getContentForStub('add-category-table-migration.stub', $entity)
+        );
+        usleep(250000);
+        $lowercaseEntityName = strtolower($entity);
+        $migrationName = $this->getDateTimePrefix() . "{$lowercaseModuleName}_{$lowercaseEntityName}_permissions";
+        $this->writeFile(
+            $this->getModulesPath("Database/Migrations/{$migrationName}"),
+            $this->getContentForStub('add-permission-table-migration.stub', $entity)
         );
     }
 
@@ -212,6 +243,19 @@ class EntityGenerator extends Generator
         $binding = $this->getContentForStub('bindings.stub', $entity);
         $moduleProviderContent = str_replace('// add bindings', $binding, $moduleProviderContent);
         $this->finder->put($this->getModulesPath("Providers/{$this->name}ServiceProvider.php"), $moduleProviderContent);
+    }
+    /**
+     * Append the IoC bindings for the given entity to the Service Provider
+     *
+     * @param  string                                       $entity
+     * @throws FileNotFoundException
+     */
+    private function appendBindingsToMenuFor($entity)
+    {
+        $moduleProviderContent = $this->finder->get($this->getModulesPath("Menu/{$this->name}Menu.php"));
+        $binding = $this->getContentForStub('append-sidebar-extender.stub', $entity);
+        $moduleProviderContent = str_replace('//append', $binding, $moduleProviderContent);
+        $this->finder->put($this->getModulesPath("Menu/{$this->name}Menu.php"), $moduleProviderContent);
     }
 
     /**
@@ -241,10 +285,10 @@ class EntityGenerator extends Generator
      */
     private function appendPermissionsFor($entity)
     {
-        $permissionsContent = $this->finder->get($this->getModulesPath('Config/permissions.php'));
+        $permissionsContent = $this->finder->get($this->getModulesPath("Database/Migrations/{$this->name}_permissions.php"));
         $content = $this->getContentForStub('permissions-append.stub', $entity);
         $permissionsContent = str_replace('// append', $content, $permissionsContent);
-        $this->finder->put($this->getModulesPath('Config/permissions.php'), $permissionsContent);
+        $this->finder->put($this->getModulesPath("Database/Migrations/{$this->name}_permissions.php"), $permissionsContent);
     }
 
     /**
@@ -252,67 +296,67 @@ class EntityGenerator extends Generator
      */
     private function appendSidebarLinksFor($entity)
     {
-        $sidebarComposerContent = $this->finder->get($this->getModulesPath("Events/Handlers/Register{$this->name}Sidebar.php"));
+        $sidebarComposerContent = $this->finder->get($this->getModulesPath("Menu/{$this->name}Menu.php"));
         $content = $this->getContentForStub('append-sidebar-extender.stub', $entity);
         $sidebarComposerContent = str_replace('// append', $content, $sidebarComposerContent);
 
-        $this->finder->put($this->getModulesPath("Events/Handlers/Register{$this->name}Sidebar.php"), $sidebarComposerContent);
+        $this->finder->put($this->getModulesPath("Menu/{$this->name}Menu.php"), $sidebarComposerContent);
     }
 
     /**
      * @param string $entity
      */
-    private function appendBackendTranslations($entity)
-    {
-        $moduleProviderContent = $this->finder->get($this->getModulesPath("Providers/{$this->name}ServiceProvider.php"));
+    // private function appendBackendTranslations($entity)
+    // {
+    //     $moduleProviderContent = $this->finder->get($this->getModulesPath("Providers/{$this->name}ServiceProvider.php"));
 
-        $translations = $this->getContentForStub('translations-append.stub', $entity);
-        $moduleProviderContent = str_replace('// append translations', $translations, $moduleProviderContent);
-        $this->finder->put($this->getModulesPath("Providers/{$this->name}ServiceProvider.php"), $moduleProviderContent);
-    }
+    //     $translations = $this->getContentForStub('translations-append.stub', $entity);
+    //     $moduleProviderContent = str_replace('// append translations', $translations, $moduleProviderContent);
+    //     $this->finder->put($this->getModulesPath("Providers/{$this->name}ServiceProvider.php"), $moduleProviderContent);
+    // }
 
     /**
      * Generate a filled sidebar view composer
      * Or an empty one of no entities
      * @param $entities
      */
-    private function generateSidebarExtender($entities)
-    {
-        if (count($entities) > 0) {
-            $firstModuleName = $entities[0];
+    // private function generateSidebarExtender($entities)
+    // {
+    //     if (count($entities) > 0) {
+    //         $firstModuleName = $entities[0];
 
-            return $this->writeFile(
-                $this->getModulesPath('Sidebar/SidebarExtender'),
-                $this->getContentForStub('sidebar-extender.stub', $firstModuleName)
-            );
-        }
+    //         return $this->writeFile(
+    //             $this->getModulesPath('Sidebar/SidebarExtender'),
+    //             $this->getContentForStub('sidebar-extender.stub', $firstModuleName)
+    //         );
+    //     }
 
-        return $this->writeFile(
-            $this->getModulesPath('Sidebar/SidebarExtender'),
-            $this->getContentForStub('empty-sidebar-view-composer.stub', 'abc')
-        );
-    }
+    //     return $this->writeFile(
+    //         $this->getModulesPath('Sidebar/SidebarExtender'),
+    //         $this->getContentForStub('empty-sidebar-view-composer.stub', 'abc')
+    //     );
+    // }
 
     /**
      * Generate a sidebar event listener
      * @param $entities
      */
-    public function generateSidebarListener($entities)
-    {
-        $name = "Register{$this->name}Sidebar";
+    // public function generateSidebarListener($entities)
+    // {
+    //     $name = "Register{$this->name}Sidebar";
 
-        if (count($entities) > 0) {
-            return $this->writeFile(
-                $this->getModulesPath("Events/Handlers/$name"),
-                $this->getContentForStub('sidebar-listener.stub', $name)
-            );
-        }
+    //     if (count($entities) > 0) {
+    //         return $this->writeFile(
+    //             $this->getModulesPath("Events/Handlers/$name"),
+    //             $this->getContentForStub('sidebar-listener.stub', $name)
+    //         );
+    //     }
 
-        return $this->writeFile(
-            $this->getModulesPath("Events/Handlers/$name"),
-            $this->getContentForStub('sidebar-listener-empty.stub', $name)
-        );
-    }
+    //     return $this->writeFile(
+    //         $this->getModulesPath("Events/Handlers/$name"),
+    //         $this->getContentForStub('sidebar-listener-empty.stub', $name)
+    //     );
+    // }
 
     /**
      * Get the current time with microseconds

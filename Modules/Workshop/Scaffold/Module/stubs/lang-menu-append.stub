@@ -1,0 +1,6 @@
+'$PLURAL_LOWERCASE_CLASS_NAME$' => [
+    'title' => '$PLURAL_CLASS_NAME$',
+    'index' => '$PLURAL_CLASS_NAME$ management',
+    'add'   => 'Add $CLASS_NAME$',
+],
+// append

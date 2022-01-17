@@ -3,34 +3,40 @@
 namespace Modules\Workshop\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Modules\Core\Events\BuildingSidebar;
-use Modules\Core\Events\LoadingBackendTranslations;
-use Modules\Core\Services\Composer;
-use Modules\Core\Traits\CanGetSidebarClassForModule;
-use Modules\Core\Traits\CanPublishConfiguration;
-use Modules\Workshop\Console\EntityScaffoldCommand;
 use Modules\Workshop\Console\ModuleScaffoldCommand;
-use Modules\Workshop\Console\ThemeScaffoldCommand;
-use Modules\Workshop\Console\UpdateModuleCommand;
-use Modules\Workshop\Events\Handlers\RegisterWorkshopSidebar;
-use Modules\Workshop\Manager\StylistThemeManager;
-use Modules\Workshop\Manager\ThemeManager;
 use Modules\Workshop\Scaffold\Module\Generators\EntityGenerator;
 use Modules\Workshop\Scaffold\Module\Generators\FilesGenerator;
 use Modules\Workshop\Scaffold\Module\Generators\ValueObjectGenerator;
 use Modules\Workshop\Scaffold\Module\ModuleScaffold;
-use Modules\Workshop\Scaffold\Theme\ThemeGeneratorFactory;
-use Modules\Workshop\Scaffold\Theme\ThemeScaffold;
 
 class WorkshopServiceProvider extends ServiceProvider
 {
-    use CanPublishConfiguration, CanGetSidebarClassForModule;
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
+     * @var string $moduleName
      */
-    protected $defer = false;
+    protected $moduleName = 'Workshop';
+
+    /**
+     * @var string $moduleNameLower
+     */
+    protected $moduleNameLower = 'workshop';
+
+    /**
+     * Boot the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerTranslations();
+        $this->registerConfig();
+        $this->registerViews();
+        $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->registerModuleScaffoldCommand();
+        $this->commands([
+            'command.pamfost.module.scaffold',
+        ]);
+    }
 
     /**
      * Register the service provider.
@@ -39,51 +45,15 @@ class WorkshopServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerCommands();
-        $this->bindThemeManager();
-
-        $this->app['events']->listen(
-            BuildingSidebar::class,
-            $this->getSidebarClassForModule('workshop', RegisterWorkshopSidebar::class)
-        );
-
-        $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
-            $event->load('workshop', array_dot(trans('workshop::workshop')));
-            $event->load('modules', array_dot(trans('workshop::modules')));
-            $event->load('themes', array_dot(trans('workshop::themes')));
-        });
+        $this->app->register(RouteServiceProvider::class);
     }
 
-    public function boot()
-    {
-        $this->publishConfig('workshop', 'permissions');
-        $this->publishConfig('workshop', 'config');
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
-    }
-
-    /**
-     * Register artisan commands
-     */
-    private function registerCommands()
-    {
-        $this->registerModuleScaffoldCommand();
-        $this->registerUpdateCommand();
-        $this->registerThemeScaffoldCommand();
-
-        $this->commands([
-            'command.asgard.module.scaffold',
-            'command.asgard.module.update',
-            'command.asgard.theme.scaffold',
-            EntityScaffoldCommand::class,
-        ]);
-    }
-
-    /**
+      /**
      * Register the scaffold command
      */
     private function registerModuleScaffoldCommand()
     {
-        $this->app->singleton('asgard.module.scaffold', function ($app) {
+        $this->app->singleton('pamfost.module.scaffold', function ($app) {
             return new ModuleScaffold(
                 $app['files'],
                 $app['config'],
@@ -93,42 +63,78 @@ class WorkshopServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->singleton('command.asgard.module.scaffold', function ($app) {
-            return new ModuleScaffoldCommand($app['asgard.module.scaffold']);
+        $this->app->singleton('command.pamfost.module.scaffold', function ($app) {
+            return new ModuleScaffoldCommand($app['pamfost.module.scaffold']);
         });
     }
 
     /**
-     * Register the update module command
+     * Register config.
+     *
+     * @return void
      */
-    private function registerUpdateCommand()
+    protected function registerConfig()
     {
-        $this->app->singleton('command.asgard.module.update', function ($app) {
-            return new UpdateModuleCommand(new Composer($app['files'], base_path()));
-        });
+        $this->publishes([
+            module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
+        ], 'config');
+        $this->mergeConfigFrom(
+            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
+        );
     }
 
     /**
-     * Register the theme scaffold command
+     * Register views.
+     *
+     * @return void
      */
-    private function registerThemeScaffoldCommand()
+    public function registerViews()
     {
-        $this->app->singleton('asgard.theme.scaffold', function ($app) {
-            return new ThemeScaffold(new ThemeGeneratorFactory(), $app['files']);
-        });
+        $viewPath = resource_path('views/modules/' . $this->moduleNameLower);
 
-        $this->app->singleton('command.asgard.theme.scaffold', function ($app) {
-            return new ThemeScaffoldCommand($app['asgard.theme.scaffold']);
-        });
+        $sourcePath = module_path($this->moduleName, 'Resources/views');
+
+        $this->publishes([
+            $sourcePath => $viewPath
+        ], ['views', $this->moduleNameLower . '-module-views']);
+
+        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->moduleNameLower);
     }
 
     /**
-     * Bind the theme manager
+     * Register translations.
+     *
+     * @return void
      */
-    private function bindThemeManager()
+    public function registerTranslations()
     {
-        $this->app->singleton(ThemeManager::class, function ($app) {
-            return new StylistThemeManager($app['files']);
-        });
+        $langPath = resource_path('lang/modules/' . $this->moduleNameLower);
+
+        if (is_dir($langPath)) {
+            $this->loadTranslationsFrom($langPath, $this->moduleNameLower);
+        } else {
+            $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
+        }
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [];
+    }
+
+    private function getPublishableViewPaths(): array
+    {
+        $paths = [];
+        foreach (\Config::get('view.paths') as $path) {
+            if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
+                $paths[] = $path . '/modules/' . $this->moduleNameLower;
+            }
+        }
+        return $paths;
     }
 }

@@ -11,7 +11,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') | {{ config('app.name') }}</title>
+    <title>@yield('title') | {{ setting('core::app_name') }}</title>
 
     <!-- Shortcut Icon -->
     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}">

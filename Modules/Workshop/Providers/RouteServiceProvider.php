@@ -2,37 +2,68 @@
 
 namespace Modules\Workshop\Providers;
 
-use Modules\Core\Providers\RoutingServiceProvider as CoreRoutingServiceProvider;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
-class RouteServiceProvider extends CoreRoutingServiceProvider
+class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * The root namespace to assume when generating URLs to actions.
+     * The module namespace to assume when generating URLs to actions.
+     *
      * @var string
      */
-    protected $namespace = 'Modules\Workshop\Http\Controllers';
+    protected $moduleNamespace = 'Modules\Workshop\Http\Controllers';
 
     /**
-     * @return string
+     * Called before routes are registered.
+     *
+     * Register any model bindings or pattern based filters.
+     *
+     * @return void
      */
-    protected function getFrontendRoute()
+    public function boot()
     {
-        return false;
+        parent::boot();
     }
 
     /**
-     * @return string
+     * Define the routes for the application.
+     *
+     * @return void
      */
-    protected function getBackendRoute()
+    public function map()
     {
-        return __DIR__ . '/../Http/backendRoutes.php';
+        $this->mapApiRoutes();
+
+        $this->mapWebRoutes();
     }
 
     /**
-     * @return string
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
      */
-    protected function getApiRoute()
+    protected function mapWebRoutes()
     {
-        return __DIR__ . '/../Http/apiRoutes.php';
+        Route::middleware('web')
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('Workshop', '/Routes/web.php'));
+    }
+
+    /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('Workshop', '/Routes/api.php'));
     }
 }

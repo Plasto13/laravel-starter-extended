@@ -4,31 +4,44 @@
     $router->get('$PLURAL_LOWERCASE_CLASS_NAME$', [
         'as' => 'admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.index',
         'uses' => '$CLASS_NAME$Controller@index',
-        'middleware' => 'can:$LOWERCASE_MODULE_NAME$.$PLURAL_LOWERCASE_CLASS_NAME$.index'
+        'middleware' => [
+            'permission:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_list'
+        ],
     ]);
     $router->get('$PLURAL_LOWERCASE_CLASS_NAME$/create', [
         'as' => 'admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.create',
         'uses' => '$CLASS_NAME$Controller@create',
-        'middleware' => 'can:$LOWERCASE_MODULE_NAME$.$PLURAL_LOWERCASE_CLASS_NAME$.create'
+        'middleware' => [
+            'permission:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_create'
+        ],
     ]);
     $router->post('$PLURAL_LOWERCASE_CLASS_NAME$', [
         'as' => 'admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.store',
         'uses' => '$CLASS_NAME$Controller@store',
-        'middleware' => 'can:$LOWERCASE_MODULE_NAME$.$PLURAL_LOWERCASE_CLASS_NAME$.create'
+        'middleware' => [
+            'permission:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_create'
+        ],
     ]);
     $router->get('$PLURAL_LOWERCASE_CLASS_NAME$/{$LOWERCASE_CLASS_NAME$}/edit', [
         'as' => 'admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.edit',
         'uses' => '$CLASS_NAME$Controller@edit',
-        'middleware' => 'can:$LOWERCASE_MODULE_NAME$.$PLURAL_LOWERCASE_CLASS_NAME$.edit'
+        'middleware' => [
+            'permission:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_update'
+        ],
     ]);
     $router->put('$PLURAL_LOWERCASE_CLASS_NAME$/{$LOWERCASE_CLASS_NAME$}', [
         'as' => 'admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.update',
         'uses' => '$CLASS_NAME$Controller@update',
-        'middleware' => 'can:$LOWERCASE_MODULE_NAME$.$PLURAL_LOWERCASE_CLASS_NAME$.edit'
+        'middleware' => [
+            'permission:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_update'
+        ],
     ]);
     $router->delete('$PLURAL_LOWERCASE_CLASS_NAME$/{$LOWERCASE_CLASS_NAME$}', [
         'as' => 'admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.destroy',
         'uses' => '$CLASS_NAME$Controller@destroy',
-        'middleware' => 'can:$LOWERCASE_MODULE_NAME$.$PLURAL_LOWERCASE_CLASS_NAME$.destroy'
+        'middleware' => [
+            'permission:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_delete'
+        ],
     ]);
+    
 // append

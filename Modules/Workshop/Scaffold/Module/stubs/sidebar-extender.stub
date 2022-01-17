@@ -1,47 +1,29 @@
 <?php
 
-namespace Modules\$MODULE_NAME$\Sidebar;
+namespace Modules\$MODULE$\Menu;
 
-use Maatwebsite\Sidebar\Group;
-use Maatwebsite\Sidebar\Item;
-use Maatwebsite\Sidebar\Menu;
-use Modules\User\Contracts\Authentication;
+use Illuminate\Support\Facades\DB;
+use Modules\Core\Menu\Builder;
 
-class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
+class $MODULE$Menu
 {
     /**
-     * @var Authentication
-     */
-    protected $auth;
-
-    /**
-     * @param Authentication $auth
+     * @param Builder $builder
      *
-     * @internal param Guard $guard
      */
-    public function __construct(Authentication $auth)
+    public function make(Builder $menu)
     {
-        $this->auth = $auth;
+        $permissions = DB::table('permissions')->where('category_id', '=', @DB::table('permissions_categories')->select(['id', 'name'])->where('name', '$MODULE$')->first()->id)->pluck('name')->toArray();
+        $permissions = implode(",", $permissions);
+        $menu->add(__('$LOWERCASE_MODULE$::$PLURAL_MODULE$.title.$PLURAL_MODULE$'), [
+            'icon' => 'cube',
+            'permission' => $permissions,
+        ])->id('$LOWERCASE_MODULE$_menu')->activeIfRoute('admin.$LOWERCASE_MODULE$.*')->order(100);
+
+        //append    
+
+
+        // -append 
     }
 
-    /**
-     * @param Menu $menu
-     *
-     * @return Menu
-     */
-    public function extendWith(Menu $menu)
-    {
-        $menu->group(trans('core::sidebar.content'), function (Group $group) {
-            $group->item(trans('$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.title.$PLURAL_LOWERCASE_CLASS_NAME$'), function (Item $item) {
-                $item->icon('fa fa-copy');
-                $item->weight(10);
-                $item->authorize(
-                     /* append */
-                );
-// append
-            });
-        });
-
-        return $menu;
-    }
 }

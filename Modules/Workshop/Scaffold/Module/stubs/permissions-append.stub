@@ -1,7 +1,17 @@
-    '$LOWERCASE_MODULE_NAME$.$PLURAL_LOWERCASE_CLASS_NAME$' => [
-        'index' => '$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.list resource',
-        'create' => '$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.create resource',
-        'edit' => '$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.edit resource',
-        'destroy' => '$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.destroy resource',
+	'category' => '$PLURAL_CLASS_NAME$',
+    [
+        'name'        => '$PLURAL_LOWERCASE_CLASS_NAME$_list',
+        'description' => 'Allow list $PLURAL_LOWERCASE_CLASS_NAME$',
     ],
-// append
+    [
+        'name'        => '$PLURAL_LOWERCASE_CLASS_NAME$_create',
+        'description' => 'Allow create $PLURAL_LOWERCASE_CLASS_NAME$',
+    ],
+    [
+        'name'        => '$PLURAL_LOWERCASE_CLASS_NAME$_update',
+        'description' => 'Allow Edit and update $PLURAL_LOWERCASE_CLASS_NAME$',
+    ],
+    [
+        'name'        => '$PLURAL_LOWERCASE_CLASS_NAME$_delete',
+        'description' => 'Allow delete $PLURAL_LOWERCASE_CLASS_NAME$',
+    ],

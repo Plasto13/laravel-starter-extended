@@ -2,37 +2,93 @@
 
 namespace Modules\$MODULE$\Providers;
 
-use Modules\Core\Providers\RoutingServiceProvider as CoreRoutingServiceProvider;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-class RouteServiceProvider extends CoreRoutingServiceProvider
+class RouteServiceProvider extends ServiceProvider
 {
     /**
      * The root namespace to assume when generating URLs to actions.
      * @var string
      */
     protected $namespace = 'Modules\$MODULE$\Http\Controllers';
+    
+    protected $adminNamespace = 'Modules\$MODULE$\Http\Controllers\Admin';
 
-    /**
-     * @return string
+    protected $apiNamespace = 'Modules\$MODULE$\Http\Controllers\Api';
+
+     /**
+     * Called before routes are registered.
+     *
+     * Register any model bindings or pattern based filters.
+     *
+     * @return void
      */
-    protected function getFrontendRoute()
+    public function boot()
     {
-        return false;
+        parent::boot();
     }
 
     /**
-     * @return string
+     * Define the routes for the application.
+     *
+     * @return void
      */
-    protected function getBackendRoute()
+    public function map()
     {
-        return __DIR__ . '/../Http/backendRoutes.php';
+        $this->mapApiRoutes();
+
+        $this->mapAdminRoutes();
+        
+        $this->mapWebRoutes();
     }
 
     /**
-     * @return string
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
      */
-    protected function getApiRoute()
+    protected function mapAdminRoutes()
     {
-        return __DIR__ . '/../Http/apiRoutes.php';;
+        Route::middleware([
+                'web',
+                'localeSessionRedirect', 
+                'localizationRedirect', 
+                'localeViewPath'
+            ])
+            ->namespace($this->adminNamespace)
+            ->prefix(LaravelLocalization::setLocale())
+            ->group(module_path('$MODULE$', '/Http/backendRoutes.php'));
+    }
+
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebRoutes()
+    {
+        // Route::namespace($this->namespace)
+        //     ->group(module_path('$MODULE$', '/Http/frontendRoutes.php'));
+    }
+
+    /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->apiNamespace)
+            ->group(module_path('$MODULE$', '/Http/apiRoutes.php'));
     }
 }

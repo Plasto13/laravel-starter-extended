@@ -1,0 +1,8 @@
+<a href="{{ route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.index') }}" class="btn btn-default">
+    <span class="far fa-arrow-alt-circle-left text-muted"></span>
+</a>
+<span class="btn-group float-right">
+    <button type="submit" class="btn btn-primary btn-preview">
+        @lang('core::core.buttons.submit')
+    </button>
+</span>

@@ -1,0 +1,10 @@
+<?php
+
+return [
+    'title' => [
+        '$PLURAL_MODULE$' => '$MODULE$',
+    ],
+    'permissions' => [
+    	'category' => '$MODULE$ Permissions'
+    ]
+];

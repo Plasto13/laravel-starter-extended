@@ -3,21 +3,21 @@
 namespace Modules\$MODULE$\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Modules\Core\Traits\CanPublishConfiguration;
-use Modules\Core\Events\BuildingSidebar;
-use Modules\Core\Events\LoadingBackendTranslations;
-use Modules\$MODULE$\Events\Handlers\$SIDEBAR_LISTENER_NAME$;
+use  Modules\$MODULE$\Menu\$MODULE$Menu;
 
 class $MODULE$ServiceProvider extends ServiceProvider
 {
-    use CanPublishConfiguration;
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
+        /**
+     * @var string $moduleName
      */
-    protected $defer = false;
+    protected $moduleName = '$MODULE$';
 
+    /**
+     * @var string $moduleNameLower
+     */
+    protected $moduleNameLower = '$LOWERCASE_MODULE$';
+
+   
     /**
      * Register the service provider.
      *
@@ -25,19 +25,95 @@ class $MODULE$ServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerBindings();
-        $this->app['events']->listen(BuildingSidebar::class, $SIDEBAR_LISTENER_NAME$::class);
-
-        $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
-            // append translations
-        });
+        $this->app->register(RouteServiceProvider::class);
     }
 
     public function boot()
     {
-        $this->publishConfig('$LOWERCASE_MODULE$', 'permissions');
+        $this->registerTranslations();
+        $this->registerConfig();
+        $this->registerViews();
+        $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        app('boilerplate.menu.items')->registerMenuItem([
+            $MODULE$Menu::class,
+        ]);
+        $this->registerBindings();
+    }
 
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+
+    private function registerBindings()
+    {
+        // add bindings
+    }
+
+     /**
+     * Console-specific booting.
+     *
+     * @return void
+     */
+    protected function bootForConsole()
+    {
+        // Publishing the configuration file.
+        $this->publishes([
+            __DIR__.'/../config/$LOWERCASE_MODULE$.php' => config_path('$LOWERCASE_MODULE$.php'),
+        ], ['$LOWERCASE_MODULE$', 'config']);
+
+        // Publishing public folder.
+        if (is_dir(__DIR__.'/public')) {
+            $this->publishes([
+                __DIR__.'/public' => public_path('assets/vendor/$LOWERCASE_MODULE$')
+            ], ['$LOWERCASE_MODULE$', 'public']);
+        }
+    }
+
+
+    /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->publishes([
+            module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
+        ], 'config');
+        $this->mergeConfigFrom(
+            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
+        );
+    }
+
+    /**
+     * Register views.
+     *
+     * @return void
+     */
+    public function registerViews()
+    {
+        $viewPath = resource_path('views/modules/' . $this->moduleNameLower);
+
+        $sourcePath = module_path($this->moduleName, 'Resources/views');
+
+        $this->publishes([
+            $sourcePath => $viewPath
+        ], ['views', $this->moduleNameLower . '-module-views']);
+
+        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->moduleNameLower);
+    }
+
+    /**
+     * Register translations.
+     *
+     * @return void
+     */
+    public function registerTranslations()
+    {
+        $langPath = resource_path('lang/modules/' . $this->moduleNameLower);
+
+        if (is_dir($langPath)) {
+            $this->loadTranslationsFrom($langPath, $this->moduleNameLower);
+        } else {
+            $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
+        }
     }
 
     /**
@@ -47,11 +123,18 @@ class $MODULE$ServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array();
+        return [];
     }
 
-    private function registerBindings()
+    private function getPublishableViewPaths(): array
     {
-// add bindings
+        $paths = [];
+        foreach (\Config::get('view.paths') as $path) {
+            if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
+                $paths[] = $path . '/modules/' . $this->moduleNameLower;
+            }
+        }
+        return $paths;
     }
+
 }

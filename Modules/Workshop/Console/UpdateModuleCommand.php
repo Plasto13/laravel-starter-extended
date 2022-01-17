@@ -1,6 +1,4 @@
-<?php
-
-namespace Modules\Workshop\Console;
+<?php namespace Modules\Workshop\Console;
 
 use Illuminate\Console\Command;
 use Modules\Core\Services\Composer;
@@ -22,7 +20,7 @@ class UpdateModuleCommand extends Command
         $this->composer = $composer;
     }
 
-    public function handle()
+    public function fire()
     {
         $packageName = $this->getModulePackageName($this->argument('module'));
 

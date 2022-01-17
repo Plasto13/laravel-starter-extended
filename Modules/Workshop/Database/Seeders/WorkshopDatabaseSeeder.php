@@ -2,8 +2,8 @@
 
 namespace Modules\Workshop\Database\Seeders;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 
 class WorkshopDatabaseSeeder extends Seeder
 {
@@ -15,5 +15,7 @@ class WorkshopDatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
+
+        // $this->call("OthersTableSeeder");
     }
 }

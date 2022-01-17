@@ -5,6 +5,7 @@ use Modules\Setting\Entities\Setting;
 use Modules\Setting\Support\Settings;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Modules\Setting\Menu\SettingMenu;
 use Modules\Setting\Blade\SettingDirective;
 use Modules\Setting\Repositories\SettingRepository;
 use Modules\Setting\Facades\Settings as SettingsFacade;
@@ -34,9 +35,9 @@ class SettingServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
-        // adding global middleware
-        $kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
-        $kernel->pushMiddleware('Modules\Setting\Http\Middleware\GenerateMenus');
+        app('core.menu.items')->registerMenuItem([
+            SettingMenu::class,
+        ]);
     }
 
     /**

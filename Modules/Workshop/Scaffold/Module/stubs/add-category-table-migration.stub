@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+
+class $MODULE_NAME$$CLASS_NAME$CategoryPermissions extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        $categoryId = DB::table('permissions_categories')->where('name', '$LOWERCASE_MODULE_NAME$')->first();
+        if (!$categoryId) {
+             DB::table('permissions_categories')->insert([
+                'name'         => '$MODULE_NAME$',
+                'display_name' => '$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_MODULE_NAME$.permissions.category',
+            ]);
+        }
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        DB::table('permissions_categories')->where('name', '$MODULE_NAME$')->delete();
+    }
+}

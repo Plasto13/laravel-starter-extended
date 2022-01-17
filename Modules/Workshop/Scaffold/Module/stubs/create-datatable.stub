@@ -1,0 +1,540 @@
+<?php
+
+namespace Modules\$MODULE_NAME$\DataTables;
+
+use Auth;
+use Carbon\Carbon;
+use Html;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Support\Arr;
+use Modules\$MODULE_NAME$\Entities\$CLASS_NAME$;
+use Modules\$MODULE_NAME$\Repositories\$CLASS_NAME$Repository;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Html\Button;
+use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
+use Yajra\DataTables\Services\DataTable;
+
+class $CLASS_NAME$DataTable extends DataTable
+{
+    protected $table;
+
+    protected $repositories;
+
+    protected $auth;
+
+    /**
+     * @var array
+     */
+    protected $options = [];
+
+    protected $ajaxUrl;
+
+    protected $model;
+
+    protected $bulkChangeUrl;
+
+    /**
+     * @var string
+     */
+    protected $filterTemplate = 'core::datatables.filter';
+
+     /**
+     * @var bool
+     */
+    protected $hasFilter = true;
+
+    public function __construct(UrlGenerator $urlGenerator, $CLASS_NAME$Repository $repositories, Datatables $table)
+    {
+        $this->bulkChangeUrl = route('api.admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.bulkchanges');
+        $this->table = $table;
+        $this->auth = Auth::user();
+        $this->repositories = $repositories;
+        $this->model = $this->repositories->getModel();
+        $this->ajaxUrl = $urlGenerator->current();
+        if (!$this->getOption('id')) {
+            $this->setOption('id', '$LOWERCASE_MODULE_NAME$-$PLURAL_LOWERCASE_CLASS_NAME$-table');
+        }
+    }
+
+   /**
+     * @param string $key
+     * @return string
+     */
+    public function getOption(string $key): ?string
+    {
+        return Arr::get($this->options, $key);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return $this
+     */
+    public function setOption(string $key, $value): self
+    {
+        $this->options[$key] = $value;
+
+        return $this;
+    }
+
+    public function getCurrentUrl() : String
+    {
+        return $this->ajaxUrl;
+    }
+
+   /**
+     * Build DataTable class.
+     *
+     * @param mixed $query Results from query() method.
+     * @return \Yajra\DataTables\DataTableAbstract
+     */
+    public function dataTable($query)
+    {
+        return datatables()
+            ->eloquent($query)
+            ->addColumn(__('core::core.table.action'), '$PLURAL_LOWERCASE_CLASS_NAME$.action');
+    }
+
+    /**
+     * Get query source of dataTable.
+     *
+     * @param \App\Test $model
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function query()
+    {
+        $request = request();
+        $query = $this->model->with('translations')->select('$LOWERCASE_MODULE_NAME$__$PLURAL_LOWERCASE_CLASS_NAME$.*');
+
+        return $this->applyScopes($query);
+    }
+
+    /**
+     * Optional method if you want to use html builder.
+     *
+     * @return \Yajra\DataTables\Html\Builder
+     */
+    public function html()
+    {
+         return $this->builder()
+                    ->setTableId($this->getOption('id'))
+                    ->parameters([
+                        'processing'   => true,
+                        'serverSide'   => true,
+                        'bServerSide'  => true,
+                        'bDeferRender' => true,
+                        'bProcessing'  => true,
+                        'colReorder' => true,
+                        'responsive' => [
+                            'details'=> [
+                                'display'=> '$.fn.dataTable.Responsive.display.modal( {
+                                    header: function (row) {
+                                       var data = row.data();
+                                        return "Detail";
+                                    }
+                                })',
+                                'renderer'=> $this->renderResponsive(),
+                            ]
+                        ],
+                        'language' => [
+                            'url' => asset("modules/core/datatables/lang/".locale().".json")
+                                ],
+                        'processing'=> '<i class="fa fa-refresh fa-spin"></i>',
+                        'stateSave' => true,
+                        'stateSaveCallback' => "function(settings,data) {
+                                    localStorage.setItem( '$LOWERCASE_MODULE_NAME$-$PLURAL_LOWERCASE_CLASS_NAME$-table', JSON.stringify(data) );
+                                    }",
+                                'stateLoadCallback' => "function(settings) {
+                                    return JSON.parse( localStorage.getItem( '$LOWERCASE_MODULE_NAME$-$PLURAL_LOWERCASE_CLASS_NAME$-table' ) )
+                                    }",
+                    ])
+                    ->columns($this->getColumns())
+                    ->minifiedAjax()
+                    ->dom('<"top"<""row<"pull-left"l><"pull-right"fB>>><t><<"pull-left"i><"pull-right"p>>')
+                    ->searchDelay('500')
+                    ->orderBy(1)
+                    ->buttons(
+                        Button::make('excel')->className('btn btn-default btn-flat'),
+                        // Button::make('pdfHtml5')->className('btn btn-default btn-flat'),
+                        Button::make('print')->className('btn btn-default btn-flat'),
+                        Button::make('colvis')->className('btn btn-default btn-flat'),
+                        // Button::make('reload')
+                    )
+                    ->pagingType('full_numbers');
+    }
+
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder|Builder $query
+     * @return mixed
+     */
+    public function applyScopes($query)
+    {
+        $request = request();
+
+        $requestFilters = [];
+
+        if ($request->has('filter_columns') && ($request->input('filter_table_id') == $this->getOption('id'))) {
+            $requestFilters = [];
+            foreach ($request->input('filter_columns') as $key => $item) {
+                $requestFilters[] = [
+                    'column'   => $item,
+                    'operator' => $request->input('filter_operators.' . $key),
+                    'value'    => $request->input('filter_values.' . $key),
+                ];
+            }
+        }
+
+        foreach ($requestFilters as $requestFilter) {
+            if (isset($requestFilter['column']) && !empty($requestFilter['column'])) {
+                $query = $this->applyFilterCondition($query, $requestFilter['column'], $requestFilter['operator'],
+                    $requestFilter['value']);
+            }
+        }
+        if ($request->has('trash')) {
+            $query->onlyTrashed();
+        }
+
+        return parent::applyScopes($query);
+    }
+
+    /**
+     * @param Builder $query
+     * @param string $key
+     * @param string $operator
+     * @param string $value
+     * @return Builder
+     */
+    private function applyFilterCondition($query, string $key, string $operator, ?string $value)
+    {
+        if (strpos($key, '.') !== -1) {
+            $key = Arr::last(explode('.', $key));
+        }
+
+        switch ($key) {
+            case 'created_at':
+            case 'updated_at':
+                $value = Carbon::createFromFormat(config('core.base.general.date_format.date'), $value)->toDateString();
+                $query = $query->whereDate($key, $operator, $value);
+                break;
+            default:
+                if ($operator === 'like') {
+                    if ($this->model->isTranslationAttribute($key)) {
+                        $query->whereHas('translations', function ($q) use ($key, $operator, $value) {
+                                        $q->where($key, $operator, '%' . $value . '%');
+                        });
+                    } else {
+                        $query->where($key, $operator, '%' . $value . '%');
+                    }
+                    
+                    break;
+                }
+
+                if ($operator !== '=') {
+                    $value = (float)$value;
+                }
+                if ($this->model->isTranslationAttribute($key)) {
+                        $query->whereHas('translations', function ($q) use ($key, $operator, $value) {
+                                        $q->where($key, $operator, $value);
+                        });
+                    } else {
+                        $query->where($key, $operator, $value);
+                    }
+                break;
+
+                // $query = $query->where($key, $operator, $value);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Get columns.
+     *
+     * @return array
+     */
+    protected function getColumns()
+    {
+        return [
+            'checkbox' => [
+                'defaultContent' => '<input type="checkbox"/>',
+                'data' => 'checkbox',
+                'width'      => '10px',
+                'class'      => 'hidden',
+                'title'      => '<input type="checkbox" value="" class="table-check-all"/>',
+                'orderable'  => false,
+                'searchable' => false,
+                'exportable' => false,
+                'printable'  => false,
+            ],
+            Column::make('id'),
+            'translations.title' => [
+                        'name' => 'translations.title',
+                        'data' => 'translations.title',
+                        'title' => 'title',
+                        'searchable' => true,
+                        'orderable' => true,
+                        // 'render' => 'function(){}',
+                        'footer' => 'title',
+                        'exportable' => true,
+                        'printable' => true,
+                        'visible' => true,
+                        ],
+            'translations.description' => [
+                        'name' => 'translations.description',
+                        'data' => 'translations.description',
+                        'title' => 'description',
+                        'searchable' => true,
+                        'orderable' => true,
+                        // 'render' => 'function(){}',
+                        'footer' => 'title',
+                        'exportable' => true,
+                        'printable' => true,
+                        'visible' => true,
+                        ],
+            Column::make('created_at')
+                ->render("$.fn.dataTable.render.moment('".__('core::site.datetime-format')."')"),
+            Column::make('updated_at')
+                ->render("$.fn.dataTable.render.moment('".__('core::site.datetime-format')."')"),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                // ->width(60)
+                ->addClass('text-center'),
+        ];
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getFilters(): array
+    {
+        return [
+            'title' => [
+                'title'    => 'title',
+                'type'     => 'text',
+                'validate' => 'required|max:120',
+            ],
+            'description' => [
+                'title'    => 'description',
+                'type'     => 'text',
+                'validate' => 'required|max:120',
+            ],
+            'created_at' => [
+                'title' => 'created_at',
+                'type'  => 'date',
+            ],
+        ];;
+    }
+
+    /**
+     * @return array
+     * @throws Throwable
+     */
+    public function bulkActions(): array
+    {
+        $actions = [];
+        if ($this->getBulkChanges() && $this->auth->isAbleTo('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_update')) {
+            $actions['bulk-change'] = view('core::datatables.bulk-changes', [
+                'bulk_changes' => $this->getBulkChanges(),
+                'class'        => get_class($this),
+                'url'          => $this->bulkChangeUrl,
+            ])->render();
+        }
+        if ($this->getBulkDelete() && $this->auth->isAbleTo('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_delete')) {
+            $actions['bulk-delete'] = view('core::datatables.bulk-delete', [
+                    'bulk_changes' => $this->getBulkDelete(),
+                    'class'        => get_class($this),
+                    'url'          => $this->bulkChangeUrl,
+                ])->render();
+        }
+        $actions['bulk-export'] = view('core::datatables.bulk-export', [
+                'bulk_changes' => $this->getBulkExport(),
+                'class'        => get_class($this),
+                'url'          => $this->bulkChangeUrl,
+            ])->render();
+
+        return $actions;
+    }
+
+    /**
+     * Render Filter
+     * @return string
+     * @throws Throwable
+     */
+    public function renderFilter(): string
+    {
+        $tableId = '$LOWERCASE_MODULE_NAME$-$PLURAL_LOWERCASE_CLASS_NAME$-table';
+        $columns = $this->getFilters();
+        $route = $this->getCurrentUrl();
+
+        $request = request();
+        $requestFilters = [
+            '-1' => [
+                'column'   => '',
+                'operator' => '=',
+                'value'    => '',
+            ],
+        ];
+
+        if ($request->input('filter_columns')) {
+            $requestFilters = [];
+            foreach ($request->input('filter_columns', []) as $key => $item) {
+                $requestFilters[] = [
+                    'column'   => $item,
+                    'operator' => $request->input('filter_operators.' . $key),
+                    'value'    => $request->input('filter_values.' . $key),
+                ];
+            }
+        }
+
+        return view($this->filterTemplate, compact('columns', 'tableId', 'requestFilters', 'route'))->render();
+    }
+
+    public function isHasFilter(): bool
+    {
+        return $this->hasFilter;
+    }
+
+
+     /**
+     * 
+     */
+    public function getBulkChanges(): array
+    {
+        return [
+            'title' => [
+                'title'    => 'Change title',
+                'type'     => 'text',
+                'validate' => 'required|max:120',
+            ],
+            'description' => [
+                'title'    => 'Change description',
+                'type'     => 'text',
+                'validate' => 'required|max:120',
+            ],
+        ];
+    }
+
+     /**
+     * 
+     */
+    public function getBulkDelete(): array
+    {
+        return [
+            'title' => [
+                'title'    => 'Delete',
+                'value'    => 'delete',
+            ],
+            'description' => [
+                'title'    => 'Trash',            
+                'value'    => 'trash' ,
+                ]          
+        ];
+    }
+    
+     /**
+     * 
+     */
+    public function getBulkExport(): array
+    {
+        return [
+            'title' => [
+                'title'    => 'Export selected',
+                'value'    => 'selected',
+            ],
+            'description' => [
+                'title'    => 'Export All',
+                'value'    => 'all', 
+            ],
+        ];
+    }
+
+
+    public function ajax()
+    {
+        return $this->table
+            ->eloquent($this->query())
+            ->editColumn('translations.title', function ($item) {               
+                return $item->title;
+            })
+            ->editColumn('translations.description', function ($item) {
+                return $item->description;
+            })
+            ->editColumn('checkbox', function ($item) {
+                return '<input type="checkbox" value="' . $item->id . '" class="checkboxes"/>';
+            })
+            ->addColumn('action', function ($item) {
+                return $this->getActionButtons($item);
+            })
+            ->escapeColumns([])
+            ->make(true);
+    }
+
+    protected function getActionButtons($item, $extra = null) : String
+    {
+        $edit = $this->addEditButton($item);
+        $delete = $this->addDeleteButton($item);
+        return view('core::datatables.buttons', compact('edit', 'delete', 'item', 'extra'))->render();
+    }
+
+    protected function addEditButton($item)
+    {
+        if ($item->deleted_at === null) {
+           if ($this->auth->isAbleTo('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_update')) {
+            return "<a href='".route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.edit', $item)."'' class='btn btn-default btn-flat' title='".trans('core::table.general.edit resource')."'><i class='fas fa-pencil-alt'></i></a>";
+            }
+        }
+        
+        return false;
+    }
+
+    protected function addDeleteButton($item)
+    {
+        if ($this->auth->isAbleTo('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_delete')) {
+            if ($item->deleted_at === null) {
+                return "<button class='btn btn-sm btn-danger action-item'>
+                            <span data-action='delete' data-href=".route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.destroy', $item)."  class='fa fa-trash'></span>
+                        </button>";
+            }
+            return "<button class='btn btn-sm btn-danger action-item'>
+                        <span data-action='destroy' data-href=".route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.destroy', $item)."  class='fa fa-trash'></span>
+                    </button>";
+        }
+
+    }
+
+    /**
+     * Get filename for export.
+     *
+     * @return string
+     */
+    protected function filename()
+    {
+        return '$LOWERCASE_MODULE_NAME$__$PLURAL_LOWERCASE_CLASS_NAME$' . date('YmdHis');
+    }
+
+    protected function renderResponsive()
+    {
+        return <<<HTML
+            function ( api, rowIdx, columns ) {
+                var data = $.map( columns, function ( col, i ) {
+                    console.log(col.className);
+                    return (col.className !=="hidden") ?
+                        '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
+                            '<td>'+col.title+':'+'</td> '+
+                            '<td>'+col.data+'</td>'+
+                        '</tr>' :
+                        '';
+                } ).join('');
+ 
+                return data ?
+                    $('<table/>').append( data ) :
+                    false;
+            }
+            HTML;
+    }
+}

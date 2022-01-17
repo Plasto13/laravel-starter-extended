@@ -6,6 +6,6 @@
         @if(setting('core::show_copyright'))
             @lang('Copyright') &copy; {{ date('Y') }}
         @endif
-        <a href="/">{{app_name()}}</a>.</strong>
+        <a href="/">{{ setting('core::app_name') }}</a>. Pavol Duroska P&M Soft</strong>
 
 </footer>

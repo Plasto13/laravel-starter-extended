@@ -7,13 +7,17 @@ use Illuminate\Session\Store;
 use Illuminate\Routing\Controller;
 use Nwidart\Modules\Facades\Module;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\Support\Renderable;
 use Modules\Setting\Http\Requests\SettingRequest;
 use Modules\Setting\Repositories\SettingRepository;
 
 class SettingController extends Controller
 {
     protected $setting;
+    protected $session;
+    protected $module_title;
+    protected $module_path;
+    protected $module_icon;
+    protected $module_model;
 
     public function __construct(SettingRepository $setting, Store $session)
     {
@@ -39,16 +43,27 @@ class SettingController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @return Renderable
+     * @return Redirect
      */
     public function index()
     {
+        $module_title = $this->module_title;
+
+        $module_action = 'Show';
+
+        Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
         return redirect()->route('backend.setting.module', ['Core']);
     }
 
     public function store(SettingRequest $request)
     {
         $this->setting->createOrUpdate(array_filter($request->all()));
+
+        $module_title = $this->module_title;
+
+        $module_action = 'Store';
+
+        Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
 
         return redirect()->route('backend.setting.index')
             ->withSuccess(trans('setting::messages.settings saved'));

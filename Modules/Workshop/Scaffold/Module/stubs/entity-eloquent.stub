@@ -2,16 +2,22 @@
 
 namespace Modules\$MODULE_NAME$\Entities;
 
-use Dimsav\Translatable\Translatable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Core\Entities\BaseModel;
+use Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
-class $CLASS_NAME$ extends Model
+class $CLASS_NAME$ extends BaseModel implements TranslatableContract
 {
     use Translatable;
     use SoftDeletes;
 
     protected $table = '$LOWERCASE_MODULE_NAME$__$PLURAL_LOWERCASE_CLASS_NAME$';
-    public $translatedAttributes = ['title', 'description'];
-    protected $fillable = ['title', 'description'];
+    public $translatedAttributes = ['title', 'description', 'slug'];
+    protected $fillable = ['title', 'description', 'slug'];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
 }

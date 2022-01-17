@@ -1,16 +1,24 @@
 <?php
 
 return [
-    'list resource' => 'List $PLURAL_LOWERCASE_CLASS_NAME$',
-    'create resource' => 'Create $PLURAL_LOWERCASE_CLASS_NAME$',
-    'edit resource' => 'Edit $PLURAL_LOWERCASE_CLASS_NAME$',
-    'destroy resource' => 'Destroy $PLURAL_LOWERCASE_CLASS_NAME$',
     'title' => [
         '$PLURAL_LOWERCASE_CLASS_NAME$' => '$CLASS_NAME$',
+        '$PLURAL_LOWERCASE_CLASS_NAME$_subtitle' => '$PLURAL_LOWERCASE_CLASS_NAME$ subtitle',
         'create $LOWERCASE_CLASS_NAME$' => 'Create a $LOWERCASE_CLASS_NAME$',
         'edit $LOWERCASE_CLASS_NAME$' => 'Edit a $LOWERCASE_CLASS_NAME$',
     ],
-    'button' => [
+    'permissions' => [
+        'category' => '$PLURAL_CLASS_NAME$',
+        'list name' => 'List a $LOWERCASE_CLASS_NAME$',
+        'list description' => 'List a $LOWERCASE_CLASS_NAME$',
+        'create name' => 'Create a $LOWERCASE_CLASS_NAME$',
+        'create description' => 'Edit a $LOWERCASE_CLASS_NAME$',
+        'update name' => 'Update a $LOWERCASE_CLASS_NAME$',
+        'update description' => 'Update a $LOWERCASE_CLASS_NAME$',
+        'delete name' => 'Delete a $LOWERCASE_CLASS_NAME$',
+        'delete description' => 'Delete a $LOWERCASE_CLASS_NAME$',
+    ],
+    'buttons' => [
         'create $LOWERCASE_CLASS_NAME$' => 'Create a $LOWERCASE_CLASS_NAME$',
     ],
     'table' => [
