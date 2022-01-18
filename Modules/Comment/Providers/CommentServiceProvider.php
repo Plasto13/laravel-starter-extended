@@ -1,9 +1,9 @@
 <?php
-
 namespace Modules\Comment\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Modules\Tag\Menu\TagMenu;
 use Symfony\Component\Finder\Finder;
+use Illuminate\Support\ServiceProvider;
 
 class CommentServiceProvider extends ServiceProvider
 {
@@ -18,10 +18,9 @@ class CommentServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path('Comment', 'Database/Migrations'));
-
-        // adding global middleware
-        $kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
-        $kernel->pushMiddleware('Modules\Comment\Http\Middleware\GenerateMenus');
+        app('core.menu.items')->registerMenuItem([
+            TagMenu::class,
+        ]);
 
         // register commands
         $this->registerCommands('\Modules\Comment\Console');
@@ -69,7 +68,7 @@ class CommentServiceProvider extends ServiceProvider
         ], 'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path.'/modules/comment';
+            return $path . '/modules/comment';
         }, \Config::get('view.paths')), [$sourcePath]), 'comment');
     }
 
@@ -97,11 +96,11 @@ class CommentServiceProvider extends ServiceProvider
     protected function registerCommands($namespace = '')
     {
         $finder = new Finder(); // from Symfony\Component\Finder;
-        $finder->files()->name('*.php')->in(__DIR__.'/../Console');
+        $finder->files()->name('*.php')->in(__DIR__ . '/../Console');
 
         $classes = [];
         foreach ($finder as $file) {
-            $class = $namespace.'\\'.$file->getBasename('.php');
+            $class = $namespace . '\\' . $file->getBasename('.php');
             array_push($classes, $class);
         }
 
