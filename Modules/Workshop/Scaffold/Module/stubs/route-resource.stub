@@ -1,47 +1,47 @@
-    $router->bind('$LOWERCASE_CLASS_NAME$', function ($id) {
-        return app('Modules\$MODULE_NAME$\Repositories\$CLASS_NAME$Repository')->find($id);
+    $router->bind('$LOWERCASE_CLASS_NAME$', function ($slug) {
+        return app('Modules\$MODULE_NAME$\Repositories\$CLASS_NAME$Repository')->find($slug);
     });
     $router->get('$PLURAL_LOWERCASE_CLASS_NAME$', [
         'as' => 'admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.index',
         'uses' => '$CLASS_NAME$Controller@index',
         'middleware' => [
-            'permission:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_list'
+            'can:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_list'
         ],
     ]);
     $router->get('$PLURAL_LOWERCASE_CLASS_NAME$/create', [
         'as' => 'admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.create',
         'uses' => '$CLASS_NAME$Controller@create',
         'middleware' => [
-            'permission:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_create'
+            'can:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_create'
         ],
     ]);
     $router->post('$PLURAL_LOWERCASE_CLASS_NAME$', [
         'as' => 'admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.store',
         'uses' => '$CLASS_NAME$Controller@store',
         'middleware' => [
-            'permission:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_create'
+            'can:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_create'
         ],
     ]);
     $router->get('$PLURAL_LOWERCASE_CLASS_NAME$/{$LOWERCASE_CLASS_NAME$}/edit', [
         'as' => 'admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.edit',
         'uses' => '$CLASS_NAME$Controller@edit',
         'middleware' => [
-            'permission:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_update'
+            'can:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_update'
         ],
     ]);
     $router->put('$PLURAL_LOWERCASE_CLASS_NAME$/{$LOWERCASE_CLASS_NAME$}', [
         'as' => 'admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.update',
         'uses' => '$CLASS_NAME$Controller@update',
         'middleware' => [
-            'permission:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_update'
+            'can:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_update'
         ],
     ]);
     $router->delete('$PLURAL_LOWERCASE_CLASS_NAME$/{$LOWERCASE_CLASS_NAME$}', [
         'as' => 'admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.destroy',
         'uses' => '$CLASS_NAME$Controller@destroy',
         'middleware' => [
-            'permission:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_delete'
+            'can:$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_delete'
         ],
     ]);
-    
+
 // append

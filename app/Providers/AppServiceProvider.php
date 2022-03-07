@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app->make('config')->set('translatable.locales', config('portal.core.available-locales'));
         $this->registerLocales();
         Paginator::useBootstrap();
 
@@ -42,8 +43,7 @@ class AppServiceProvider extends ServiceProvider
         config([
             'laravellocalization.supportedLocales' => $locales,
             'laravellocalization.useAcceptLanguageHeader' => true,
-            'hideDefaultLocaleInURL' => true
+            'hideDefaultLocaleInURL' => true,
         ]);
-        // dd(config('laravellocalization.supportedLocales'));
     }
 }

@@ -9,7 +9,7 @@
 </li>
 @else
 <li class="breadcrumb-item">
-    <a href='{{$route}}'>
+    <a href='{{route($route)}}'>
         <i class="{{ $icon }}"></i>
         {{ $slot }}
     </a>

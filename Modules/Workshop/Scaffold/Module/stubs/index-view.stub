@@ -1,20 +1,18 @@
-@extends('boilerplate::layout.index', [
-    'title' => __('$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.title.$PLURAL_LOWERCASE_CLASS_NAME$'),
-    'subtitle' => __('$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.title.$PLURAL_LOWERCASE_CLASS_NAME$_subtitle'),
-    'breadcrumb' => [
-        __('$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_MODULE_NAME$.title.$PLURAL_LOWERCASE_MODULE_NAME$'),
-        __('$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.title.$PLURAL_LOWERCASE_CLASS_NAME$'),
-    ]
-])
+@extends('backend.layouts.app')
 
-@push('css')
-@endpush
+@section('title') {{ __('$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.title.$PLURAL_LOWERCASE_CLASS_NAME$') }} @endsection
+
+@section('breadcrumbs')
+<x-backend-breadcrumbs>
+    <x-backend-breadcrumb-item type="active" icon='nav-icon fas fa-cube'>{{ __('$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.title.$PLURAL_LOWERCASE_CLASS_NAME$'), }}</x-backend-breadcrumb-item>
+</x-backend-breadcrumbs>
+@endsection
 
 @section('content')
     <div class="row">
         <div class="col-sm-12 mb-3">
             <span class="btn-group float-right">
-                @if(Auth::user()->isAbleTo('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_create'))
+                @if(Auth::user()->can('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_create'))
                 <a href="{{ route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.create') }}" class="btn btn-primary">
                     @lang('$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.buttons.create $LOWERCASE_CLASS_NAME$')
                 </a>
@@ -22,9 +20,9 @@
             </span>
         </div>
     </div>
-    @component('boilerplate::card')
+    <x-card>
         <x-datatables :table="$table" />
-    @endcomponent
+    </x-card>
 
 @endsection
 

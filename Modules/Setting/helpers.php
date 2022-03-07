@@ -3,6 +3,8 @@
 if (!function_exists('setting')) {
     function setting($name, $locale = null, $default = null)
     {
-        return app('setting.settings')->get($name, $locale, $default);
+        if (env('APP_INSTALED')) {
+            return app('setting.settings')->get($name, $locale, $default);
+        }
     }
 }

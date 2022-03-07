@@ -31,6 +31,27 @@ return [
         'class' => 'select2', // any class for input
         'rules' => '',
     ],
+
+    'date_format' => [
+        'label' => 'core::settings.date_format',
+        'description' => 'core::settings.date_format_description',
+        'view' => 'text',
+        'translatable' => false,
+        'default' => 'Y-mm-dd',
+        'groupClass' => 'col-md-12 col-sm-12',
+        'class' => '', // any class for input
+        'rules' => '',
+    ],
+    'date_time_format' => [
+        'label' => 'core::settings.date_time_format',
+        'description' => 'core::settings.date_time_format_description',
+        'view' => 'text',
+        'translatable' => false,
+        'default' => 'Y-mm-dd',
+        'groupClass' => 'col-md-12 col-sm-12',
+        'class' => '', // any class for input
+        'rules' => '',
+    ],
     'meta_description' => [
         'label' => 'core::settings.meta_description',
         'description' => 'core::settings.meta_description_description',

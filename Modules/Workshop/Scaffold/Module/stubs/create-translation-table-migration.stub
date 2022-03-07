@@ -16,6 +16,7 @@ class Create$MODULE_NAME$$CLASS_NAME$TranslationsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('title')->nullable();
+            $table->string('slug')->nullable();
             $table->text('description')->nullable();
 
             $table->integer('$LOWERCASE_CLASS_NAME$_id')->unsigned();

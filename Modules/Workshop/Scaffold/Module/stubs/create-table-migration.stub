@@ -17,6 +17,13 @@ class Create$MODULE_NAME$$PLURAL_CLASS_NAME$Table extends Migration
             $table->increments('id');
             $table->string('title')->nullable();
             $table->text('description')->nullable();
+            $table->integer('created_by')->unsigned()->nullable();
+            $table->string('created_by_name')->nullable();
+            $table->string('created_by_alias')->nullable();
+            $table->integer('updated_by')->unsigned()->nullable();
+            $table->integer('deleted_by')->unsigned()->nullable();
+
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

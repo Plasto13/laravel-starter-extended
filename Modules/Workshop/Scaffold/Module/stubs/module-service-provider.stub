@@ -17,7 +17,7 @@ class $MODULE$ServiceProvider extends ServiceProvider
      */
     protected $moduleNameLower = '$LOWERCASE_MODULE$';
 
-   
+
     /**
      * Register the service provider.
      *
@@ -34,7 +34,7 @@ class $MODULE$ServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
-        app('boilerplate.menu.items')->registerMenuItem([
+        app('core.menu.items')->registerMenuItem([
             $MODULE$Menu::class,
         ]);
         $this->registerBindings();

@@ -1,5 +1,4 @@
 <?php
-
 namespace Modules\Workshop\Scaffold\Module;
 
 use Illuminate\Contracts\Config\Repository;
@@ -95,7 +94,7 @@ class ModuleScaffold
             throw new ModuleExistsException();
         }
 
-        $this->artisan->call("module:make", ['name' => [$this->name]]);
+        $this->artisan->call('module:make', ['name' => [$this->name]]);
 
         $this->addDataToComposerFile();
         $this->removeUnneededFiles();
@@ -104,7 +103,7 @@ class ModuleScaffold
         $this->filesGenerator->forModule($this->name)
             ->generateModuleProvider()
             ->generate($this->files);
-            
+
         $this->filesGenerator->forModule($this->name)
             ->generateApiRouter()
             ->generate($this->files);
@@ -112,7 +111,7 @@ class ModuleScaffold
         $this->filesGenerator->forModule($this->name)
             ->generateMenu()
             ->generate($this->files);
-            
+
         $this->filesGenerator->forModule($this->name)
             ->generateModuleLang()
             ->generate($this->files);
@@ -321,7 +320,7 @@ JSON;
         $replace = <<<JSON
 "description": "",
     "type": "pamsoft-module",
-    "license": "MIT", 
+    "license": "MIT",
     "require": {
         "php": ">=7.0.0",
         "composer/installers": "~1.0",

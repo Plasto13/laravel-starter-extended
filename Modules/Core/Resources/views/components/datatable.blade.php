@@ -1,4 +1,4 @@
-@push('css')
+@push('after-styles')
 <style type="text/css">
     .dropdown-menu {z-index: 2002;}
 </style>
@@ -49,11 +49,11 @@
 </div>
 <!-- /.box -->
 
-@push('js')
+@push('after-scripts')
 {{-- <script src="{!! mix('/js/datatables/datatables.min.js', '/assets/vendor/boilerplate') !!}"></script> --}}
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
-<script src="{!! Module::asset('core:js/filter.js') !!}"></script> 
+<script src="{!! Module::asset('core:js/filter.js') !!}"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.bootstrap4.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/colreorder/1.5.1/js/dataTables.colReorder.min.js"></script>
@@ -68,10 +68,7 @@
 {{-- <script src="https://cdn.datatables.net/plug-ins/1.10.24/dataRender/datetime.js" type="text/javascript"></script> --}}
 <script src="//cdn.datatables.net/plug-ins/1.10.24/sorting/datetime-moment.js" type="text/javascript"></script>
 {{-- <script src="https://cdn.datatables.net/rowreorder/1.2.7/js/dataTables.rowReorder.min.js" type="text/javascript"></script> --}}
-@endpush
-
-@push('scripts')
 {!! $table->builder()->scripts() !!}
 
-<script src="{!! Module::asset('core:js/table.js') !!}"></script> 
+<script src="{!! Module::asset('core:js/table.js') !!}"></script>
 @endpush

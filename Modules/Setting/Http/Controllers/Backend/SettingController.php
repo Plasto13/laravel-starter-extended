@@ -51,7 +51,7 @@ class SettingController extends Controller
 
         $module_action = 'Show';
 
-        Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
+        // Log::info(label_case($module_title . ' ' . $module_action) . ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
         return redirect()->route('backend.setting.module', ['Core']);
     }
 

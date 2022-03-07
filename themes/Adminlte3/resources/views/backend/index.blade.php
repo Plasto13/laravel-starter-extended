@@ -12,14 +12,14 @@
         <div class="row">
             <div class="col-sm-8">
                 <h4 class="card-title mb-0">{{ setting('core::app_name') }}</h4>
-                <div class="small text-muted">{{ date_today() }}</div>
             </div>
 
             <div class="col-sm-4 hidden-sm-down">
                 <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
-                    <button type="button" class="btn btn-info float-right">
-                        <i class="c-icon cil-bullhorn"></i>
-                    </button>
+                    <div class="small text-muted">{{ date_today() }} </div>
+                  {{--   <button type="button" class="btn btn-info float-right">
+                        <i class="fas fa-bullhorn "></i>
+                    </button> --}}
                 </div>
             </div>
         </div>

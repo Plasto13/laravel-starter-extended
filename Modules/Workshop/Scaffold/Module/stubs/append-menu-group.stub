@@ -2,7 +2,7 @@
             'url'  => '#',
             'icon' => 'cube'
             'permission' => '$PLURAL_LOWERCASE_CLASS_NAME$_list,$PLURAL_LOWERCASE_CLASS_NAME$_create,$PLURAL_LOWERCASE_CLASS_NAME$_update,$PLURAL_LOWERCASE_CLASS_NAME$_delete'
-        ])->id('$LOWERCASE_MODULE_NAME$_menu')->activeIfRoute('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.*')->order(100);
+        ])->id('$LOWERCASE_MODULE_NAME$_menu')->activeIfRoute('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.*')->order(50);
 
         $menu->group(['prefix' => __('$LOWERCASE_MODULE_NAME$::$PLURAL_LOWERCASE_CLASS_NAME$.menu.title')], function($menu){
 

@@ -13,17 +13,16 @@ class $MODULE$Menu
      */
     public function make(Builder $menu)
     {
-        $permissions = DB::table('permissions')->where('category_id', '=', @DB::table('permissions_categories')->select(['id', 'name'])->where('name', '$MODULE$')->first()->id)->pluck('name')->toArray();
-        $permissions = implode(",", $permissions);
         $menu->add(__('$LOWERCASE_MODULE$::$PLURAL_MODULE$.title.$PLURAL_MODULE$'), [
+            'url' => '#',
             'icon' => 'cube',
-            'permission' => $permissions,
+            'permission' => '$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_list',
         ])->id('$LOWERCASE_MODULE$_menu')->activeIfRoute('admin.$LOWERCASE_MODULE$.*')->order(100);
 
-        //append    
+        //append
 
 
-        // -append 
+        // -append
     }
 
 }

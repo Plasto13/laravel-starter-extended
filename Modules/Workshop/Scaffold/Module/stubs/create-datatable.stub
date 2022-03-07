@@ -216,7 +216,7 @@ class $CLASS_NAME$DataTable extends DataTable
         switch ($key) {
             case 'created_at':
             case 'updated_at':
-                $value = Carbon::createFromFormat(config('core.base.general.date_format.date'), $value)->toDateString();
+                $value = Carbon::createFromFormat(settings('core::date_format'), $value)->toDateString();
                 $query = $query->whereDate($key, $operator, $value);
                 break;
             default:
@@ -228,7 +228,7 @@ class $CLASS_NAME$DataTable extends DataTable
                     } else {
                         $query->where($key, $operator, '%' . $value . '%');
                     }
-                    
+
                     break;
                 }
 
@@ -294,10 +294,8 @@ class $CLASS_NAME$DataTable extends DataTable
                         'printable' => true,
                         'visible' => true,
                         ],
-            Column::make('created_at')
-                ->render("$.fn.dataTable.render.moment('".__('core::site.datetime-format')."')"),
-            Column::make('updated_at')
-                ->render("$.fn.dataTable.render.moment('".__('core::site.datetime-format')."')"),
+            Column::make('created_at'),
+            Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -337,14 +335,14 @@ class $CLASS_NAME$DataTable extends DataTable
     public function bulkActions(): array
     {
         $actions = [];
-        if ($this->getBulkChanges() && $this->auth->isAbleTo('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_update')) {
+        if ($this->getBulkChanges() && $this->auth->can('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_update')) {
             $actions['bulk-change'] = view('core::datatables.bulk-changes', [
                 'bulk_changes' => $this->getBulkChanges(),
                 'class'        => get_class($this),
                 'url'          => $this->bulkChangeUrl,
             ])->render();
         }
-        if ($this->getBulkDelete() && $this->auth->isAbleTo('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_delete')) {
+        if ($this->getBulkDelete() && $this->auth->can('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_delete')) {
             $actions['bulk-delete'] = view('core::datatables.bulk-delete', [
                     'bulk_changes' => $this->getBulkDelete(),
                     'class'        => get_class($this),
@@ -401,7 +399,7 @@ class $CLASS_NAME$DataTable extends DataTable
 
 
      /**
-     * 
+     *
      */
     public function getBulkChanges(): array
     {
@@ -420,7 +418,7 @@ class $CLASS_NAME$DataTable extends DataTable
     }
 
      /**
-     * 
+     *
      */
     public function getBulkDelete(): array
     {
@@ -430,14 +428,14 @@ class $CLASS_NAME$DataTable extends DataTable
                 'value'    => 'delete',
             ],
             'description' => [
-                'title'    => 'Trash',            
+                'title'    => 'Trash',
                 'value'    => 'trash' ,
-                ]          
+                ]
         ];
     }
-    
+
      /**
-     * 
+     *
      */
     public function getBulkExport(): array
     {
@@ -448,7 +446,7 @@ class $CLASS_NAME$DataTable extends DataTable
             ],
             'description' => [
                 'title'    => 'Export All',
-                'value'    => 'all', 
+                'value'    => 'all',
             ],
         ];
     }
@@ -458,7 +456,7 @@ class $CLASS_NAME$DataTable extends DataTable
     {
         return $this->table
             ->eloquent($this->query())
-            ->editColumn('translations.title', function ($item) {               
+            ->editColumn('translations.title', function ($item) {
                 return $item->title;
             })
             ->editColumn('translations.description', function ($item) {
@@ -484,24 +482,24 @@ class $CLASS_NAME$DataTable extends DataTable
     protected function addEditButton($item)
     {
         if ($item->deleted_at === null) {
-           if ($this->auth->isAbleTo('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_update')) {
-            return "<a href='".route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.edit', $item)."'' class='btn btn-default btn-flat' title='".trans('core::table.general.edit resource')."'><i class='fas fa-pencil-alt'></i></a>";
+           if ($this->auth->can('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_update')) {
+            return "<a href='".route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.edit', $item->slug)."'' class='btn btn-default btn-flat' title='".trans('core::table.general.edit resource')."'><i class='fas fa-pencil-alt'></i></a>";
             }
         }
-        
+
         return false;
     }
 
     protected function addDeleteButton($item)
     {
-        if ($this->auth->isAbleTo('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_delete')) {
+        if ($this->auth->can('$LOWERCASE_MODULE_NAME$_$PLURAL_LOWERCASE_CLASS_NAME$_delete')) {
             if ($item->deleted_at === null) {
                 return "<button class='btn btn-sm btn-danger action-item'>
-                            <span data-action='delete' data-href=".route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.destroy', $item)."  class='fa fa-trash'></span>
+                            <span data-action='delete' data-href=".route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.destroy', $item->slug)."  class='fa fa-trash'></span>
                         </button>";
             }
             return "<button class='btn btn-sm btn-danger action-item'>
-                        <span data-action='destroy' data-href=".route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.destroy', $item)."  class='fa fa-trash'></span>
+                        <span data-action='destroy' data-href=".route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.destroy', $item->slug)."  class='fa fa-trash'></span>
                     </button>";
         }
 
@@ -530,7 +528,7 @@ class $CLASS_NAME$DataTable extends DataTable
                         '</tr>' :
                         '';
                 } ).join('');
- 
+
                 return data ?
                     $('<table/>').append( data ) :
                     false;

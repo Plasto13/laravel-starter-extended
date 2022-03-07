@@ -9,7 +9,8 @@
     ],
     "aliases": {},
     "files": [
-        "helpers.php"
+        "helpers.php",
+        "macros.php"
     ],
     "requires": []
 }

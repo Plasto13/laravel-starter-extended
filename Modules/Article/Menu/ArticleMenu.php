@@ -14,6 +14,7 @@ class ArticleMenu
         $menu->add(__('Article'), [
             'icon' => 'fa-file-alt',
             'permission' => 'edit_posts',
+            'url' => '#',
         ])
         ->id('article_menu')
         ->activeIfRoute(

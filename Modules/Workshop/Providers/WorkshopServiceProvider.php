@@ -1,5 +1,4 @@
 <?php
-
 namespace Modules\Workshop\Providers;
 
 use Illuminate\Support\ServiceProvider;
@@ -48,7 +47,7 @@ class WorkshopServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
     }
 
-      /**
+    /**
      * Register the scaffold command
      */
     private function registerModuleScaffoldCommand()
@@ -79,7 +78,8 @@ class WorkshopServiceProvider extends ServiceProvider
             module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
+            module_path($this->moduleName, 'Config/config.php'),
+            $this->moduleNameLower
         );
     }
 

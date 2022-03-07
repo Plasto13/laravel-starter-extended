@@ -1,0 +1,213 @@
+
+.ui-select-wrapper .select2-selection--single .select2-selection__arrow {
+    display: none!important;
+}
+.ui-select-wrapper .select2-container--default .select2-selection--multiple, .ui-select-wrapper .select2-container--default .select2-selection--single {
+    border: none;
+}
+.ui-select[disabled], .ui-text-area[disabled], :not(.next-input--stylized)>.next-input[disabled] {
+    background: #f4f6f8!important;
+    color: #919eab;
+}
+.ui-select-wrapper .next-icon-text, .ui-select-wrapper .svg-next-icon {
+    cursor: pointer;
+    display: block;
+    fill: #798c9c;
+    position: absolute;
+    right: 7px;
+    top: 9px;
+    pointer-events: none;
+    z-index: 99999;
+}
+.ui-select-wrapper {
+    border: 1px solid #c4cdd5;
+    border-radius: 3px!important;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    vertical-align: bottom;
+    transition: all .2s ease-out;
+    background: linear-gradient(180deg, #fff, #f9fafb);
+    box-shadow: 0 1px 0 0 rgba(22, 29, 37, .05);
+}
+.ui-select-wrapper .ui-select {
+    width: 100%;
+}
+
+.ui-select:not(.select-search-full) {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    font-weight: 400;
+    line-height: 24px;
+    text-transform: none;
+    letter-spacing: normal;
+    background: transparent!important;
+    padding: 4px 8px;
+    border: 0;
+    box-sizing: border-box;
+    max-width: none;
+    display: block;
+    height: 34px!important;
+    outline: none!important;
+}
+ table.dataTable {
+	 border-top: none;
+	 margin-top: 0 !important;
+	 margin-bottom: 0 !important;
+	 width: 100% !important;
+}
+
+ .wrapper-action {
+	padding-bottom: 5px;
+}
+ .datatable-header {
+	 background: #ebeae8;
+	 height: 46px;
+}
+}
+ .datatable-footer {
+	 padding: 5px;
+}
+ .dataTables_filter {
+	 padding: 0;
+}
+ .table-has-actions .dataTables_filter, .table-has-filter .dataTables_filter {
+	 left: 125px;
+}
+ .table-has-actions.table-has-filter .dataTables_filter {
+	 left: 250px;
+}
+ .dropdown-hover a {
+	 position: relative;
+	 display: block;
+	 padding: 8px 16px;
+	 clear: both;
+	 font-weight: 400;
+	 line-height: 1.42857143;
+	 color: #6f6e6e;
+	 white-space: nowrap;
+}
+ .dropdown-hover a > i {
+	 position: absolute;
+	 right: 5px;
+	 top: 50%;
+	 transform: translateY(-50%);
+}
+ .dropdown-hover a:hover {
+	 text-decoration: none;
+	 background-color: #f5f5f5;
+}
+ .dropdown-hover .dropdown-content {
+	 display: none;
+	 position: absolute;
+	 top: 0;
+	 left: 100%;
+	 background-color: #f1f1f1;
+	 min-width: 160px;
+	 box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
+	 z-index: 1;
+	 padding: 0 !important;
+}
+ .dropdown-hover .dropdown-content a {
+	 color: black;
+	 text-decoration: none;
+	 display: block;
+}
+ .dropdown-hover .dropdown-content a:hover {
+	 background-color: #ddd;
+}
+ .dropdown:hover .dropdown-content {
+	 display: block;
+}
+ .dropdown:hover .dropbtn {
+	 background-color: #3e8e41;
+}
+ .table-wrapper .portlet.portlet-no-padding {
+	 overflow: inherit;
+}
+ .table-wrapper .wrapper-filter .btn-add-filter {
+	 display: block;
+	 max-width: 200px;
+	 margin-top: 10px;
+}
+ .table-wrapper .wrapper-filter .btn-apply {
+	 display: inline-block;
+	 vertical-align: top;
+}
+ .table-wrapper .wrapper-filter .form-filter {
+	 margin-bottom: 10px;
+}
+ .table-wrapper .wrapper-filter .form-filter > input, .table-wrapper .wrapper-filter .form-filter .ui-select-wrapper, .table-wrapper .wrapper-filter .form-filter .ui-select-wrapper + span {
+	 display: inline-block;
+	 width: 190px !important;
+	 vertical-align: middle;
+	 margin-right: 10px;
+}
+ .table-wrapper .wrapper-filter .form-filter a {
+	 display: inline-block;
+	 vertical-align: middle;
+}
+ .table-wrapper .wrapper-filter .form-filter .filter-item {
+	 max-width: 645px;
+	 margin-bottom: 0;
+	 background: #eee;
+	 padding: 10px;
+}
+ .table-wrapper .wrapper-filter .form-filter .filter-column-value-wrap {
+	 display: inline-block;
+	 width: 190px !important;
+	 vertical-align: middle;
+	 margin-right: 10px;
+}
+ .table-wrapper .wrapper-filter .form-filter .filter-column-value-wrap .input-group {
+	 z-index: 2;
+}
+ .table-wrapper .wrapper-filter .form-filter .btn-reset-filter-item, .table-wrapper .wrapper-filter .form-filter .btn-remove-filter-item {
+	 cursor: pointer;
+}
+ .table-wrapper .table-configuration-wrap {
+	 margin-bottom: 30px;
+	 display: none;
+	 background: #fff;
+	 padding: 15px;
+	 position: relative;
+}
+ .table-wrapper .table-configuration-wrap .configuration-close-btn {
+	 position: absolute;
+	 top: 10px;
+	 right: 15px;
+	 width: 32px;
+	 height: 32px;
+	 border-radius: 50% !important;
+	 display: inline-block;
+	 background: #ddd;
+	 text-align: center;
+	 vertical-align: middle;
+	 line-height: 31px;
+	 cursor: pointer;
+}
+ .table-wrapper .table-configuration-wrap .configuration-close-btn:hover {
+	 background: #eee;
+	 color: #000;
+}
+ .table-wrapper .action-item a {
+	 background: none;
+	 border: none;
+	 color: #fff !important;
+	 text-decoration: none !important;
+}
+ @media screen and (max-width: 768px) {
+	 .form-filter > input, .form-filter .ui-select-wrapper, .form-filter .ui-select-wrapper + span, .form-filter a {
+		 width: 27% !important;
+		 max-width: none;
+		 margin-bottom: 10px;
+	}
+}
+ @media screen and (max-width: 480px) {
+	 .form-filter > input, .form-filter .ui-select-wrapper, .form-filter .ui-select-wrapper + span, .form-filter a {
+		 width: 100% !important;
+	}
+}
+ 

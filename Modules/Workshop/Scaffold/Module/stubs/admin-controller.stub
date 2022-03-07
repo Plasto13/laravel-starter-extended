@@ -2,14 +2,12 @@
 
 namespace Modules\$MODULE_NAME$\Http\Controllers\Backend;
 
-use Throwable;
-use Exception;
-use Illuminate\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
+use Log;
+use Illuminate\Support\Str;
+use Illuminate\Session\Store;
+use Illuminate\Routing\Controller;
+use Nwidart\Modules\Facades\Module;
+use Illuminate\Support\Facades\Auth;
 use Modules\$MODULE_NAME$\Entities\$CLASS_NAME$;
 use Modules\$MODULE_NAME$\DataTables\$CLASS_NAME$DataTable;
 use Modules\$MODULE_NAME$\Repositories\$CLASS_NAME$Repository;
@@ -36,7 +34,8 @@ class $CLASS_NAME$Controller extends Controller
      */
     public function index($CLASS_NAME$DataTable $dataTable)
     {
-        return $dataTable->render('$LOWERCASE_MODULE_NAME$::admin.$PLURAL_LOWERCASE_CLASS_NAME$.index', ['table' => $dataTable]);
+        Log::info(label_case('$MODULE_NAME$  -  $CLASS_NAME$  List') . ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
+        return $dataTable->render('$LOWERCASE_MODULE_NAME$::backend.$PLURAL_LOWERCASE_CLASS_NAME$.index', ['table' => $dataTable]);
     }
 
     /**
@@ -46,7 +45,8 @@ class $CLASS_NAME$Controller extends Controller
      */
     public function create()
     {
-        return view('$LOWERCASE_MODULE_NAME$::admin.$PLURAL_LOWERCASE_CLASS_NAME$.create');
+        Log::info(label_case('$MODULE_NAME$ $CLASS_NAME$  Create') . ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
+        return view('$LOWERCASE_MODULE_NAME$::backend.$PLURAL_LOWERCASE_CLASS_NAME$.create');
     }
 
     /**
@@ -57,7 +57,8 @@ class $CLASS_NAME$Controller extends Controller
      */
     public function store(Create$CLASS_NAME$Request $request)
     {
-        $this->$LOWERCASE_CLASS_NAME$->create($request->all());
+        $saved = $this->$LOWERCASE_CLASS_NAME$->create($request->all());
+        Log::info(label_case('$MODULE_NAME$ $CLASS_NAME$  Store ID: ') .$saved->id. ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
 
         return redirect()->route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.index')
             ->with('growl', [__('core::core.messages.resource created'), 'success']);
@@ -71,7 +72,8 @@ class $CLASS_NAME$Controller extends Controller
      */
     public function edit($CLASS_NAME$ $$LOWERCASE_CLASS_NAME$)
     {
-        return view('$LOWERCASE_MODULE_NAME$::admin.$PLURAL_LOWERCASE_CLASS_NAME$.edit', compact('$LOWERCASE_CLASS_NAME$'));
+        Log::info(label_case('$MODULE_NAME$ - $CLASS_NAME$ Store ID: ') .$$LOWERCASE_CLASS_NAME$->id. ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
+        return view('$LOWERCASE_MODULE_NAME$::backend.$PLURAL_LOWERCASE_CLASS_NAME$.edit', compact('$LOWERCASE_CLASS_NAME$'));
     }
 
     /**
@@ -83,7 +85,8 @@ class $CLASS_NAME$Controller extends Controller
      */
     public function update($CLASS_NAME$ $$LOWERCASE_CLASS_NAME$, Update$CLASS_NAME$Request $request)
     {
-        $this->$LOWERCASE_CLASS_NAME$->update($$LOWERCASE_CLASS_NAME$, $request->all());
+        $saved = $this->$LOWERCASE_CLASS_NAME$->update($$LOWERCASE_CLASS_NAME$, $request->all());
+        Log::info(label_case('$MODULE_NAME$ - $CLASS_NAME$ Update ID: ') .$saved->id. ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
 
         return redirect()->route('admin.$LOWERCASE_MODULE_NAME$.$LOWERCASE_CLASS_NAME$.index')
             ->with('growl', [__('core::core.messages.resource updated'), 'success']);
@@ -97,7 +100,7 @@ class $CLASS_NAME$Controller extends Controller
      */
     public function destroy($CLASS_NAME$ $$LOWERCASE_CLASS_NAME$)
     {
-
-       return response()->json(['success' => $this->$LOWERCASE_CLASS_NAME$->destroy($$LOWERCASE_CLASS_NAME$) ?? false]);
+        Log::info(label_case('$MODULE_NAME$ - $CLASS_NAME$ Destroy ID: ') .$$LOWERCASE_CLASS_NAME$->id. ' | User:' . Auth::user()->name . '(ID:' . Auth::user()->id . ')');
+        return response()->json(['success' => $this->$LOWERCASE_CLASS_NAME$->destroy($$LOWERCASE_CLASS_NAME$) ?? false]);
     }
 }

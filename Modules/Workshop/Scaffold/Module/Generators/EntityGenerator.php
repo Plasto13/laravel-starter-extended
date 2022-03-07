@@ -1,5 +1,4 @@
 <?php
-
 namespace Modules\Workshop\Scaffold\Module\Generators;
 
 use Illuminate\Contracts\Config\Repository;
@@ -21,11 +20,13 @@ class EntityGenerator extends Generator
     }
 
     protected $views = [
-        'index-view.stub' => 'Resources/views/admin/$ENTITY_NAME$/index.blade',
-        'create-view.stub' => 'Resources/views/admin/$ENTITY_NAME$/create.blade',
-        'edit-view.stub' => 'Resources/views/admin/$ENTITY_NAME$/edit.blade',
-        'form-buttons.stub' => 'Resources/views/admin/$ENTITY_NAME$/formButtons.blade',
-        'form.stub' => 'Resources/views/admin/$ENTITY_NAME$/form.blade',
+        'index-view.stub' => 'Resources/views/backend/$ENTITY_NAME$/index.blade',
+        'create-view.stub' => 'Resources/views/backend/$ENTITY_NAME$/create.blade',
+        'edit-view.stub' => 'Resources/views/backend/$ENTITY_NAME$/edit.blade',
+        'create-fields.stub' => 'Resources/views/backend/$ENTITY_NAME$/partials/create-fields.blade',
+        'edit-fields.stub' => 'Resources/views/backend/$ENTITY_NAME$/partials/edit-fields.blade',
+        'form-buttons.stub' => 'Resources/views/backend/$ENTITY_NAME$/formButtons.blade',
+        'form.stub' => 'Resources/views/backend/$ENTITY_NAME$/form.blade',
     ];
 
     /**
@@ -77,7 +78,7 @@ class EntityGenerator extends Generator
      */
     private function generateRepositoriesFor($entity)
     {
-        if (! $this->finder->isDirectory($this->getModulesPath('Repositories/' . $this->entityType))) {
+        if (!$this->finder->isDirectory($this->getModulesPath('Repositories/' . $this->entityType))) {
             $this->finder->makeDirectory($this->getModulesPath('Repositories/' . $this->entityType));
         }
 
@@ -99,7 +100,7 @@ class EntityGenerator extends Generator
     public function generateDatatableFor($entity)
     {
         $path = $this->getModulesPath('DataTables/');
-        if (! $this->finder->isDirectory($path)) {
+        if (!$this->finder->isDirectory($path)) {
             $this->finder->makeDirectory($path);
         }
         $this->writeFile(
@@ -117,17 +118,17 @@ class EntityGenerator extends Generator
      */
     private function generateControllerFor($entity)
     {
-        $path = $this->getModulesPath('Http/Controllers/Admin');
-        if (! $this->finder->isDirectory($path)) {
+        $path = $this->getModulesPath('Http/Controllers/Backend');
+        if (!$this->finder->isDirectory($path)) {
             $this->finder->makeDirectory($path);
         }
         $this->writeFile(
-            $this->getModulesPath("Http/Controllers/Admin/{$entity}Controller"),
+            $this->getModulesPath("Http/Controllers/Backend/{$entity}Controller"),
             $this->getContentForStub('admin-controller.stub', $entity)
         );
         //Generate Api Controller
         $path = $this->getModulesPath('Http/Controllers/Api');
-        if (! $this->finder->isDirectory($path)) {
+        if (!$this->finder->isDirectory($path)) {
             $this->finder->makeDirectory($path);
         }
         $this->writeFile(
@@ -144,7 +145,7 @@ class EntityGenerator extends Generator
     private function generateRequestsFor($entity)
     {
         $path = $this->getModulesPath('Http/Requests');
-        if (! $this->finder->isDirectory($path)) {
+        if (!$this->finder->isDirectory($path)) {
             $this->finder->makeDirectory($path);
         }
         $this->writeFile(
@@ -165,7 +166,7 @@ class EntityGenerator extends Generator
     private function generateViewsFor($entity)
     {
         $lowerCasePluralEntity = strtolower(Str::plural($entity));
-        $this->finder->makeDirectory($this->getModulesPath("Resources/views/admin/{$lowerCasePluralEntity}/partials"), 0755, true);
+        $this->finder->makeDirectory($this->getModulesPath("Resources/views/backend/{$lowerCasePluralEntity}/partials"), 0755, true);
 
         foreach ($this->views as $stub => $view) {
             $view = str_replace('$ENTITY_NAME$', $lowerCasePluralEntity, $view);
@@ -215,13 +216,13 @@ class EntityGenerator extends Generator
             $this->getModulesPath("Database/Migrations/{$migrationName}"),
             $this->getContentForStub('create-translation-table-migration.stub', $entity)
         );
-        usleep(250000);
-        $lowercaseEntityName = strtolower($entity);
-        $migrationName = $this->getDateTimePrefix() . "{$lowercaseModuleName}_{$lowercaseEntityName}_category_permissions";
-        $this->writeFile(
-            $this->getModulesPath("Database/Migrations/{$migrationName}"),
-            $this->getContentForStub('add-category-table-migration.stub', $entity)
-        );
+        // usleep(250000);
+        // $lowercaseEntityName = strtolower($entity);
+        // $migrationName = $this->getDateTimePrefix() . "{$lowercaseModuleName}_{$lowercaseEntityName}_category_permissions";
+        // $this->writeFile(
+        //     $this->getModulesPath("Database/Migrations/{$migrationName}"),
+        //     $this->getContentForStub('add-category-table-migration.stub', $entity)
+        // );
         usleep(250000);
         $lowercaseEntityName = strtolower($entity);
         $migrationName = $this->getDateTimePrefix() . "{$lowercaseModuleName}_{$lowercaseEntityName}_permissions";
@@ -244,6 +245,7 @@ class EntityGenerator extends Generator
         $moduleProviderContent = str_replace('// add bindings', $binding, $moduleProviderContent);
         $this->finder->put($this->getModulesPath("Providers/{$this->name}ServiceProvider.php"), $moduleProviderContent);
     }
+
     /**
      * Append the IoC bindings for the given entity to the Service Provider
      *
@@ -365,9 +367,9 @@ class EntityGenerator extends Generator
     private function getDateTimePrefix()
     {
         $t = microtime(true);
-        $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+        $micro = sprintf('%06d', ($t - floor($t)) * 1000000);
         $d = new \DateTime(date('Y-m-d H:i:s.' . $micro, $t));
 
-        return $d->format("Y_m_d_Hisu_");
+        return $d->format('Y_m_d_Hisu_');
     }
 }

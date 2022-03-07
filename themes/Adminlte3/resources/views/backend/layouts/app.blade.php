@@ -19,7 +19,7 @@
 
 
 
-    {{-- @stack('before-styles') --}}
+    @stack('before-styles')
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ url('themes/adminlte3/vendor/fontawesome-free/css/all.min.css')}}">
@@ -100,9 +100,11 @@
 
     <!-- jQuery -->
     <script src="{{ url('themes/adminlte3/vendor/jquery/dist/jquery.min.js')}}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.2/umd/popper.min.js" integrity="sha512-aDciVjp+txtxTJWsp8aRwttA0vR2sJMk/73ZT7ExuEHv7I5E6iyyobpFOlEFkq59mWW8ToYGuVZFnwhwIUisKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Bootstrap 4 -->
     <script src="{{url('themes/adminlte3/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js" integrity="sha512-RdSPYh1WA6BF0RhpisYJVYkOyTzK4HwofJ3Q7ivt/jkpW6Vc8AurL1R+4AUcvn9IwEKAPm/fk7qFZW3OuiUDeg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="{{url('themes/adminlte3/vendor/select2/js/select2.min.js')}}"></script>
 

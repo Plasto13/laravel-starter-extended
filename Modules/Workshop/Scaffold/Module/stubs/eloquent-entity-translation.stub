@@ -10,6 +10,7 @@ class $CLASS_NAME$Translation extends Model
 
     use Sluggable;
 
+    protected $timestamps = false;
     protected $fillable = ['title', 'description', 'slug'];
     protected $table = '$LOWERCASE_MODULE_NAME$__$LOWERCASE_CLASS_NAME$_translations';
     protected $touches = ['$LOWERCASE_CLASS_NAME$'];

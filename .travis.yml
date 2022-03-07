@@ -11,6 +11,7 @@ matrix:
 
 env:
   global:
+    - APP_INSTALED=false
     - APP_ENV=local
     - APP_DEBUG=true
     - APP_KEY=base64:jNI+qJRj1eqN3RWMeBWo6sxMwKzgDP7Py2AfRJ1luyA=
