@@ -28,10 +28,12 @@ class ThemeManager implements \Countable
 
     public function setTheme()
     {
-        if (str_contains($this->app->request->getRequestUri(), config('portal.core.core.admin-prefix', 'admin'))) {
-            Theme::set(setting('core::backend_theme'));
-        } else {
-            Theme::set(setting('core::frontend_theme'));
+        if (!$this->app->runningInConsole()) {
+            if (str_contains($this->app->request->getRequestUri(), config('portal.core.core.admin-prefix', 'admin'))) {
+                Theme::set(setting('core::backend_theme'));
+            } else {
+                Theme::set(setting('core::frontend_theme'));
+            }
         }
     }
 

@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="col-6 collapse-brand">
                             <a href="/">
-                                <img src="{{asset('img/logo-with-text-dark.png')}}" height="40">
+                                <img src="{{asset('img/backend-logo-square.png')}}" height="40">
                             </a>
                         </div>
                         <div class="col-6 collapse-close">
